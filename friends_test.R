@@ -9,7 +9,7 @@ use_python(
 )
 
 py_config()
-py_install("sentence-transformers", envname = "positron-python")
+#py_install("sentence-transformers", envname = "positron-python")
 
 sentence_transformers <- import("sentence_transformers")
 model <- sentence_transformers$SentenceTransformer("all-MiniLM-L6-v2")
@@ -127,12 +127,12 @@ priority_list |>
     recall = cumulative_relevant / total_relevant * 100
   ) |>
   ggplot(aes(x = row_number, y = recall)) +
+  geom_hline(yintercept = c(95), linetype = "dashed", color = "black", alpha = 0.7) +
   geom_line(color = "steelblue") +
-  geom_hline(yintercept = c(95, 100), linetype = "dashed", color = "tomato", alpha = 0.7) +
   annotate("text", x = max(priority_list$row_number) * 0.6, y = 96.5,
-           label = "95% recall", color = "tomato", size = 3.5) +
+           label = "95% recall", color = "black", size = 3.5) +
   annotate("text", x = max(priority_list$row_number) * 0.6, y = 101.5,
-           label = "100% recall", color = "tomato", size = 3.5) +
+           label = "100% recall", color = "black", size = 3.5) +
   labs(x = "Position in priority list (screening cutoff)",
        y = "Cumulative recall (%)",
        title = "Cumulative recall curve (all finally included refs found)") +
