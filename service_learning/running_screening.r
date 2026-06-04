@@ -78,6 +78,8 @@ plan(sequential)
 # Check the results
 AIscreenR::screen_analyzer(results_sample)
 
+#save(results_sample, file = "service_learning/screening_test_results.rdata")
+load("service_learning/screening_test_results.rdata")
 test_ids <- results_sample$answer_data$eppi_id
 
 #report(
@@ -93,8 +95,7 @@ test_ids <- results_sample$answer_data$eppi_id
 #  document_title = "Service Learning Screening Results - Test2"
 #)
 
-
-results_sample$answer_data |> filter(included_full == 1 & decision_binary == 0) |> View()
+results_sample$answer_data |> filter(included_full == 1 & decision_binary == 0) 
 
 # Print false negatives
 answer_data <- results_sample$answer_data
@@ -158,6 +159,8 @@ py_config()
 
 sentence_transformers <- import("sentence_transformers")
 model <- sentence_transformers$SentenceTransformer("all-MiniLM-L6-v2")
+
+load("service_learning/screening_results_all.RData")
 
 filges2022_full_data_screened <- 
   results_all$answer_data |> 
@@ -235,9 +238,9 @@ priority_list <-
 priority_list
 
 priority_list |> filter(included_full == 1) |> pull(row_number)
-1359/5816
+1395/5816
 
-stopping_rule_list <- 
+stopping_rule1_list <- 
   priority_list |>
   arrange(row_number) |>
   mutate(
@@ -257,8 +260,29 @@ stopping_rule_list <-
   select(-is_irrelevant_run) |>
   arrange(desc(run_length))
 
-stopping_rule_list
+stopping_rule1_list
 
+stopping_rule2_list <- 
+  priority_list |>
+  arrange(row_number) |>
+  mutate(
+    # Mark runs of consecutive irrelevant (0) studies
+    is_irrelevant = decision_binary == 0,
+    run_id = cumsum(is_irrelevant != lag(is_irrelevant, default = first(is_irrelevant)))
+  ) |>
+  group_by(run_id) |>
+  summarise(
+    is_irrelevant_run = first(is_irrelevant),
+    run_length        = n(),
+    start_row         = min(row_number),
+    end_row           = max(row_number)
+  ) |>
+  filter(is_irrelevant_run) |>
+  mutate(pct_of_total = run_length / nrow(priority_list) * 100) |>
+  select(-is_irrelevant_run) |>
+  arrange(desc(run_length))
+
+stopping_rule2_list
 
 total_relevant <- sum(priority_list$included_full == 1, na.rm = TRUE)
 
@@ -266,16 +290,17 @@ priority_list |>
   arrange(row_number) |>
   mutate(
     cumulative_relevant = cumsum(included_full == 1),
-    recall = cumulative_relevant / total_relevant * 100
+    recall = cumulative_relevant / total_relevant * 100,
+    perc_of_total = row_number / nrow(priority_list) * 100
   ) |>
-  ggplot(aes(x = row_number, y = recall)) +
+  ggplot(aes(x = perc_of_total, y = recall)) +
   geom_hline(yintercept = c(95), linetype = "dashed", color = "black", alpha = 0.7) +
   geom_line(color = "steelblue") +
-  annotate("text", x = max(priority_list$row_number) * 0.6, y = 96.5,
+  annotate("text", x = 50, y = 96.5,
            label = "95% recall", color = "black", size = 3.5) +
-  annotate("text", x = max(priority_list$row_number) * 0.6, y = 101.5,
+  annotate("text", x = 50, y = 101.5,
            label = "100% recall", color = "black", size = 3.5) +
-  labs(x = "Position in priority list (screening cutoff)",
+  labs(x = "Percent needed to be screened (%)",
        y = "Cumulative recall (%)",
        title = "Cumulative recall curve (all finally included refs found)") +
   theme_minimal()
