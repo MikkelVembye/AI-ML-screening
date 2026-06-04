@@ -117,7 +117,6 @@ stopping_rule_list <-
 stopping_rule_list
 
 
-
 total_relevant <- sum(priority_list$review_included == 1, na.rm = TRUE)
 
 priority_list |>
