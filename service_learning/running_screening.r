@@ -16,7 +16,7 @@ and risk behaviour of students in primary and secondary education. INCLUDE if AL
 
 A) The study focuses on service learning  
 
-B) The participants are children in grades kindergarten to 12 (or the equivalent in European countries) 
+B) The participants are children in grades kindergarten to 12 (or the equivalent in European countries)
 
 C) Is the report/article a quantitative evaluation study 
 "
@@ -58,10 +58,12 @@ screening_sample <-
   bind_rows(sample_included, sample_included_full, sample_excluded) |> 
   slice(1, .by = eppi_id) # Remove duplicates, keeping the first occurrence of each eppi_id
 
+rpm <- rate_limits_per_minute(model = "gpt-5.1")
+
 # Run the screening
 plan(multisession)
 results_sample <-
-    AIscreenR::tabscreen_gpt.tools(
+    AIscreenR::tabscreen_gpt(
         data = screening_sample,
         prompt = prompt,
         studyid = eppi_id,
@@ -69,8 +71,9 @@ results_sample <-
         abstract = abstract,
         model = "gpt-5.1",
         decision_description = FALSE,
-        overinclusive = TRUE,
-    )
+        overinclusive = TRUE
+        # rpm = rpm$requests_per_minute * 0.8,
+    ) 
 plan(sequential)
 
 #save(results_sample, file = "service_learning/screening_results_sample_with_descriptions.rdata")
