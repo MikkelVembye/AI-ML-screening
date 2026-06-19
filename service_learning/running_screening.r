@@ -58,7 +58,7 @@ screening_sample <-
   bind_rows(sample_included, sample_included_full, sample_excluded) |> 
   slice(1, .by = eppi_id) # Remove duplicates, keeping the first occurrence of each eppi_id
 
-rpm <- rate_limits_per_minute(model = "gpt-5.1")
+rpm <- rate_limits_per_minute(model = "gpt-5.2")
 
 # Run the screening
 plan(multisession)
@@ -69,10 +69,11 @@ results_sample <-
         studyid = eppi_id,
         title = title,
         abstract = abstract,
-        model = "gpt-5.1",
+        model = "gpt-5.5",
         decision_description = FALSE,
-        overinclusive = TRUE
-        # rpm = rpm$requests_per_minute * 0.8,
+        overinclusive = TRUE,
+        rpm = rpm$requests_per_minute * 0.8,
+        custom_model = TRUE
     ) 
 plan(sequential)
 
@@ -161,7 +162,7 @@ py_config()
 #py_install("sentence-transformers", envname = "positron-python")
 
 sentence_transformers <- import("sentence_transformers")
-model <- sentence_transformers$SentenceTransformer("all-MiniLM-L6-v2")
+model <- sentence_transformers$SentenceTransformer("all-MiniLM-L6-v2") # Alternative all-mpnet-base-v2
 
 load("service_learning/screening_results_all.RData")
 
