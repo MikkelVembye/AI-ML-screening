@@ -6,6 +6,7 @@ library(AIscreenR)
 library(tidyverse)
 library(CiteSource)
 library(glmnet)
+library(ranger)
 library(reticulate)
 
 # Steps 1-2: Deduplicate all candidate records in 𝐏 and remove records without abstracts for manual human screening
@@ -25,7 +26,8 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
                                     relevant_col  = c("human_code", "decision_binary"), # Names of the relevant columns used for sampling T
                                     c_target      = 0.95, # target recall for the priority screening process
                                     R_c           = 0.95, # target specificity for the priority screening process
-                                    alpha         = 1, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net)
+                                    alpha         = 1, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net) - ignored when RandomForrest = TRUE
+                                    RandomForrest = FALSE, # if TRUE, use a ranger random forest as classifier M (step 18) instead of the glmnet LASSO/Ridge/Elastic Net model
                                     ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
                                     seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
                                     seed          = 123) { # random seed for reproducibility
@@ -72,6 +74,8 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
 
   embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
   rownames(embeddings) <- all_records[["eppi_id"]]
+  # ranger's x/y matrix interface requires named columns to recognize covariates
+  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
 
   # Steps 8-14: target set T, sampled with replacement from AH+ until k_min relevant records are
   # found (Hou & Tipton)
@@ -104,7 +108,11 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
   x_train   <- embeddings[match(train_ids, rownames(embeddings)), , drop = FALSE]
   y_train   <- c(rep(1L, nrow(I_set)), rep(0L, nrow(E_set)))
 
-  fit <- cv.glmnet(x = x_train, y = y_train, family = "binomial", alpha = alpha)
+  if (RandomForrest) {
+    fit <- ranger(x = x_train, y = factor(y_train, levels = c(0, 1)), probability = TRUE)
+  } else {
+    fit <- cv.glmnet(x = x_train, y = y_train, family = "binomial", alpha = alpha)
+  }
 
   # Step 19: Define the priority-screening set as: 𝐏∗ = 𝐀−∪ 𝐓 ∪ 𝐒20%
   P_star <- bind_rows(a_minus, target$target_set, S20) |>
@@ -112,7 +120,11 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
 
   # Step 20: Use ℳ to rank all records in 𝐏∗.
   x_pstar <- embeddings[match(P_star[["eppi_id"]], rownames(embeddings)), , drop = FALSE]
-  P_star$priority_score <- as.numeric(predict(fit, newx = x_pstar, s = "lambda.min", type = "response"))
+  P_star$priority_score <- if (RandomForrest) {
+    predict(fit, data = x_pstar)$predictions[, "1"]
+  } else {
+    as.numeric(predict(fit, newx = x_pstar, s = "lambda.min", type = "response"))
+  }
   P_star <- P_star[order(-P_star$priority_score), ]
   P_star$row_number     <- seq_len(nrow(P_star))
   P_star$is_target      <- P_star[["eppi_id"]] %in% target_ids
@@ -157,14 +169,17 @@ result <- run_priority_screening(
                                     relevant_col  = c("human_code", "decision_binary"),
                                     c_target      = 0.90,
                                     R_c           = 0.90,
-                                    alpha         = 1,
-                                    ai_miss_pct   = 0,
-                                    seed          = 123
+                                    alpha         = 0,
+                                    seed_pct = 0.25,
+                                    RandomForrest = FALSE,
+                                    ai_miss_pct   = 0.2,
+                                    seed          = 1
 )
 
 # Find the last row number of the target studies in the priority list
 last_target_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$target_ids])
 last_s20_row     <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$s20_ids])
+last_ai_missed_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$ai_missed_ids])
 
 if (last_target_row < last_s20_row) {
   cat("The last target study is ranked lower than the last S20% study.")
@@ -216,3 +231,4 @@ ggplot(recall_curve, aes(x = row_number, y = recall, color = group)) +
     title = "Cumulative recall by priority-list position"
   ) +
   theme_minimal()
+
