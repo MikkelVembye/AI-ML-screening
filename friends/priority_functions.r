@@ -68,8 +68,9 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
   ah_plus <- data |> filter(.data[["decision_binary"]] == 1, .data[["human_code"]] == 1)
 
-  # Embed every record needed for this run (AH+, A-, all finally included studies) with the chosen model
-  all_records <- bind_rows(ah_plus, a_minus, caught_seed_studies) |>
+  # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
+  # full `data` pool using the `relevant_col` that is passed in
+  all_records <- bind_rows(data, ai_missed, caught_seed_studies) |>
     distinct(.data[["eppi_id"]], .keep_all = TRUE)
 
   embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
@@ -141,6 +142,8 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
     c_target      = c_target,
     R_c           = R_c,
     alpha         = alpha,
+    seed_pct      = seed_pct,
+    RandomForrest = RandomForrest,
     ai_miss_pct   = ai_miss_pct
   )
 }
@@ -166,14 +169,14 @@ friends_data <- readRDS("friends/data/friends_cleaned.rds")
 result <- run_priority_screening(
                                     data          = friends_data,
                                     model         = "all-MiniLM-L6-v2",
-                                    relevant_col  = c("human_code", "decision_binary"),
-                                    c_target      = 0.90,
-                                    R_c           = 0.90,
+                                    relevant_col  = c("decision_gpt"),
+                                    c_target      = 0.95,
+                                    R_c           = 0.95,
                                     alpha         = 0,
                                     seed_pct = 0.25,
                                     RandomForrest = FALSE,
                                     ai_miss_pct   = 0.2,
-                                    seed          = 1
+                                    seed          = 123
 )
 
 # Find the last row number of the target studies in the priority list
@@ -232,3 +235,11 @@ ggplot(recall_curve, aes(x = row_number, y = recall, color = group)) +
   ) +
   theme_minimal()
 
+AIscreenR::sample_references(
+  data = friends_data,
+  relevant_col = c("decision_gpt"),
+  c_target = 0.95, 
+  R_c = 0.95,
+  id_col = "eppi_id",
+  seed = 123
+)
