@@ -295,7 +295,7 @@ f_analyze(
 
 smoke_test <- run_sim(iterations = 2, design_factors = one_design)
 smoke_test |> glimpse()
-stop()
+
 #-------------------------------------------------------------------------------------------------
 # The full simulation - two separate experiments.
 #   - main_design: real pile size, varies AI quality and reviewer prior knowledge.
