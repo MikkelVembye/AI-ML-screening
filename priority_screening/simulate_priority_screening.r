@@ -1,4 +1,12 @@
-# Simulating the priority screening function multiple times
+# Reusable simulation engine for run_priority_screening(), following Table 4.1 (Generate/Analyze/
+# Repeat/Summarize/Design/Execute) from "Designing Monte Carlo Simulations in R" (Miratrix &
+# Pustejovsky), built on simhelpers::bundle_sim() + evaluate_by_row().
+#
+# This file only defines the reusable pieces (f_generate/f_analyze/f_summarize/sim_driver/run_sim).
+# It does not load any project's data or run anything - each project gets its own driver script
+# (eg friends/run_simulation.r, asylum/priority_asylum.R) that sources this file and
+# priority_functions.r, defines python_dir, builds a design_factors tibble for its own data, and
+# calls run_sim(). f_analyze() below reads python_dir from that calling environment.
 library(dplyr)
 library(tidyr)
 library(purrr)
@@ -8,18 +16,13 @@ library(reticulate)
 library(progressr)
 library(simhelpers)
 
-# Show a progress bar
-progressr::handlers(global = TRUE)
+# Show a progress bar.
+if (!isTRUE(getOption("knitr.in.progress"))) {
+  progressr::handlers(global = TRUE)
+}
 progressr::handlers("txtprogressbar")
 
-# Bring in run_priority_screening()
-source("friends/priority_functions.r")
-
-python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
-
-sentence_transformers <- import("sentence_transformers")
-
-friends_data <- readRDS("friends/data/friends_cleaned.rds")
+source("priority_screening/priority_functions.r")
 
 #-------------------------------------------------------------------------------------------------
 # Step 1 (Table 4.1: Generate/Analyze/Summarize): build one test pile, analyse it once, summarise
@@ -50,7 +53,7 @@ f_generate <- function(dat_full, # the full dataset to resample from
   if (n_relevant > nrow(relevant_pool) || n_irrelevant > nrow(irrelevant_pool)) {
     stop(
       "f_generate(): requested pool_size/relevant_pct needs ", n_relevant,
-      " relevant and ", n_irrelevant, " irrelevant records, but friends_data only has ",
+      " relevant and ", n_irrelevant, " irrelevant records, but dat_full only has ",
       nrow(relevant_pool), " relevant and ", nrow(irrelevant_pool), " irrelevant records available."
     )
   }
@@ -62,16 +65,16 @@ f_generate <- function(dat_full, # the full dataset to resample from
 }
 
 # f_analyze for bundle_sim(): runs the method once and records where the last target, seed, and
-# AI-missed studies landed in the ranked list.
+# AI-missed studies landed in the ranked list. Reads python_dir from the calling environment.
 f_analyze <- function(dat, # the test pile to screen, from f_generate()
-                         model = "all-MiniLM-L6-v2", # sentence-transformers model to use for embedding
-                         relevant_col = c("human_code", "decision_binary"), # column(s) marking a record as relevant
-                         c_target = 0.95, # target recall for the priority screening method
-                         R_c = 0.95, # target reliability for the priority screening method
-                         alpha = 1, # glmnet mixing parameter (1 = LASSO, 0 = Ridge, between = Elastic Net)
-                         RandomForrest = FALSE, # use a random forest classifier instead of glmnet
-                         ai_miss_pct = 0, # share of finally included studies artificially flipped to AI-missed
-                         seed_pct = 1 # share of finally included studies used as seed studies
+                      model = "all-MiniLM-L6-v2", # sentence-transformers model to use for embedding
+                      relevant_col = c("human_code", "decision_binary"), # column(s) marking a record as relevant
+                      c_target = 0.95, # target recall for the priority screening method
+                      R_c = 0.95, # target reliability for the priority screening method
+                      alpha = 1, # glmnet mixing parameter (1 = LASSO, 0 = Ridge, between = Elastic Net)
+                      RandomForrest = FALSE, # use a random forest classifier instead of glmnet
+                      ai_miss_pct = 0, # share of finally included studies artificially flipped to AI-missed
+                      seed_pct = 1 # share of finally included studies used as seed studies
   ) {
 
   tryCatch({
@@ -97,15 +100,34 @@ f_analyze <- function(dat, # the test pile to screen, from f_generate()
     last_s20_row       <- if (any(pl$is_final_inc20)) max(pl$row_number[pl$is_final_inc20]) else NA_integer_
     last_ai_missed_row <- if (any(pl$is_ai_missed))   max(pl$row_number[pl$is_ai_missed])   else NA_integer_
 
+    # Row number of the last human-included and last AI-included record in the ranked list.
+    # human_code/decision_binary are required columns for every project, so these are safe to
+    # compute unconditionally.
+    is_human   <- as.numeric(pl$human_code) == 1
+    is_ai      <- as.numeric(pl$decision_binary) == 1
+    last_human_row <- if (any(is_human, na.rm = TRUE)) max(pl$row_number[is_human]) else NA_integer_
+    last_ai_row    <- if (any(is_ai, na.rm = TRUE))    max(pl$row_number[is_ai])    else NA_integer_
+
+    # Row number of the last finally-included ("benchmark") study in the ranked list. included_final
+    # is a required column for every project, so this is safe to compute unconditionally.
+    is_benchmark       <- as.numeric(pl$included_final) == 1
+    last_benchmark_row <- if (any(is_benchmark, na.rm = TRUE)) max(pl$row_number[is_benchmark]) else NA_integer_
+
     list(result = tibble(
       k_min                  = res$k_min,
       n_priority_list        = n_list,
       last_target_row        = last_target_row,
       last_s20_row           = last_s20_row,
       last_ai_missed_row     = last_ai_missed_row,
+      last_human_row         = last_human_row,
+      last_ai_row            = last_ai_row,
+      last_benchmark_row     = last_benchmark_row,
       last_target_pct        = last_target_row / n_list * 100,
       last_s20_pct           = last_s20_row / n_list * 100,
       last_ai_missed_pct     = last_ai_missed_row / n_list * 100,
+      last_human_pct         = last_human_row / n_list * 100,
+      last_ai_pct            = last_ai_row / n_list * 100,
+      last_benchmark_pct     = last_benchmark_row / n_list * 100,
       workload_saved_pct     = (1 - last_target_row / n_list) * 100,
       run_time_sec           = res$run_time_sec # timed inside run_priority_screening() itself
     ), error = NULL)
@@ -149,10 +171,19 @@ f_summarize <- function(rep_list # list of f_analyze() results (list(result=, er
       se_last_s20_row         = NA_real_,
       mean_last_ai_missed_row = NA_real_,
       se_last_ai_missed_row   = NA_real_,
+      mean_last_human_row     = NA_real_,
+      se_last_human_row       = NA_real_,
+      mean_last_ai_row        = NA_real_,
+      se_last_ai_row          = NA_real_,
+      mean_last_benchmark_row = NA_real_,
+      se_last_benchmark_row   = NA_real_,
       mean_last_target_pct    = NA_real_,
       se_last_target_pct      = NA_real_,
       mean_last_s20_pct       = NA_real_,
       mean_last_ai_missed_pct = NA_real_,
+      mean_last_human_pct     = NA_real_,
+      mean_last_ai_pct        = NA_real_,
+      mean_last_benchmark_pct = NA_real_,
       mean_workload_saved_pct = NA_real_,
       mean_run_time_sec       = NA_real_,
       se_run_time_sec         = NA_real_
@@ -169,10 +200,19 @@ f_summarize <- function(rep_list # list of f_analyze() results (list(result=, er
       se_last_s20_row         = sd(last_s20_row, na.rm = TRUE) / sqrt(n()),
       mean_last_ai_missed_row = mean(last_ai_missed_row, na.rm = TRUE),
       se_last_ai_missed_row   = sd(last_ai_missed_row, na.rm = TRUE) / sqrt(n()),
+      mean_last_human_row     = mean(last_human_row, na.rm = TRUE),
+      se_last_human_row       = sd(last_human_row, na.rm = TRUE) / sqrt(n()),
+      mean_last_ai_row        = mean(last_ai_row, na.rm = TRUE),
+      se_last_ai_row          = sd(last_ai_row, na.rm = TRUE) / sqrt(n()),
+      mean_last_benchmark_row = mean(last_benchmark_row, na.rm = TRUE),
+      se_last_benchmark_row   = sd(last_benchmark_row, na.rm = TRUE) / sqrt(n()),
       mean_last_target_pct    = mean(last_target_pct, na.rm = TRUE),
       se_last_target_pct      = sd(last_target_pct, na.rm = TRUE) / sqrt(n()),
       mean_last_s20_pct       = mean(last_s20_pct, na.rm = TRUE),
       mean_last_ai_missed_pct = mean(last_ai_missed_pct, na.rm = TRUE),
+      mean_last_human_pct     = mean(last_human_pct, na.rm = TRUE),
+      mean_last_ai_pct        = mean(last_ai_pct, na.rm = TRUE),
+      mean_last_benchmark_pct = mean(last_benchmark_pct, na.rm = TRUE),
       mean_workload_saved_pct = mean(workload_saved_pct, na.rm = TRUE),
       mean_run_time_sec       = mean(run_time_sec, na.rm = TRUE),
       se_run_time_sec         = sd(run_time_sec, na.rm = TRUE) / sqrt(n())
@@ -261,83 +301,19 @@ run_sim <- function(iterations, # how many times to repeat the test for each des
 #   se_last_s20_row         - standard error of that average
 #   mean_last_ai_missed_row - average row position of the last artificially AI-missed study
 #   se_last_ai_missed_row   - standard error of that average
+#   mean_last_human_row     - average row position of the last human_code == 1 record
+#   se_last_human_row       - standard error of that average
+#   mean_last_ai_row        - average row position of the last decision_binary == 1 record
+#   se_last_ai_row          - standard error of that average
+#   mean_last_benchmark_row - average row position of the last finally-included (included_final == 1) record (only different from mean_last_s20_row if seed_pct < 1 i.e., whenever not every finally-included study gets routed into the seed pool)
+#   se_last_benchmark_row   - standard error of that average
 #   mean_last_target_pct    - mean_last_target_row expressed as a % of the priority list's length
 #   se_last_target_pct      - standard error of that percentage
 #   mean_last_s20_pct       - mean_last_s20_row expressed as a % of the priority list's length
 #   mean_last_ai_missed_pct - mean_last_ai_missed_row expressed as a % of the priority list's length
+#   mean_last_human_pct     - mean_last_human_row expressed as a % of the priority list's length
+#   mean_last_ai_pct        - mean_last_ai_row expressed as a % of the priority list's length
+#   mean_last_benchmark_pct - mean_last_benchmark_row expressed as a % of the priority list's length
 #   mean_workload_saved_pct - average % of the pile that did not need to be screened
 #   mean_run_time_sec       - average wall-clock time, in seconds, that one repeat of this design took
 #   se_run_time_sec         - standard error of that average
-
-#-------------------------------------------------------------------------------------------------
-# Quick check before running anything expensive: one design, two repeats.
-#-------------------------------------------------------------------------------------------------
-one_design <- tibble(
-  # design_parameters
-  dat_full = list(friends_data),
-  model = "all-MiniLM-L6-v2", relevant_col = list(c("human_code", "decision_binary")),
-  pool_size = NA_real_, relevant_pct = NA_real_, alpha = 1, RandomForrest = FALSE,
-  # focal_parameters
-  c_target = 0.90, R_c = c(0.75, 0.90),
-  # auxiliary_parameters
-  ai_miss_pct = 0, seed_pct = 1
-)
-# one_design has 2 rows (R_c sweeps two values, recycling everything else) - use just the first row.
-one_row <- one_design[1, ]
-set.seed(1) # seeds f_generate()'s ambient RNG state; f_analyze() still draws its own seed for run_priority_screening()
-one_dat <- f_generate(dat_full = one_row$dat_full[[1]], pool_size = one_row$pool_size, relevant_pct = one_row$relevant_pct)
-f_analyze(
-  dat = one_dat, model = one_row$model, relevant_col = one_row$relevant_col[[1]],
-  c_target = one_row$c_target, R_c = one_row$R_c, alpha = one_row$alpha,
-  RandomForrest = one_row$RandomForrest, ai_miss_pct = one_row$ai_miss_pct,
-  seed_pct = one_row$seed_pct
-)   # should return one row of results
-
-smoke_test <- run_sim(iterations = 2, design_factors = one_design)
-smoke_test |> glimpse()
-
-#-------------------------------------------------------------------------------------------------
-# The full simulation - two separate experiments.
-#   - main_design: real pile size, varies AI quality and reviewer prior knowledge.
-#   - n_l_design: fixed AI quality/prior knowledge, varies pile size and relevant-paper rarity.
-#-------------------------------------------------------------------------------------------------
-
-main_design <- tidyr::expand_grid(
-  # design_parameters
-  dat_full             = list(friends_data),
-  model                = "all-MiniLM-L6-v2",
-  relevant_col         = list(c("human_code", "decision_binary")),
-  pool_size            = NA_real_,   # NA = use the real pile as it is
-  relevant_pct         = NA_real_,   # NA = keep the real, natural mix of relevant and irrelevant papers
-  alpha                = 1,
-  RandomForrest        = c(FALSE, TRUE),
-  # focal_parameters
-  c_target             = c(0.90, 0.95),
-  R_c                  = c(0.90, 0.95),
-  # auxiliary_parameters
-  ai_miss_pct          = c(0, 0.3),  # how poor the AI is: 0 = normal, higher values = worse
-  seed_pct             = c(0.1, 1)   # how much reviewers already know: low = starting mostly from scratch, 1 = mostly already known
-)
-
-n_l_design <- tidyr::expand_grid(
-  # design_parameters
-  dat_full             = list(friends_data),
-  model                = "all-MiniLM-L6-v2",
-  relevant_col         = list(c("human_code", "decision_binary")),
-  pool_size            = c(500, 1000, 2500),
-  relevant_pct         = c(0.01, 0.05),
-  alpha                = 1,
-  RandomForrest        = FALSE,
-  # focal_parameters
-  c_target             = 0.95,
-  R_c                  = 0.95,
-  # auxiliary_parameters
-  ai_miss_pct           = 0,
-  seed_pct             = 1
-)
-
-sim_results     <- run_sim(iterations = 1, design_factors = main_design)
-sim_results_n_l <- run_sim(iterations = 5, design_factors = n_l_design)
-
-saveRDS(sim_results, "friends/data/simulation_results.rds")
-saveRDS(sim_results_n_l, "friends/data/simulation_results_n_l.rds")
