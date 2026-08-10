@@ -23,7 +23,7 @@ source("priority_screening/priority_functions.r")
 
 # f_generate for bundle_sim(): dat_full unchanged if pool_size and relevant_pct are both NA,
 # otherwise resampled to that size/relevant split
- <- function(dat_full, # the full dataset to resample from
+f_generate <- function(dat_full, # the full dataset to resample from
                        pool_size = NA, # how many papers to include in the test pile (NA = use the full dataset)
                        relevant_pct = NA # what share of the pile should be genuinely relevant (NA = use the full dataset's natural mix)
   ) {
