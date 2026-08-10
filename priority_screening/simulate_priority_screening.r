@@ -1,12 +1,3 @@
-# Reusable simulation engine for run_priority_screening(), following Table 4.1 (Generate/Analyze/
-# Repeat/Summarize/Design/Execute) from "Designing Monte Carlo Simulations in R" (Miratrix &
-# Pustejovsky), built on simhelpers::bundle_sim() + evaluate_by_row().
-#
-# This file only defines the reusable pieces (f_generate/f_analyze/f_summarize/sim_driver/run_sim).
-# It does not load any project's data or run anything - each project gets its own driver script
-# (eg friends/run_simulation.r, asylum/priority_asylum.R) that sources this file and
-# priority_functions.r, defines python_dir, builds a design_factors tibble for its own data, and
-# calls run_sim(). f_analyze() below reads python_dir from that calling environment.
 library(dplyr)
 library(tidyr)
 library(purrr)
@@ -32,7 +23,7 @@ source("priority_screening/priority_functions.r")
 
 # f_generate for bundle_sim(): dat_full unchanged if pool_size and relevant_pct are both NA,
 # otherwise resampled to that size/relevant split
-f_generate <- function(dat_full, # the full dataset to resample from
+ <- function(dat_full, # the full dataset to resample from
                        pool_size = NA, # how many papers to include in the test pile (NA = use the full dataset)
                        relevant_pct = NA # what share of the pile should be genuinely relevant (NA = use the full dataset's natural mix)
   ) {
