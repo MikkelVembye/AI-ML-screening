@@ -23,17 +23,20 @@ suppressPackageStartupMessages({
 # Step 5: Apply A to all remaining records in P.
 # This step is already done.
 
-run_priority_screening <- function(data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
-                                    model, # name of the sentence-transformers model to use for embedding
-                                    python_dir, # path to the Python executable with sentence-transformers installed; set up independently inside this function so it works no matter which process (including parallel workers) calls it
-                                    relevant_col  = c("human_code", "decision_binary"), # Names of the relevant columns used for sampling T
-                                    c_target      = 0.95, # target recall for the priority screening process
-                                    R_c           = 0.95, # target specificity for the priority screening process
-                                    alpha         = 1, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net) - ignored when RandomForrest = TRUE
-                                    RandomForrest = FALSE, # if TRUE, use a ranger random forest as classifier M (step 18) instead of the glmnet LASSO/Ridge/Elastic Net model
-                                    ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
-                                    seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
-                                    seed          = 123) { # random seed for reproducibility
+run_priority_screening <- 
+  function(
+    data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
+    model, # name of the sentence-transformers model to use for embedding
+    python_dir, # path to the Python executable with sentence-transformers installed; set up independently inside this function so it works no matter which process (including parallel workers) calls it
+    relevant_col  = c("human_code", "decision_binary"), # Names of the relevant columns used for sampling T
+    c_target      = 0.95, # target recall for the priority screening process
+    R_c           = 0.95, # target specificity for the priority screening process
+    alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net) - ignored when RandomForrest = TRUE
+    RandomForrest = FALSE, # if TRUE, use a ranger random forest as classifier M (step 18) instead of the glmnet LASSO/Ridge/Elastic Net model
+    ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
+    seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
+    seed          = 123
+  ) { # random seed for reproducibility
 
   run_start_time <- Sys.time()
 
@@ -45,8 +48,8 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
   embed_model <- sentence_transformers$SentenceTransformer(model)
 
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
-  final_inc_studies <- data |> filter(included_final == 1)
-  data              <- data |> filter(included_final == 0)
+  final_inc_studies <- data |> dplyr::filter(included_final == 1)
+  data              <- data |> dplyr::filter(included_final == 0)
 
   # Artificially flip decision_binary to 0 for a share of ALL the finally included studies
   # Number of records to flip
@@ -71,10 +74,10 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
   data <- data |> bind_rows(non_seed_final_inc)
 
   # Step 6: Let 𝐀+ denote records classified as potentially eligible by 𝒜, and let 𝐀− denote records not classified as potentially eligible by 𝒜.
-  a_minus <- bind_rows(data |> filter(.data[["decision_binary"]] == 0), ai_missed)
+  a_minus <- bind_rows(data |> dplyr::filter(.data[["decision_binary"]] == 0), ai_missed)
 
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
-  ah_plus <- data |> filter(.data[["decision_binary"]] == 1, .data[["human_code"]] == 1)
+  ah_plus <- data |> dplyr::filter(.data[["decision_binary"]] == 1, .data[["human_code"]] == 1)
 
   # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
   # full `data` pool using the `relevant_col` that is passed in
@@ -163,89 +166,95 @@ run_priority_screening <- function(data, # data frame containing the full AI-scr
 #------------------------------------------------------------------------
 # Example usage of the run_priority_screening function
 #------------------------------------------------------------------------
-# python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+library(reticulate)
 
-#   use_python(
-#     python_dir,
-#     required = TRUE
-#   )
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
-#   py_config()
+use_python(
+  python_dir,
+  required = TRUE
+)
 
-#   sentence_transformers <- import("sentence_transformers")
+py_config()
+
+sentence_transformers <- import("sentence_transformers")
 
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
-# friends_data <- readRDS("friends/data/friends_cleaned.rds")
+friends_data <- readRDS("friends/data/friends_cleaned.rds")
 
+#debugonce(run_priority_screening)
 
-# result <- run_priority_screening(
-#                                     data          = friends_data,
-#                                     model         = "all-MiniLM-L6-v2",
-#                                     relevant_col  = c("decision_gpt"),
-#                                     c_target      = 0.95,
-#                                     R_c           = 0.95,
-#                                     alpha         = 0,
-#                                     seed_pct = 0.25,
-#                                     RandomForrest = FALSE,
-#                                     ai_miss_pct   = 0.2,
-#                                     seed          = 123
-# )
+result <- 
+  run_priority_screening(
+    data          = friends_data,
+    model         = "all-MiniLM-L6-v2",
+    python_dir    = python_dir,
+    relevant_col  = c("decision_gpt"),
+    c_target      = 0.95,
+    R_c           = 0.95,
+    alpha         = 0,
+    seed_pct      = 0.5,
+    RandomForrest = FALSE,
+    ai_miss_pct   = 0,
+    seed          = 123
+)
 
 # # Find the last row number of the target studies in the priority list
-# last_target_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$target_ids])
-# last_s20_row     <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$s20_ids])
-# last_ai_missed_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$ai_missed_ids])
+last_target_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$target_ids])
+last_s20_row     <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$s20_ids])
+#last_ai_missed_row <- max(result$priority_list$row_number[result$priority_list$eppi_id %in% result$ai_missed_ids])
 
-# if (last_target_row < last_s20_row) {
-#   cat("The last target study is ranked lower than the last S20% study.")
-# }
+if (last_target_row < last_s20_row) {
+  cat("The last target study is ranked lower than the last S20% study.")
+}
 
 # # Percent of studies needed to be screened to reach the last target study
-# percent_screened <- round(last_target_row / nrow(result$priority_list) * 100, 2)
+percent_screened <- round(last_target_row / nrow(result$priority_list) * 100, 2)
 
 # # Workload saved
-# workload_saved <- round((1 - last_target_row / nrow(result$priority_list)) * 100, 2)
+workload_saved <- round((1 - last_target_row / nrow(result$priority_list)) * 100, 2)
 
-# recall_curve <- result$priority_list |>
-#   arrange(row_number) |>
-#   mutate(
-#     final_inc     = is_final_inc20 | is_ai_missed,
-#     human_inc     = as.numeric(human_code) == 1,
-#     ai_inc        = as.numeric(decision_binary) == 1,
-#     cum_final_inc = cumsum(final_inc) / sum(final_inc) * 100,
-#     cum_human_inc = cumsum(human_inc) / sum(human_inc) * 100,
-#     cum_ai_inc    = cumsum(ai_inc) / sum(ai_inc) * 100
-#   ) |>
-#   select(row_number, cum_final_inc, cum_human_inc, cum_ai_inc) |>
-#   pivot_longer(
-#     cols = starts_with("cum_"),
-#     names_to = "group",
-#     values_to = "recall"
-#   ) |>
-#   mutate(
-#     group = recode(
-#       group,
-#       cum_final_inc = "Finally included",
-#       cum_human_inc = "Human included",
-#       cum_ai_inc    = "AI included"
-#     )
-#   )
+recall_curve <- 
+  result$priority_list |>
+  arrange(row_number) |>
+  mutate(
+    final_inc     = is_final_inc20 | is_ai_missed,
+    human_inc     = as.numeric(human_code) == 1,
+    ai_inc        = as.numeric(decision_binary) == 1,
+    cum_final_inc = cumsum(final_inc) / sum(final_inc) * 100,
+    cum_human_inc = cumsum(human_inc) / sum(human_inc) * 100,
+    cum_ai_inc    = cumsum(ai_inc) / sum(ai_inc) * 100
+  ) |>
+  select(row_number, cum_final_inc, cum_human_inc, cum_ai_inc) |>
+  pivot_longer(
+    cols = starts_with("cum_"),
+    names_to = "group",
+    values_to = "recall"
+  ) |>
+  mutate(
+    group = recode(
+      group,
+      cum_final_inc = "Finally included",
+      cum_human_inc = "Human included",
+      cum_ai_inc    = "AI included"
+    )
+  )
 
-# ggplot(recall_curve, aes(x = row_number, y = recall, color = group)) +
-#   geom_line(linewidth = 1) +
-#   geom_vline(xintercept = last_target_row, linetype = "dashed", color = "black") +
-#   annotate(
-#     "text", x = last_target_row, y = 10,
-#     label = "Stopping point\n(last target study)",
-#     hjust = -0.05, size = 3.5, color = "black"
-#   ) +
-#   labs(
-#     x = "Number of studies screened (priority list position)",
-#     y = "Cumulative recall (%)",
-#     color = NULL,
-#     title = "Cumulative recall by priority-list position"
-#   ) +
-#   theme_minimal()
+ggplot(recall_curve, aes(x = row_number, y = recall, color = group)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = last_target_row, linetype = "dashed", color = "black") +
+  annotate(
+    "text", x = last_target_row, y = 10,
+    label = "Stopping point\n(last target study)",
+    hjust = -0.05, size = 3.5, color = "black"
+  ) +
+  labs(
+    x = "Number of studies screened (priority list position)",
+    y = "Cumulative recall (%)",
+    color = NULL,
+    title = "Cumulative recall by priority-list position"
+  ) +
+  theme_minimal()
 
 # AIscreenR::sample_references(
 #   data = friends_data,
