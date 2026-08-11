@@ -202,7 +202,7 @@ estimate_f <- function(data) {
     dplyr::summarise(
       last_target_row = max(row_number[is_target == 1], na.rm = TRUE),
       last_seed_row   = max(row_number[is_final_inc20 == 1], na.rm = TRUE),
-      workload_saved = nrow(friends_data) - (dplyr::n() - last_target_row)
+      workload_saved = (dplyr::n() - last_target_row)/nrow(friends_data) 
     ) 
 }
 
