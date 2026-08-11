@@ -138,14 +138,16 @@ f_analyze <- function(dat, # the test pile to screen, from f_generate()
 f_summarize <- function(rep_list # list of f_analyze() results (list(result=, error=)) for one design
   ) {
 
-  # Failed repeats are dropped, counted and reported.
+  # Failed repeats are dropped, counted and reported
   n_failed <- sum(purrr::map_lgl(rep_list, ~ !is.null(.x$error)))
+  error_message <- NA_character_
   if (n_failed > 0) {
     error_msgs <- rep_list |> purrr::map("error") |> purrr::compact() |>
       purrr::map_chr(conditionMessage) |> unique()
+    error_message <- paste(error_msgs, collapse = " | ")
     warning(
       n_failed, " out of ", length(rep_list), " runs failed for this design and were skipped: ",
-      paste(error_msgs, collapse = " | ")
+      error_message
     )
   }
 
@@ -155,6 +157,7 @@ f_summarize <- function(rep_list # list of f_analyze() results (list(result=, er
   if (nrow(rep_results) == 0) {
     return(tibble(
       n_failed                = n_failed,
+      error_message           = error_message,
       mean_k_min              = NA_real_,
       mean_last_target_row    = NA_real_,
       se_last_target_row      = NA_real_,
@@ -184,6 +187,7 @@ f_summarize <- function(rep_list # list of f_analyze() results (list(result=, er
   rep_results |>
     summarise(
       n_failed                = n_failed,
+      error_message           = error_message,
       mean_k_min              = mean(k_min),
       mean_last_target_row    = mean(last_target_row, na.rm = TRUE),
       se_last_target_row      = sd(last_target_row, na.rm = TRUE) / sqrt(n()),
@@ -285,6 +289,7 @@ run_sim <- function(iterations, # how many times to repeat the test for each des
 #   seed_pct                - auxiliary_parameters: how much prior knowledge reviewers were given
 #   design_id               - which row of design_factors this result came from
 #   n_failed                - how many of this design's repeats errored out and were dropped
+#   error_message           - the failed repeats' error text
 #   mean_k_min              - average target-set size k_min across repeats
 #   mean_last_target_row    - average row position of the last target study
 #   se_last_target_row      - standard error of that average
