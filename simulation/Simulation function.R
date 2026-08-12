@@ -7,15 +7,19 @@ generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
       model, # name of the sentence-transformers model to use for embedding
+      included_var = "human_and_ai_in",
       python_dir, # path to the Python executable with sentence-transformers installed; set up independently inside this function so it works no matter which process (including parallel workers) calls it
       c_target      = 0.95, # target recall for the priority screening process
       R_c           = 0.95, # target specificity for the priority screening process
       alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net). If alpha = 2 it uses Random Forest instead of logistic regression.
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
+      seed_train_pct = 0.8, # percentage of the seed studies to use for training the model; the remainder are held out for validation
       seed          = 123
   ) { # random seed for reproducibility
 
+  total_records <- nrow(data)
+      
   run_start_time <- Sys.time()
 
   set.seed(seed)
@@ -24,13 +28,8 @@ generate_prioritized_data <-
   reticulate::use_python(python_dir, required = TRUE)
   sentence_transformers <- reticulate::import("sentence_transformers")
   embed_model <- sentence_transformers$SentenceTransformer(model)
-      
-  data <- 
-    data |> 
-    dplyr::mutate(
-      human_and_ai_in = dplyr::if_else(decision_binary == 1 & human_code == 1, 1, 0),
-    )
-    
+     
+ 
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
   data              <- data |> dplyr::filter(included_final == 0)
@@ -63,7 +62,7 @@ generate_prioritized_data <-
   a_minus <- dplyr::bind_rows(data |> dplyr::filter(.data[["decision_binary"]] == 0), ai_missed)
 
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
-  ah_plus <- data |> dplyr::filter(human_and_ai_in == 1)
+  ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
 
   # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
   # full `data` pool using the `relevant_col` that is passed in
@@ -79,7 +78,7 @@ generate_prioritized_data <-
   # found (Hou & Tipton)
   target <- AIscreenR::sample_references(
     data = data,
-    relevant_col = "human_and_ai_in",
+    relevant_col = included_var,
     c_target = c_target,
     R_c = R_c,
     id_col = "eppi_id",
@@ -87,16 +86,17 @@ generate_prioritized_data <-
   )
   target_ids <- target$target_ids
 
-  # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒80% and a
+  # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t% and a
   # held-out validation set 𝐒20%.
-  s80_idx <- sample.int(nrow(caught_seed_studies), size = round(0.8 * nrow(caught_seed_studies)))
-  S80 <- caught_seed_studies[s80_idx, ]
-  S20 <- caught_seed_studies[-s80_idx, ]
+  St_idx <- sample.int(nrow(caught_seed_studies), size = round(seed_train_pct * nrow(caught_seed_studies)))
+  St <- caught_seed_studies[St_idx, ]
+  Sv <- caught_seed_studies[-St_idx, ]
 
-  # Step 16: Define the included training set as: 𝐈 = 𝐒80%∪(𝐀𝐇+\ 𝐓)
-  I_set <- dplyr::bind_rows(S80, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
+  # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
+  I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
 
   # Step 17: Randomly sample an irrelevant training set 𝐄
+  ## MHV Add all human_out_ai_in to a_minus here    
   E_set <- AIscreenR::sample_references(
     data = a_minus, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
   )
@@ -112,8 +112,8 @@ generate_prioritized_data <-
     fit <- glmnet::cv.glmnet(x = x_train, y = y_train, family = "binomial", alpha = alpha)
   }
 
-  # Step 19: Define the priority-screening set as: 𝐏∗ = 𝐀−∪ 𝐓 ∪ 𝐒20%
-  P_star <- dplyr::bind_rows(a_minus, target$target_set, S20) |>
+  # Step 19: Define the priority-screening set as: 𝐏∗ = 𝐀−∪ 𝐓 ∪ 𝐒v%
+  P_star <- dplyr::bind_rows(a_minus, target$target_set, Sv) |>
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
 
   # Step 20: Use ℳ to rank all records in 𝐏∗.
@@ -128,18 +128,20 @@ generate_prioritized_data <-
   P_star$row_number     <- seq_len(nrow(P_star))
         
   #P_star$is_target      <- P_star[["eppi_id"]] %in% target_ids
-  #P_star$is_final_inc20 <- P_star[["eppi_id"]] %in% S20[["eppi_id"]]
+  #P_star$is_final_inc20 <- P_star[["eppi_id"]] %in% Sv[["eppi_id"]]
   #P_star$is_ai_missed   <- P_star[["eppi_id"]] %in% ai_missed[["eppi_id"]]
 
   # Get the run time in seconds
   run_time_sec <- as.numeric(difftime(Sys.time(), run_start_time, units = "secs"))
      
   attr(P_star, "run_time_sec") <- run_time_sec    
-
+  attr(P_star, "total_records") <- total_records
+  attr(P_star, "run_time_sec") <- run_time_sec
+      
   P_star |> 
     dplyr::mutate(
       is_target = dplyr::if_else(eppi_id %in% target_ids, 1L, 0L),
-      is_final_inc20 = dplyr::if_else(eppi_id %in% S20[["eppi_id"]], 1L, 0L),
+      is_final_inc20 = dplyr::if_else(eppi_id %in% Sv[["eppi_id"]], 1L, 0L),
       is_ai_missed = dplyr::if_else(eppi_id %in% ai_missed[["eppi_id"]], 1L, 0L)
     )
       
@@ -159,14 +161,14 @@ generate_prioritized_data <-
 #    run_time_sec  = run_time_sec
 #  )
       
-}
+    }
 
 
 ## Test
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
 #
-#set.seed(123)
+set.seed(123)
 #
 
 python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
@@ -176,11 +178,12 @@ result_data <-
     data          = friends_data,
     model         = "all-MiniLM-L6-v2",
     python_dir    = python_dir,
+    included_var = "human_and_ai_in",
     c_target      = 0.90,
     R_c           = 0.95,
     alpha         = 0,
     seed_pct      = 0.2,
-    ai_miss_pct   = 0L,
+    ai_miss_pct   = 0.2,
     seed          = NULL # We need to set correct seeds 
 ) |> 
   suppressWarnings()
@@ -196,17 +199,40 @@ result_data <-
 # Estimation functions
 #--------------------------------------------------------------------------
 
+#last_target_row <- max(result_data$row_number[result_data$is_target == 1]) 
+#last_target_row
+#last_seed_row   <- max(result_data$row_number[result_data$is_final_inc20 == 1])
+#last_ai_missed_row <- max(result_data$row_number[result_data$is_ai_missed == 1])
 
 estimate_f <- function(data) {
+
+  last_target_row <- max(data$row_number[data$is_target == 1]) 
+  last_seed_row   <- max(data$row_number[data$is_final_inc20 == 1])
+  last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1])
+  total_records <- attr(data, "total_records")
+
   data |>
     dplyr::summarise(
-      last_target_row = max(row_number[is_target == 1], na.rm = TRUE),
-      last_seed_row   = max(row_number[is_final_inc20 == 1], na.rm = TRUE),
-      workload_saved = (dplyr::n() - last_target_row)/nrow(friends_data) 
+      workload_saved = (dplyr::n() - last_target_row) / total_records,
+
+      n_ai_missed_after_target = sum(
+        is_ai_missed == 1 & row_number > last_target_row,
+        na.rm = TRUE
+      ),
+
+      n_ai_missed_after_seed = sum(
+        is_ai_missed == 1 & row_number > last_seed_row,
+        na.rm = TRUE
+      ),
+
+      ai_any_missed_target = dplyr::if_else(last_ai_missed_row > last_target_row, 1, 0),
+      ai_any_missed_seed = dplyr::if_else(last_ai_missed_row > last_seed_row, 1, 0),
+      
     ) 
 }
 
-
+## Test
+estimate_f(result_data)
 
 #--------------------------------------------------------------------------
 # Performance assessment

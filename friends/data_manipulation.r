@@ -55,7 +55,18 @@ friends_data <- friends_data |>
   mutate(included_final = if_else(eppi_id %in% final_inc_studies$eppi_id, 1, 0))
 
 # Add a column to indicate whether the record is a included_final study or not
-friends_data <- friends_data |>
-  mutate(included_final = if_else(eppi_id %in% final_inc_studies$eppi_id, 1, 0))
+friends_data <- 
+  friends_data |>
+  mutate(
+    included_final = as.integer(eppi_id %in% final_inc_studies$eppi_id),
+    human_and_ai_in = as.integer(decision_binary == 1L & human_code == 1L),
+    across(
+      c(decision_binary, human_code, eppi_id, promptid, prompt_tokens, topp,
+        n, completion_tokens, run_time, req_per_min, iterations),
+      as.numeric
+    )
+  ) |> 
+  select(-c(issue:source))
+
 
 saveRDS(friends_data, "friends/data/friends_cleaned.rds")
