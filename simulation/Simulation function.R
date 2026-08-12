@@ -13,12 +13,12 @@ generate_prioritized_data <-
       alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net). If alpha = 2 it uses Random Forest instead of logistic regression.
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
-      seed          = 123
-  ) { # random seed for reproducibility
+      seed          = NULL # Seed used only internally inside the function. Should not be set for simulations.
+  ) {
 
   run_start_time <- Sys.time()
 
-  set.seed(seed)
+  if (!is.null(seed)) set.seed(seed)
 
   # We need to set up python individually for each worker when running in parallel
   reticulate::use_python(python_dir, required = TRUE)
@@ -165,13 +165,16 @@ generate_prioritized_data <-
 ## Test
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
-#
-#set.seed(123)
-#
 
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
-result_data <- 
+# Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
+# draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
+# the same sequence of results. Repeated calls still differ from each other.
+set.seed(123)
+
+result_data <-
   generate_prioritized_data(
     data          = friends_data,
     model         = "all-MiniLM-L6-v2",
@@ -181,9 +184,8 @@ result_data <-
     alpha         = 0,
     seed_pct      = 0.2,
     ai_miss_pct   = 0L,
-    seed          = NULL # We need to set correct seeds 
-) |> 
-  suppressWarnings()
+    seed          = NULL
+  )
 #
 ## # Find the last row number of the target studies in the priority list
 #last_target_row <- max(result_data$row_number[result_data$is_target == 1])
@@ -206,7 +208,8 @@ estimate_f <- function(data) {
     ) 
 }
 
-
+result_data |>
+  estimate_f()
 
 #--------------------------------------------------------------------------
 # Performance assessment
