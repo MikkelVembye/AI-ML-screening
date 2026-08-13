@@ -22,7 +22,7 @@ generate_prioritized_data <-
       
   run_start_time <- Sys.time()
 
-  set.seed(seed)
+  if (!is.null(seed)) set.seed(seed)
 
   # We need to set up python individually for each worker when running in parallel
   reticulate::use_python(python_dir, required = TRUE)
@@ -173,9 +173,15 @@ friends_data <- readRDS("friends/data/friends_cleaned.rds")
 set.seed(123)
 #
 
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
-result_data <- 
+# Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
+# draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
+# the same sequence of results. Repeated calls still differ from each other.
+set.seed(123)
+
+result_data <-
   generate_prioritized_data(
     data          = friends_data,
     model         = "all-MiniLM-L6-v2",
