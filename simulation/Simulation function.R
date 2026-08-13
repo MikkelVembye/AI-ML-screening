@@ -180,30 +180,30 @@ generate_prioritized_data <-
 
 ## Test
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
-friends_data <- readRDS("friends/data/friends_cleaned.rds")
-
-# python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-
-# Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
-# draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
-# the same sequence of results. Repeated calls still differ from each other.
-set.seed(13082026)
-
-result_data <-
-  generate_prioritized_data(
-    data          = friends_data,
-    model         = "all-MiniLM-L6-v2",
-    python_dir    = python_dir,
-    included_var = "human_and_ai_in",
-    c_target      = 0.90,
-    R_c           = 0.95,
-    alpha         = 0,
-    seed_pct      = 0.2,
-    ai_miss_pct   = 0.2,
-    seed          = NULL  
-) |> 
-  suppressWarnings()
+#friends_data <- readRDS("friends/data/friends_cleaned.rds")
+#
+## python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+#
+## Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
+## draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
+## the same sequence of results. Repeated calls still differ from each other.
+#set.seed(13082026)
+#
+#result_data <-
+#  generate_prioritized_data(
+#    data          = friends_data,
+#    model         = "all-MiniLM-L6-v2",
+#    python_dir    = python_dir,
+#    included_var = "human_and_ai_in",
+#    c_target      = 0.90,
+#    R_c           = 0.95,
+#    alpha         = 0,
+#    seed_pct      = 0.2,
+#    ai_miss_pct   = 0.2,
+#    seed          = NULL  
+#) |> 
+#  suppressWarnings()
 #
 ## # Find the last row number of the target studies in the priority list
 #last_target_row <- max(result_data$row_number[result_data$is_target == 1])
@@ -250,28 +250,28 @@ estimate_f <- function(data) {
     dplyr::relocate(workload_saved, .after = run_time_sec)
 }
 
-result_data |> estimate_f() 
-
-set.seed(13082026)
-
-result_list <- 
-  purrr::map(1:2, \(i) {
-  generate_prioritized_data(
-    data          = friends_data,
-    model         = "all-MiniLM-L6-v2",
-    python_dir    = python_dir,
-    included_var = "human_and_ai_in",
-    c_target      = 0.90,
-    R_c           = 0.95,
-    alpha         = 0,
-    seed_pct      = 0.2,
-    ai_miss_pct   = 0L,
-    seed          = NULL 
-  ) |> 
-  suppressWarnings() |> 
-  estimate_f() 
-}) |> 
-  purrr::list_rbind(names_to = "id")
+#result_data |> estimate_f() 
+#
+#set.seed(13082026)
+#
+#result_list <- 
+#  purrr::map(1:2, \(i) {
+#  generate_prioritized_data(
+#    data          = friends_data,
+#    model         = "all-MiniLM-L6-v2",
+#    python_dir    = python_dir,
+#    included_var = "human_and_ai_in",
+#    c_target      = 0.90,
+#    R_c           = 0.95,
+#    alpha         = 0,
+#    seed_pct      = 0.2,
+#    ai_miss_pct   = 0L,
+#    seed          = NULL 
+#  ) |> 
+#  suppressWarnings() |> 
+#  estimate_f() 
+#}) |> 
+#  purrr::list_rbind(names_to = "id")
 
 #--------------------------------------------------------------------------
 # Performance assessment
@@ -292,7 +292,7 @@ assess_performance <- function(results) {
   
 }
 
-assess_performance(result_list) 
+#assess_performance(result_list) 
 
 
 #--------------------------------------------------------------------------
@@ -319,9 +319,10 @@ run_sim <-
     #require(purrr)
     
     if (!is.null(seed)) set.seed(seed)
+    iteration_seeds <- sample.int(.Machine$integer.max, iterations)
     
     results <- 
-      purrr::map(1:iterations, \(i) {
+      purrr::map(seq_len(iterations), \(i) {
         
         generate_prioritized_data(
           data          = data,
@@ -333,13 +334,17 @@ run_sim <-
           alpha         = alpha,
           seed_pct      = seed_pct,
           ai_miss_pct   = ai_miss_pct,
-          seed          = seed 
+          seed          = iteration_seeds[[i]]
       ) |> 
-      suppressWarnings() |> 
-      estimate_f() 
+      estimate_f() |> 
+      dplyr::mutate(
+        iteration = i,
+        iteration_seed = iteration_seeds[[i]],
+        .before = 1
+      )
         
     }) |> 
-    purrr::list_rbind(names_to = "id") 
+    purrr::list_rbind() 
     
     assess_performance(results)
     
