@@ -68,5 +68,6 @@ friends_data <-
   ) |> 
   select(-c(issue:source))
 
+attr(friends_data, "data_name") <- "friends"
 
 saveRDS(friends_data, "friends/data/friends_cleaned.rds")

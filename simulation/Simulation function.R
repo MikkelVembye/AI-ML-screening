@@ -15,10 +15,11 @@ generate_prioritized_data <-
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
       seed_train_pct = 0.8, # percentage of the seed studies to use for training the model; the remainder are held out for validation
-      seed          = 123
+      seed          = NULL
   ) { # random seed for reproducibility
 
   total_records <- nrow(data)
+  data_name <- attr(data, "data_name")
       
   run_start_time <- Sys.time()
 
@@ -115,6 +116,10 @@ generate_prioritized_data <-
   }
 
   # Step 19: Define the priority-screening set as: 𝐏∗ = 𝐀−∪ 𝐓 ∪ 𝐒v%
+  ## We need to remove the E studies from a_minus here.    
+      
+  a_minus <- a_minus |> dplyr::filter(!.data[["eppi_id"]] %in% E_set[["eppi_id"]])
+      
   P_star <- dplyr::bind_rows(a_minus, target$target_set, Sv) |>
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
 
@@ -135,10 +140,32 @@ generate_prioritized_data <-
 
   # Get the run time in seconds
   run_time_sec <- as.numeric(difftime(Sys.time(), run_start_time, units = "secs"))
-     
-  attr(P_star, "run_time_sec") <- run_time_sec    
+       
   attr(P_star, "total_records") <- total_records
-  attr(P_star, "run_time_sec") <- run_time_sec
+  
+  attr(P_star, "info_dat") <- tibble::tibble(
+      data_name = data_name,
+      model = model, 
+      c_target = c_target,
+      R_c = R_c,
+      alpha = alpha,
+      seed_pct = seed_pct,
+      seed_train_pct = seed_train_pct,
+      included_var = included_var,
+      ai_miss_pct = ai_miss_pct,
+      run_time_sec = run_time_sec
+  ) |> 
+    dplyr::mutate(
+      train_model = dplyr::case_when(
+        alpha == 2 ~ "Random Forest",
+        alpha == 1 ~ "LASSO",
+        alpha == 0 ~ "Ridge",
+        alpha > 0 & alpha < 1 ~ "Elastic Net",
+        .default = "Check model"
+      )
+    ) |> 
+    dplyr::relocate(train_model, .after = model)
+  
       
   P_star |> 
     dplyr::mutate(
@@ -147,39 +174,21 @@ generate_prioritized_data <-
       is_ai_missed = dplyr::if_else(eppi_id %in% ai_missed[["eppi_id"]], 1L, 0L)
     )
       
-#  list(
-#    priority_list = P_star,
-#    target_ids    = target_ids,
-#    s20_ids       = S20[["eppi_id"]],
-#    ai_missed_ids = ai_missed[["eppi_id"]],
-#    k_min         = target$k,
-#    seed          = seed,
-#    c_target      = c_target,
-#    R_c           = R_c,
-#    alpha         = alpha,
-#    seed_pct      = seed_pct,
-#    RandomForrest = RandomForrest,
-#    ai_miss_pct   = ai_miss_pct,
-#    run_time_sec  = run_time_sec
-#  )
       
-    }
+  }
 
 
 ## Test
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
-#
-set.seed(123)
-#
 
 # python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
 # Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
 # draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
 # the same sequence of results. Repeated calls still differ from each other.
-set.seed(123)
+set.seed(13082026)
 
 result_data <-
   generate_prioritized_data(
@@ -192,7 +201,7 @@ result_data <-
     alpha         = 0,
     seed_pct      = 0.2,
     ai_miss_pct   = 0.2,
-    seed          = NULL # We need to set correct seeds 
+    seed          = NULL  
 ) |> 
   suppressWarnings()
 #
@@ -212,42 +221,145 @@ result_data <-
 #last_seed_row   <- max(result_data$row_number[result_data$is_final_inc20 == 1])
 #last_ai_missed_row <- max(result_data$row_number[result_data$is_ai_missed == 1])
 
-estimate_f <- function(data) {
 
-  last_target_row <- max(data$row_number[data$is_target == 1]) 
-  last_seed_row   <- max(data$row_number[data$is_final_inc20 == 1])
-  last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1])
+estimate_f <- function(data) {
+  
+  last_target_row <- max(data$row_number[data$is_target == 1], na.rm = TRUE) 
+  #last_seed_row   <- max(data$row_number[data$is_final_inc20 == 1], na.rm = TRUE)
+  #last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1], na.rm = TRUE)
   total_records <- attr(data, "total_records")
 
   data |>
     dplyr::summarise(
-      workload_saved = (dplyr::n() - last_target_row) / total_records,
-
-      n_ai_missed_after_target = sum(
-        is_ai_missed == 1 & row_number > last_target_row,
-        na.rm = TRUE
-      ),
-
-      n_ai_missed_after_seed = sum(
-        is_ai_missed == 1 & row_number > last_seed_row,
-        na.rm = TRUE
-      ),
-
-      ai_any_missed_target = dplyr::if_else(last_ai_missed_row > last_target_row, 1, 0),
-      ai_any_missed_seed = dplyr::if_else(last_ai_missed_row > last_seed_row, 1, 0),
+      workload_saved = (dplyr::n() - last_target_row) / total_records
       
-    ) 
+#      n_ai_missed_after_target = sum(
+#        is_ai_missed == 1 & row_number > last_target_row,
+#        na.rm = TRUE
+#      ),
+#
+#      n_ai_missed_after_seed = sum(
+#        is_ai_missed == 1 & row_number > last_seed_row,
+#        na.rm = TRUE
+#      ),
+#
+#      ai_any_missed_target = dplyr::if_else(last_ai_missed_row > last_target_row, 1, 0),
+#      ai_any_missed_seed = dplyr::if_else(last_ai_missed_row > last_seed_row, 1, 0)
+    ) |> 
+    dplyr::bind_cols(attr(data, "info_dat")) |> 
+    dplyr::relocate(workload_saved, .after = run_time_sec)
 }
 
-## Test
-estimate_f(result_data)
+result_data |> estimate_f() 
+
+set.seed(13082026)
+
+result_list <- 
+  purrr::map(1:2, \(i) {
+  generate_prioritized_data(
+    data          = friends_data,
+    model         = "all-MiniLM-L6-v2",
+    python_dir    = python_dir,
+    included_var = "human_and_ai_in",
+    c_target      = 0.90,
+    R_c           = 0.95,
+    alpha         = 0,
+    seed_pct      = 0.2,
+    ai_miss_pct   = 0L,
+    seed          = NULL 
+  ) |> 
+  suppressWarnings() |> 
+  estimate_f() 
+}) |> 
+  purrr::list_rbind(names_to = "id")
 
 #--------------------------------------------------------------------------
 # Performance assessment
 #--------------------------------------------------------------------------
+
+assess_performance <- function(results) {
+  
+  #require(dplyr)
+  
+  results  |> 
+    dplyr::summarise(
+      n_sim = dplyr::n(),
+      cnvg = mean(!is.na(workload_saved)),
+      wl_mean = mean(workload_saved, na.rm = TRUE),
+      wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
+      .by = data_name:ai_miss_pct 
+    ) 
+  
+}
+
+assess_performance(result_list) 
 
 
 #--------------------------------------------------------------------------
 # Simulation driver
 #--------------------------------------------------------------------------
 
+
+run_sim <- 
+  function(
+   iterations,
+   data,           
+   model,               
+   included_var,   
+   c_target,      
+   R_c,          
+   alpha,        
+   seed_pct,       
+   ai_miss_pct,    
+   seed,
+   python_dir = "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+  ) {
+    
+    #require(dplyr)
+    #require(purrr)
+    
+    if (!is.null(seed)) set.seed(seed)
+    
+    results <- 
+      purrr::map(1:iterations, \(i) {
+        
+        generate_prioritized_data(
+          data          = data,
+          model         = model,
+          python_dir    = python_dir,
+          included_var  = included_var,
+          c_target      = c_target,
+          R_c           = R_c,
+          alpha         = alpha,
+          seed_pct      = seed_pct,
+          ai_miss_pct   = ai_miss_pct,
+          seed          = seed 
+      ) |> 
+      suppressWarnings() |> 
+      estimate_f() 
+        
+    }) |> 
+    purrr::list_rbind(names_to = "id") 
+    
+    assess_performance(results)
+    
+  }
+
+#set.seed(13082026)
+#
+#sim_res <- 
+#  run_sim(
+#    iterations    = 2,
+#    data          = friends_data,
+#    model         = "all-MiniLM-L6-v2",
+#    included_var  = "human_and_ai_in",
+#    c_target      = 0.90,
+#    R_c           = 0.95,
+#    alpha         = 0,
+#    seed_pct      = 0.2,
+#    ai_miss_pct   = 0L,
+#    seed          = NULL
+#)
+#
+#sim_res$wl_mean
+#sim_res$wl_se
