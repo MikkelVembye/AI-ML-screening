@@ -63,6 +63,9 @@ generate_prioritized_data <-
 
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
   ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
+      
+  ## Used to construct E 
+  ah_minus <- data |> dplyr::filter(.data[[included_var]] == 0)
 
   # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
   # full `data` pool using the `relevant_col` that is passed in
@@ -95,10 +98,9 @@ generate_prioritized_data <-
   # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
   I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
 
-  # Step 17: Randomly sample an irrelevant training set 𝐄
-  ## MHV Add all human_out_ai_in to a_minus here    
+  # Step 17: Randomly sample an irrelevant training set 𝐄    
   E_set <- AIscreenR::sample_references(
-    data = a_minus, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
+    data = ah_minus, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
   )
 
   # Step 18: Train ℳ using the included training set 𝐈 and the irrelevant training set 𝐄.
