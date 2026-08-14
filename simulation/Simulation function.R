@@ -231,7 +231,8 @@ estimate_f <- function(data) {
 
   data |>
     dplyr::summarise(
-      workload_saved = (dplyr::n() - last_target_row) / total_records
+      workload_saved = (dplyr::n() - last_target_row) / total_records,
+      per_needed_to_find_target = last_target_row / dplyr::n(),
       
 #      n_ai_missed_after_target = sum(
 #        is_ai_missed == 1 & row_number > last_target_row,
@@ -287,6 +288,8 @@ assess_performance <- function(results) {
       cnvg = mean(!is.na(workload_saved)),
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
+      need_see_mean = mean(per_needed_to_find_target, na.rm = TRUE),
+      need_see_se = sd(per_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
       .by = data_name:ai_miss_pct 
     ) 
   
