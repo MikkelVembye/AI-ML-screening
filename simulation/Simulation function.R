@@ -7,6 +7,7 @@ generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
       model, # name of the sentence-transformers model to use for embedding
+      n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
       python_dir, # path to the Python executable with sentence-transformers installed; set up independently inside this function so it works no matter which process (including parallel workers) calls it
       c_target      = 0.95, # target recall for the priority screening process
@@ -34,25 +35,38 @@ generate_prioritized_data <-
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
   data              <- data |> dplyr::filter(included_final == 0)
-
+  
+  irrelevant_test_study_idx <- sample.int(nrow(data), size = n_irrelevant_test_records)    
+  irrelevant_test_study <- data[irrelevant_test_study_idx, , drop = FALSE]
+  
+  data <- data[-irrelevant_test_study_idx, , drop = FALSE]    
+      
   # Artificially flip decision_binary to 0 for a share of ALL the finally included studies
-  # Number of records to flip
-  n_flip   <- round(ai_miss_pct * nrow(final_inc_studies))
-  # Randomly sample indices of records to flip
-  flip_idx <- sample.int(nrow(final_inc_studies), size = n_flip)
-  # Flip the decision_binary for the sampled records
-  final_inc_studies[["decision_binary"]][flip_idx] <- 0
-  # Create a separate data frame for the artificially-missed records
-  ai_missed <- final_inc_studies[flip_idx, ]
-  # Create a separate data frame for the remaining (correctly-caught) finally included studies
-  caught_final_inc <- if (n_flip > 0) final_inc_studies[-flip_idx, ] else final_inc_studies
+  n_flip <- round(ai_miss_pct * nrow(final_inc_studies))
+
+  if (n_flip > 0L) {
+    flip_idx <- sample.int(nrow(final_inc_studies), size = n_flip)
+    final_inc_studies[["decision_binary"]][flip_idx] <- 0L
+    ai_missed <- final_inc_studies[flip_idx, , drop = FALSE]
+    caught_final_inc <- final_inc_studies[-flip_idx, , drop = FALSE]
+  } else {
+    flip_idx <- integer(0)
+    ai_missed <- final_inc_studies[FALSE, , drop = FALSE]
+    caught_final_inc <- final_inc_studies
+  }
 
   # Extract seed studies as a percentage of the finally included studies
-  n_seed   <- round(seed_pct * nrow(caught_final_inc))
-  seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
-  caught_seed_studies <- caught_final_inc[seed_idx, ]
-  # Put the remaining, non-seed finally included studies back into the candidate pool as ordinary records
-  non_seed_final_inc <- if (n_seed > 0) caught_final_inc[-seed_idx, ] else caught_final_inc
+  n_seed <- max(1L, as.integer(round(seed_pct * nrow(caught_final_inc))))
+
+  if (n_seed > 0L) {
+    seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
+    known_seed_studies <- caught_final_inc[seed_idx, , drop = FALSE]
+    non_seed_final_inc <- caught_final_inc[-seed_idx, , drop = FALSE]
+  } else {
+    seed_idx <- integer(0)
+    known_seed_studies <- caught_final_inc[FALSE, , drop = FALSE]
+    non_seed_final_inc <- caught_final_inc
+  }
 
   # Candidate pool P = data, with the non-seed finally included studies folded back in as ordinary records
   data <- 
@@ -65,12 +79,9 @@ generate_prioritized_data <-
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
   ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
       
-  ## Used to construct E 
-  ah_minus <- data |> dplyr::filter(.data[[included_var]] == 0)
-
   # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
   # full `data` pool using the `relevant_col` that is passed in
-  all_records <- dplyr::bind_rows(data, ai_missed, caught_seed_studies) |>
+  all_records <- dplyr::bind_rows(data, ai_missed, known_seed_studies) |>
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
 
   embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
@@ -92,16 +103,16 @@ generate_prioritized_data <-
 
   # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t% and a
   # held-out validation set 𝐒20%.
-  St_idx <- sample.int(nrow(caught_seed_studies), size = round(seed_train_pct * nrow(caught_seed_studies)))
-  St <- caught_seed_studies[St_idx, ]
-  Sv <- caught_seed_studies[-St_idx, ]
+  St_idx <- sample.int(nrow(known_seed_studies), size = max(1L, as.integer(round(seed_train_pct * nrow(known_seed_studies)))))
+  St <- known_seed_studies[St_idx, ]
+  Sv <- known_seed_studies[-St_idx, ]
 
   # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
   I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
 
   # Step 17: Randomly sample an irrelevant training set 𝐄    
   E_set <- AIscreenR::sample_references(
-    data = ah_minus, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
+    data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
   )
 
   # Step 18: Train ℳ using the included training set 𝐈 and the irrelevant training set 𝐄.
@@ -118,7 +129,7 @@ generate_prioritized_data <-
   # Step 19: Define the priority-screening set as: 𝐏∗ = 𝐀−∪ 𝐓 ∪ 𝐒v%
   ## We need to remove the E studies from a_minus here.    
       
-  a_minus <- a_minus |> dplyr::filter(!.data[["eppi_id"]] %in% E_set[["eppi_id"]])
+  #a_minus <- a_minus |> dplyr::filter(!.data[["eppi_id"]] %in% E_set[["eppi_id"]])
       
   P_star <- dplyr::bind_rows(a_minus, target$target_set, Sv) |>
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
@@ -175,7 +186,7 @@ generate_prioritized_data <-
     )
       
       
-  }
+    }
 
 
 ## Test
@@ -211,6 +222,23 @@ generate_prioritized_data <-
 #last_seed_row   <- max(result_data$row_number[result_data$is_final_inc20 == 1])
 #last_seed_row
 
+friends_data <- readRDS("friends/data/friends_cleaned.rds")
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+
+debugonce(generate_prioritized_data)
+generate_prioritized_data(
+  data          = friends_data,
+  model         = "all-MiniLM-L6-v2",
+  python_dir    = python_dir,
+  included_var = "human_and_ai_in",
+  c_target      = 0.90,
+  R_c           = 0.95,
+  alpha         = 0,
+  seed_pct      = 0.25,
+  ai_miss_pct   = 0.2,
+  seed          = NULL  
+) |> 
+  suppressWarnings()
 
 #--------------------------------------------------------------------------
 # Estimation functions

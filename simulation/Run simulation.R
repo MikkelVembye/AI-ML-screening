@@ -18,7 +18,7 @@ set.seed(13082026)
 params <- 
  tidyr::expand_grid(
      model         = "all-MiniLM-L6-v2",
-     included_var  = "human_and_ai_in",
+     included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = 0.95,
      alpha         = c(0, 1),
@@ -30,7 +30,8 @@ params <-
     seed = round(runif(1) * 2^30) + 1:n()
   ) |> 
   relocate(iterations) |> 
-  as.data.frame()
+  as.data.frame() |> 
+  arrange(alpha)
 
 # All look right?
 params
@@ -43,7 +44,7 @@ nrow(params)
 library(future)
 library(furrr)
 
-workers <- min(3L, future::availableCores())
+workers <- min(20, future::availableCores())
 previous_plan <- future::plan()
 future::plan(future::multisession, workers = workers)
 
