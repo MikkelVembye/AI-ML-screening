@@ -58,16 +58,10 @@ generate_prioritized_data <-
   # Extract seed studies as a percentage of the finally included studies
   n_seed <- max(1L, as.integer(round(seed_pct * nrow(caught_final_inc))))
 
-  if (n_seed > 0L) {
-    seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
-    known_seed_studies <- caught_final_inc[seed_idx, , drop = FALSE]
-    non_seed_final_inc <- caught_final_inc[-seed_idx, , drop = FALSE]
-  } else {
-    seed_idx <- integer(0)
-    known_seed_studies <- caught_final_inc[FALSE, , drop = FALSE]
-    non_seed_final_inc <- caught_final_inc
-  }
-
+  seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
+  known_seed_studies <- caught_final_inc[seed_idx, , drop = FALSE]
+  non_seed_final_inc <- caught_final_inc[-seed_idx, , drop = FALSE]
+  
   # Candidate pool P = data, with the non-seed finally included studies folded back in as ordinary records
   data <- 
     data |> 
@@ -79,16 +73,6 @@ generate_prioritized_data <-
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
   ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
       
-  # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
-  # full `data` pool using the `relevant_col` that is passed in
-  all_records <- dplyr::bind_rows(data, ai_missed, known_seed_studies) |>
-    dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
-
-  embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
-  rownames(embeddings) <- all_records[["eppi_id"]]
-  # ranger's x/y matrix interface requires named columns to recognize covariates
-  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
-
   # Steps 8-14: target set T, sampled with replacement from AH+ until k_min relevant records are
   # found (Hou & Tipton)
   target <- AIscreenR::sample_references(
@@ -103,7 +87,7 @@ generate_prioritized_data <-
 
   # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t% and a
   # held-out validation set 𝐒20%.
-  St_idx <- sample.int(nrow(known_seed_studies), size = max(1L, as.integer(round(seed_train_pct * nrow(known_seed_studies)))))
+  St_idx <- sample.int(nrow(known_seed_studies), size = round(seed_train_pct * nrow(known_seed_studies)))
   St <- known_seed_studies[St_idx, ]
   Sv <- known_seed_studies[-St_idx, ]
 
@@ -115,6 +99,16 @@ generate_prioritized_data <-
     data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
   )
 
+  # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
+  # full `data` pool using the `relevant_col` that is passed in
+  all_records <- dplyr::bind_rows(data, ai_missed, known_seed_studies, E_set) |>
+    dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
+
+  embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
+  rownames(embeddings) <- all_records[["eppi_id"]]
+  # ranger's x/y matrix interface requires named columns to recognize covariates
+  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
+    
   # Step 18: Train ℳ using the included training set 𝐈 and the irrelevant training set 𝐄.
   train_ids <- c(I_set[["eppi_id"]], E_set[["eppi_id"]])
   x_train   <- embeddings[match(train_ids, rownames(embeddings)), , drop = FALSE]
@@ -136,17 +130,17 @@ generate_prioritized_data <-
 
   # Step 20: Use ℳ to rank all records in 𝐏∗.
   x_pstar <- embeddings[match(P_star[["eppi_id"]], rownames(embeddings)), , drop = FALSE]
-  P_star$priority_score <- if (alpha == 2) {
-    predict(fit, data = x_pstar)$predictions[, "1"]
+  if (alpha == 2) {
+    P_star$priority_score <- predict(fit, data = x_pstar)$predictions[, "1"]
   } else {
-    as.numeric(predict(fit, newx = x_pstar, s = "lambda.min", type = "response"))
+    P_star$priority_score <- as.numeric(predict(fit, newx = x_pstar, s = "lambda.min", type = "response"))
   }
   
   P_star <- P_star[order(-P_star$priority_score), ]   
   P_star$row_number     <- seq_len(nrow(P_star))
         
   #P_star$is_target      <- P_star[["eppi_id"]] %in% target_ids
-  #P_star$is_final_inc20 <- P_star[["eppi_id"]] %in% Sv[["eppi_id"]]
+  #P_star$is_seed <- P_star[["eppi_id"]] %in% Sv[["eppi_id"]]
   #P_star$is_ai_missed   <- P_star[["eppi_id"]] %in% ai_missed[["eppi_id"]]
 
   # Get the run time in seconds
@@ -181,11 +175,11 @@ generate_prioritized_data <-
   P_star |> 
     dplyr::mutate(
       is_target = dplyr::if_else(eppi_id %in% target_ids, 1L, 0L),
-      is_final_inc20 = dplyr::if_else(eppi_id %in% Sv[["eppi_id"]], 1L, 0L),
+      is_seed = dplyr::if_else(eppi_id %in% Sv[["eppi_id"]], 1L, 0L),
       is_ai_missed = dplyr::if_else(eppi_id %in% ai_missed[["eppi_id"]], 1L, 0L)
     )
       
-      
+
     }
 
 
@@ -219,7 +213,7 @@ generate_prioritized_data <-
 ## # Find the last row number of the target studies in the priority list
 #last_target_row <- max(result_data$row_number[result_data$is_target == 1])
 #last_target_row 
-#last_seed_row   <- max(result_data$row_number[result_data$is_final_inc20 == 1])
+#last_seed_row   <- max(result_data$row_number[result_data$is_seed == 1])
 #last_seed_row
 
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
@@ -246,14 +240,14 @@ generate_prioritized_data(
 
 #last_target_row <- max(result_data$row_number[result_data$is_target == 1]) 
 #last_target_row
-#last_seed_row   <- max(result_data$row_number[result_data$is_final_inc20 == 1])
+#last_seed_row   <- max(result_data$row_number[result_data$is_seed == 1])
 #last_ai_missed_row <- max(result_data$row_number[result_data$is_ai_missed == 1])
 
 
 estimate_f <- function(data) {
   
   last_target_row <- max(data$row_number[data$is_target == 1], na.rm = TRUE) 
-  #last_seed_row   <- max(data$row_number[data$is_final_inc20 == 1], na.rm = TRUE)
+  #last_seed_row   <- max(data$row_number[data$is_seed == 1], na.rm = TRUE)
   #last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1], na.rm = TRUE)
   total_records <- attr(data, "total_records")
 
