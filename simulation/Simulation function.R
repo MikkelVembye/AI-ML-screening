@@ -56,7 +56,7 @@ generate_prioritized_data <-
   }
 
   # Extract seed studies as a percentage of the finally included studies
-  n_seed <- max(1L, as.integer(round(seed_pct * nrow(caught_final_inc))))
+  n_seed <- max(2L, as.integer(round(seed_pct * nrow(caught_final_inc))))
 
   seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
   known_seed_studies <- caught_final_inc[seed_idx, , drop = FALSE]
@@ -130,6 +130,7 @@ generate_prioritized_data <-
 
   # Step 20: Use ℳ to rank all records in 𝐏∗.
   x_pstar <- embeddings[match(P_star[["eppi_id"]], rownames(embeddings)), , drop = FALSE]
+  
   if (alpha == 2) {
     P_star$priority_score <- predict(fit, data = x_pstar)$predictions[, "1"]
   } else {
