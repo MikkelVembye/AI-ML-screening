@@ -181,7 +181,7 @@ generate_prioritized_data <-
     )
       
 
-    }
+}
 
 
 ## Test
@@ -196,32 +196,12 @@ generate_prioritized_data <-
 ## the same sequence of results. Repeated calls still differ from each other.
 #set.seed(13082026)
 #
-#result_data <-
-#  generate_prioritized_data(
-#    data          = friends_data,
-#    model         = "all-MiniLM-L6-v2",
-#    python_dir    = python_dir,
-#    included_var = "human_and_ai_in",
-#    c_target      = 0.90,
-#    R_c           = 0.95,
-#    alpha         = 0,
-#    seed_pct      = 0.2,
-#    ai_miss_pct   = 0.2,
-#    seed          = NULL  
-#) |> 
-#  suppressWarnings()
-#
-## # Find the last row number of the target studies in the priority list
-#last_target_row <- max(result_data$row_number[result_data$is_target == 1])
-#last_target_row 
-#last_seed_row   <- max(result_data$row_number[result_data$is_seed == 1])
-#last_seed_row
-
+# # Test (remove #)
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
 python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-
-debugonce(generate_prioritized_data)
-generate_prioritized_data(
+#
+##debugonce(generate_prioritized_data)
+data_test <- generate_prioritized_data(
   data          = friends_data,
   model         = "all-MiniLM-L6-v2",
   python_dir    = python_dir,
@@ -248,54 +228,56 @@ generate_prioritized_data(
 estimate_f <- function(data) {
   
   last_target_row <- max(data$row_number[data$is_target == 1], na.rm = TRUE) 
-  #last_seed_row   <- max(data$row_number[data$is_seed == 1], na.rm = TRUE)
-  #last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1], na.rm = TRUE)
+  last_seed_row   <- max(data$row_number[data$is_seed == 1], na.rm = TRUE)
+  last_ai_missed_row <- max(data$row_number[data$is_ai_missed == 1], na.rm = TRUE)
   total_records <- attr(data, "total_records")
 
   data |>
     dplyr::summarise(
       workload_saved = (dplyr::n() - last_target_row) / total_records,
-      per_needed_to_find_target = last_target_row / dplyr::n(),
+      pct_needed_to_find_target = last_target_row / dplyr::n(),
       
-#      n_ai_missed_after_target = sum(
-#        is_ai_missed == 1 & row_number > last_target_row,
-#        na.rm = TRUE
-#      ),
-#
-#      n_ai_missed_after_seed = sum(
-#        is_ai_missed == 1 & row_number > last_seed_row,
-#        na.rm = TRUE
-#      ),
-#
-#      ai_any_missed_target = dplyr::if_else(last_ai_missed_row > last_target_row, 1, 0),
-#      ai_any_missed_seed = dplyr::if_else(last_ai_missed_row > last_seed_row, 1, 0)
+      n_ai_missed_after_target = sum(
+        is_ai_missed == 1 & row_number > last_target_row,
+        na.rm = TRUE
+      ),
+
+      n_ai_missed_after_seed = sum(
+        is_ai_missed == 1 & row_number > last_seed_row,
+        na.rm = TRUE
+      ),
+
+      ai_any_missed_after_target = dplyr::if_else(last_ai_missed_row > last_target_row, 1, 0),
+      ai_any_missed_after_seed = dplyr::if_else(last_ai_missed_row > last_seed_row, 1, 0),
+      seed_any_missed_after_target = dplyr::if_else(last_seed_row > last_target_row, 1, 0)
     ) |> 
     dplyr::bind_cols(attr(data, "info_dat")) |> 
-    dplyr::relocate(workload_saved, .after = run_time_sec)
+    dplyr::relocate(workload_saved:seed_any_missed_after_target, .after = run_time_sec)
 }
 
-#result_data |> estimate_f() 
+data_test |> estimate_f() 
 #
-#set.seed(13082026)
-#
-#result_list <- 
-#  purrr::map(1:2, \(i) {
-#  generate_prioritized_data(
-#    data          = friends_data,
-#    model         = "all-MiniLM-L6-v2",
-#    python_dir    = python_dir,
-#    included_var = "human_and_ai_in",
-#    c_target      = 0.90,
-#    R_c           = 0.95,
-#    alpha         = 0,
-#    seed_pct      = 0.2,
-#    ai_miss_pct   = 0L,
-#    seed          = NULL 
-#  ) |> 
-#  suppressWarnings() |> 
-#  estimate_f() 
-#}) |> 
-#  purrr::list_rbind(names_to = "id")
+set.seed(13082026)
+
+result_list <- 
+  purrr::map(1:2, \(i) {
+  generate_prioritized_data(
+    data          = friends_data,
+    model         = "all-MiniLM-L6-v2",
+    python_dir    = python_dir,
+    included_var = "human_and_ai_in",
+    c_target      = 0.90,
+    R_c           = 0.95,
+    alpha         = 0,
+    seed_pct      = 0.2,
+    seed_train_pct = 0.5,
+    ai_miss_pct   = 0.2,
+    seed          = NULL 
+  ) |> 
+  suppressWarnings() |> 
+  estimate_f() 
+}) |> 
+  purrr::list_rbind(names_to = "id")
 
 #--------------------------------------------------------------------------
 # Performance assessment
@@ -311,14 +293,22 @@ assess_performance <- function(results) {
       cnvg = mean(!is.na(workload_saved)),
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
-      need_see_mean = mean(per_needed_to_find_target, na.rm = TRUE),
-      need_see_se = sd(per_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
+      need_see_mean = mean(pct_needed_to_find_target, na.rm = TRUE),
+      need_see_se = sd(pct_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
+      times_missed_target_pct = mean(ai_any_missed_after_target, na.rm = TRUE),
+      # add var
+      times_seed_after_target_pct = mean(seed_any_missed_after_target, na.rm = TRUE),
+      times_missed_seed_pct = mean(ai_any_missed_after_seed, na.rm = TRUE),
+      mean_n_ai_missed_after_target = mean(n_ai_missed_after_target, na.rm = TRUE),
+      var_n_ai_missed_after_target = var(n_ai_missed_after_target, na.rm = TRUE),
+      mean_n_ai_missed_after_seed = mean(n_ai_missed_after_seed, na.rm = TRUE),
+      var_n_ai_missed_after_seed = var(n_ai_missed_after_seed, na.rm = TRUE),
       .by = data_name:ai_miss_pct 
     ) 
   
 }
 
-#assess_performance(result_list) 
+assess_performance(result_list) |> View() 
 
 
 #--------------------------------------------------------------------------
