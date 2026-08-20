@@ -10,14 +10,18 @@ library(tidyr)
 source("simulation/Simulation function.R")
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
 
+model <- "all-MiniLM-L6-v2"
+#model <- "all-mpnet-base-v2"
+
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+
 #--------------------------------------------------------------------------
 # Experimental design
 #--------------------------------------------------------------------------
-set.seed(13082026)
 
 params <- 
  tidyr::expand_grid(
-     model         = "all-MiniLM-L6-v2",
+     model         = model,
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = 0.95,
@@ -26,7 +30,7 @@ params <-
      ai_miss_pct   = 0L,
  ) |> 
   mutate(
-    iterations = 2,
+    iterations = 10,
     seed = round(runif(1) * 2^30) + 1:n()
   ) |> 
   relocate(iterations) |> 
@@ -40,20 +44,22 @@ nrow(params)
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
+set.seed(13082026)
 
 library(future)
 library(furrr)
 
-workers <- min(20, future::availableCores())
+workers <- min(nrow(params), future::availableCores() - 1)
 previous_plan <- future::plan()
 future::plan(future::multisession, workers = workers)
 
+tictoc::tic()
 results <- tryCatch(
   furrr::future_pmap(
     .l = params,
     .f = run_sim,
     data = friends_data,
-    python_dir = "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe",
+    python_dir = python_dir,
     .progress = TRUE,
     .options = furrr::furrr_options(
       seed = TRUE,
@@ -68,6 +74,8 @@ results <- tryCatch(
 ) |> 
   purrr::list_rbind()
 
+tictoc::toc()
+results$wl_mean
 
 #--------------------------------------------------------
 # Save results and details

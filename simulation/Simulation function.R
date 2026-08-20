@@ -3,19 +3,30 @@
 # Generate prioritized data with target studies, following our suggested screening algorithm. 
 #--------------------------------------------------------------------------------------------
 
+#model <- "all-MiniLM-L6-v2"
+##model <- "all-mpnet-base-v2"
+##
+#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+##
+### We need to set up python individually for each worker when running in parallel
+#reticulate::use_python(python_dir, required = TRUE)
+#sentence_transformers <- reticulate::import("sentence_transformers")
+#embed_model <- sentence_transformers$SentenceTransformer(model)
+     
+
 generate_prioritized_data <- 
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
-      model, # name of the sentence-transformers model to use for embedding
+      model, # name of the sentence-transformers model used for embedding
+      embed_model, # initialized in the worker by run_sim and reused across iterations
       n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
-      python_dir, # path to the Python executable with sentence-transformers installed; set up independently inside this function so it works no matter which process (including parallel workers) calls it
       c_target      = 0.95, # target recall for the priority screening process
       R_c           = 0.95, # target specificity for the priority screening process
       alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net). If alpha = 2 it uses Random Forest instead of logistic regression.
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
-      seed_train_pct = 0.8, # percentage of the seed studies to use for training the model; the remainder are held out for validation
+      seed_train_pct = 0.5, # percentage of the seed studies to use for training the model; the remainder are held out for validation
       seed          = NULL
   ) { # random seed for reproducibility
 
@@ -26,12 +37,7 @@ generate_prioritized_data <-
 
   if (!is.null(seed)) set.seed(seed)
 
-  # We need to set up python individually for each worker when running in parallel
-  reticulate::use_python(python_dir, required = TRUE)
-  sentence_transformers <- reticulate::import("sentence_transformers")
-  embed_model <- sentence_transformers$SentenceTransformer(model)
-     
- 
+
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
   data              <- data |> dplyr::filter(included_final == 0)
@@ -197,23 +203,42 @@ generate_prioritized_data <-
 #set.seed(13082026)
 #
 # # Test (remove #)
-friends_data <- readRDS("friends/data/friends_cleaned.rds")
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-#
+#friends_data <- readRDS("friends/data/friends_cleaned.rds")
+##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+##
 ##debugonce(generate_prioritized_data)
-data_test <- generate_prioritized_data(
-  data          = friends_data,
-  model         = "all-MiniLM-L6-v2",
-  python_dir    = python_dir,
-  included_var = "human_and_ai_in",
-  c_target      = 0.90,
-  R_c           = 0.95,
-  alpha         = 0,
-  seed_pct      = 0.25,
-  ai_miss_pct   = 0,
-  seed          = NULL  
-) |> 
-  suppressWarnings()
+#tictoc::tic()
+#data_test_small <- generate_prioritized_data(
+#  data          = friends_data,
+#  embed_model   = embed_model,
+#  model         = "all-MiniLM-L6-v2",
+#  #python_dir    = python_dir,
+#  included_var = "human_and_ai_in",
+#  c_target      = 0.90,
+#  R_c           = 0.95,
+#  alpha         = 0,
+#  seed_pct      = 0.5,
+#  ai_miss_pct   = 0,
+#  seed          = NULL  
+#) |> 
+#  suppressWarnings()
+#tictoc::toc()
+#
+#tictoc::tic()
+#data_test_large <- generate_prioritized_data(
+#  data          = friends_data,
+#  model         = "all-mpnet-base-v2",
+#  python_dir    = python_dir,
+#  included_var = "human_and_ai_in",
+#  c_target      = 0.90,
+#  R_c           = 0.95,
+#  alpha         = 0,
+#  seed_pct      = 0.2,
+#  ai_miss_pct   = 0,
+#  seed          = NULL  
+#) |> 
+#  suppressWarnings()
+#tictoc::toc()
 
 #--------------------------------------------------------------------------
 # Estimation functions
@@ -300,29 +325,29 @@ estimate_f <- function(data) {
 }
 
 #debugonce(estimate_f)
-data_test |> estimate_f() 
+#data_test_small |> estimate_f() |> View()
+##
+#set.seed(13082026)
 #
-set.seed(13082026)
-
-result_list <- 
-  purrr::map(1:2, \(i) {
-  generate_prioritized_data(
-    data          = friends_data,
-    model         = "all-MiniLM-L6-v2",
-    python_dir    = python_dir,
-    included_var = "human_and_ai_in",
-    c_target      = 0.90,
-    R_c           = 0.95,
-    alpha         = 0,
-    seed_pct      = 0.2,
-    seed_train_pct = 0.5,
-    ai_miss_pct   = 0,
-    seed          = NULL 
-  ) |> 
-  suppressWarnings() |> 
-  estimate_f() 
-}) |> 
-  purrr::list_rbind(names_to = "id")
+#result_list <- 
+#  purrr::map(1:2, \(i) {
+#  generate_prioritized_data(
+#    data          = friends_data,
+#    #model         = "all-MiniLM-L6-v2",
+#    #python_dir    = python_dir,
+#    included_var = "human_and_ai_in",
+#    c_target      = 0.90,
+#    R_c           = 0.95,
+#    alpha         = 0,
+#    seed_pct      = 0.2,
+#    seed_train_pct = 0.5,
+#    ai_miss_pct   = 0,
+#    seed          = NULL 
+#  ) |> 
+#  suppressWarnings() |> 
+#  estimate_f() 
+#}) |> 
+#  purrr::list_rbind(names_to = "id")
 
 #--------------------------------------------------------------------------
 # Performance assessment
@@ -340,9 +365,9 @@ assess_performance <- function(results) {
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
       need_see_mean = mean(pct_needed_to_find_target, na.rm = TRUE),
       need_see_se = sd(pct_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
-      times_missed_target_pct = mean(any_ai_missed_after_target, na.rm = TRUE),
+      missed_after_target_pct = mean(any_ai_missed_after_target, na.rm = TRUE),
       # add var
-      times_missed_seed_pct = mean(any_ai_missed_after_seed, na.rm = TRUE),
+      missed_after_seed_pct = mean(any_ai_missed_after_seed, na.rm = TRUE),
       times_seed_after_target_pct = mean(any_seed_missed_after_target, na.rm = TRUE),
       mean_n_ai_missed_after_target = mean(n_ai_missed_after_target, na.rm = TRUE),
       var_n_ai_missed_after_target = var(n_ai_missed_after_target, na.rm = TRUE),
@@ -353,28 +378,32 @@ assess_performance <- function(results) {
   
 }
 
-assess_performance(result_list) |> View() 
+#assess_performance(result_list) |> View() 
 
 
 #--------------------------------------------------------------------------
 # Simulation driver
 #--------------------------------------------------------------------------
 
-
 run_sim <- 
   function(
    iterations,
-   data,           
-   model,               
+   data,
+   model,           
    included_var,   
    c_target,      
    R_c,          
    alpha,        
    seed_pct,       
-   ai_miss_pct,    
+   ai_miss_pct,
    seed,
    python_dir = "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
   ) {
+
+    # Reticulate objects are process-local, so initialize the model once per worker/run.
+    reticulate::use_python(python_dir, required = TRUE)
+    sentence_transformers <- reticulate::import("sentence_transformers")
+    embed_model <- sentence_transformers$SentenceTransformer(model)
     
     #require(dplyr)
     #require(purrr)
@@ -382,40 +411,92 @@ run_sim <-
     if (!is.null(seed)) set.seed(seed)
     iteration_seeds <- sample.int(.Machine$integer.max, iterations)
     
-    results <- 
-      purrr::map(seq_len(iterations), \(i) {
-        
-        generate_prioritized_data(
-          data          = data,
-          model         = model,
-          python_dir    = python_dir,
-          included_var  = included_var,
-          c_target      = c_target,
-          R_c           = R_c,
-          alpha         = alpha,
-          seed_pct      = seed_pct,
-          ai_miss_pct   = ai_miss_pct,
-          seed          = iteration_seeds[[i]]
-      ) |> 
-      estimate_f() |> 
-      dplyr::mutate(
-        iteration = i,
-        iteration_seed = iteration_seeds[[i]],
-        .before = 1
+    iteration_results <- purrr::map(seq_len(iterations), function(i) {
+      iteration_seed <- iteration_seeds[[i]]
+
+      tryCatch(
+        {
+          generate_prioritized_data(
+            data          = data,
+            embed_model   = embed_model,
+            model         = model,
+            included_var  = included_var,
+            c_target      = c_target,
+            R_c           = R_c,
+            alpha         = alpha,
+            seed_pct      = seed_pct,
+            ai_miss_pct   = ai_miss_pct,
+            seed          = iteration_seed
+          ) |>
+            estimate_f() |>
+            dplyr::mutate(
+              iteration = i,
+              iteration_seed = iteration_seed,
+              status = "success",
+              error_message = NA_character_,
+              .before = 1
+            )
+        },
+        error = function(e) {
+          tibble::tibble(
+            iteration = i,
+            iteration_seed = iteration_seed,
+            status = "failed",
+            error_message = conditionMessage(e)
+          )
+        }
       )
-        
-    }) |> 
-    purrr::list_rbind() 
-    
-    assess_performance(results)
+    })
+
+    failed_results <- iteration_results |>
+      purrr::keep(~ identical(.x$status[[1]], "failed"))
+
+    successful_results <- iteration_results |>
+      purrr::keep(~ identical(.x$status[[1]], "success")) |>
+      purrr::list_rbind()
+
+    if (nrow(successful_results) == 0L) {
+      return(tibble::tibble(
+        data_name = if (is.null(attr(data, "data_name"))) NA_character_ else attr(data, "data_name"),
+        model = model,
+        n_sim = iterations,
+        n_successful = 0L,
+        cnvg = 0,
+        n_failed = length(failed_results),
+        failed_iterations = paste(purrr::map_int(failed_results, "iteration"), collapse = ","),
+        error_messages = paste(purrr::map_chr(failed_results, "error_message"), collapse = " | ")
+      ))
+    }
+
+    summary <- assess_performance(successful_results)
+
+    summary |>
+      dplyr::mutate(
+        n_sim = iterations,
+        n_successful = nrow(successful_results),
+        cnvg = nrow(successful_results) / iterations,
+        n_failed = length(failed_results),
+        failed_iterations = if (length(failed_results) == 0L) {
+          NA_character_
+        } else {
+          paste(purrr::map_int(failed_results, "iteration"), collapse = ",")
+        },
+        error_messages = if (length(failed_results) == 0L) {
+          NA_character_
+        } else {
+          paste(purrr::map_chr(failed_results, "error_message"), collapse = " | ")
+        },
+        .after = n_sim
+      )
     
   }
 
 #set.seed(13082026)
 #
+#tictoc::tic()
 #sim_res <- 
 #  run_sim(
-#    iterations    = 2,
+#    iterations    = 10,
 #    data          = friends_data,
 #    model         = "all-MiniLM-L6-v2",
 #    included_var  = "human_and_ai_in",
@@ -426,6 +507,6 @@ run_sim <-
 #    ai_miss_pct   = 0L,
 #    seed          = NULL
 #)
-#
+#tictoc::toc()
 #sim_res$wl_mean
 #sim_res$wl_se
