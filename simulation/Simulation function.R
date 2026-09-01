@@ -3,15 +3,15 @@
 # Generate prioritized data with target studies, following our suggested screening algorithm. 
 #--------------------------------------------------------------------------------------------
 
-#model <- "all-MiniLM-L6-v2"
+model <- "all-MiniLM-L6-v2"
 ##model <- "all-mpnet-base-v2"
 ##
-#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 ##
 ### We need to set up python individually for each worker when running in parallel
-#reticulate::use_python(python_dir, required = TRUE)
-#sentence_transformers <- reticulate::import("sentence_transformers")
-#embed_model <- sentence_transformers$SentenceTransformer(model)
+reticulate::use_python(python_dir, required = TRUE)
+sentence_transformers <- reticulate::import("sentence_transformers")
+embed_model <- sentence_transformers$SentenceTransformer(model)
      
 
 generate_prioritized_data <- 
@@ -36,7 +36,6 @@ generate_prioritized_data <-
   run_start_time <- Sys.time()
 
   if (!is.null(seed)) set.seed(seed)
-
 
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
@@ -192,7 +191,7 @@ generate_prioritized_data <-
 
 ## Test
 # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
-#friends_data <- readRDS("friends/data/friends_cleaned.rds")
+friends_data <- readRDS("friends/data/friends_cleaned.rds")
 #
 ## python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 #python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
@@ -200,45 +199,48 @@ generate_prioritized_data <-
 ## Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
 ## draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
 ## the same sequence of results. Repeated calls still differ from each other.
-#set.seed(13082026)
+set.seed(13082026)
 #
 # # Test (remove #)
 #friends_data <- readRDS("friends/data/friends_cleaned.rds")
 ##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 ##
-##debugonce(generate_prioritized_data)
-#tictoc::tic()
-#data_test_small <- generate_prioritized_data(
-#  data          = friends_data,
-#  embed_model   = embed_model,
-#  model         = "all-MiniLM-L6-v2",
-#  #python_dir    = python_dir,
-#  included_var = "human_and_ai_in",
-#  c_target      = 0.90,
-#  R_c           = 0.95,
-#  alpha         = 0,
-#  seed_pct      = 0.5,
-#  ai_miss_pct   = 0,
-#  seed          = NULL  
-#) |> 
-#  suppressWarnings()
-#tictoc::toc()
-#
-#tictoc::tic()
-#data_test_large <- generate_prioritized_data(
-#  data          = friends_data,
-#  model         = "all-mpnet-base-v2",
-#  python_dir    = python_dir,
-#  included_var = "human_and_ai_in",
-#  c_target      = 0.90,
-#  R_c           = 0.95,
-#  alpha         = 0,
-#  seed_pct      = 0.2,
-#  ai_miss_pct   = 0,
-#  seed          = NULL  
-#) |> 
-#  suppressWarnings()
-#tictoc::toc()
+debugonce(generate_prioritized_data)
+
+tictoc::tic()
+data_test_small <- generate_prioritized_data(
+  data          = friends_data,
+  embed_model   = embed_model,
+  model         = "all-MiniLM-L6-v2",
+  #python_dir    = python_dir,
+  included_var = "human_and_ai_in",
+  c_target      = 0.90,
+  R_c           = 0.95,
+  alpha         = 0,
+  seed_pct      = 0.5,
+  ai_miss_pct   = 0,
+  seed          = NULL  
+) |> 
+  suppressWarnings()
+tictoc::toc()
+
+tictoc::tic()
+data_test_large <- generate_prioritized_data(
+  data          = friends_data,
+  embed_model   = embed_model,
+  model         = "all-mpnet-base-v2",
+  #python_dir    = python_dir,
+  included_var = "human_and_ai_in",
+  c_target      = 0.90,
+  R_c           = 0.95,
+  alpha         = 0,
+  seed_pct      = 0.5,
+  ai_miss_pct   = 0,
+  seed          = NULL  
+) |> 
+  suppressWarnings()
+tictoc::toc()
+
 
 #--------------------------------------------------------------------------
 # Estimation functions
