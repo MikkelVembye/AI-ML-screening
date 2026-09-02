@@ -3,22 +3,77 @@
 # Generate prioritized data with target studies, following our suggested screening algorithm. 
 #--------------------------------------------------------------------------------------------
 
-model <- "all-MiniLM-L6-v2"
-##model <- "all-mpnet-base-v2"
-##
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-##
-### We need to set up python individually for each worker when running in parallel
-reticulate::use_python(python_dir, required = TRUE)
-sentence_transformers <- reticulate::import("sentence_transformers")
-embed_model <- sentence_transformers$SentenceTransformer(model)
-     
+#--------------------------------------------------------------------------
+# Corpus embeddings
+#--------------------------------------------------------------------------
+# Embeddings are deterministic i.e. doesnt vary across iterations, so they are precomputed once per (dataset, model) and reused by every
+# design row and every iteration. https://medium.com/@karamvirhapal/encoding-vs-embedding-models-both-output-numbers-different-stories-5c85eced1801
 
-generate_prioritized_data <- 
+embedding_dir <- "simulation/embeddings"
+
+# Function to embed the corpus using a specified model and save the embeddings to a file
+embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
+
+  data_name <- attr(data, "data_name")
+  path <- file.path(dir, paste0(data_name, "_", model, ".rds"))
+
+  # Every record in the corpus is embedded, so any subset an iteration draws can be looked up
+  # by eppi_id. Ids must be unique.
+  ids <- as.character(data[["eppi_id"]])
+  stopifnot(!anyNA(ids), !anyDuplicated(ids))
+
+  # Use reticulate to call Python and load the sentence-transformers library
+  # This is not per worker, but per (dataset, model) combination.
+  reticulate::use_python(python_dir, required = TRUE)
+  sentence_transformers <- reticulate::import("sentence_transformers")
+  embed_model <- sentence_transformers$SentenceTransformer(model)
+  # Embed the corpus by concatenating the title and abstract for each record
+  embeddings <- embed_model$encode(paste(data$title, data$abstract))
+  rownames(embeddings) <- ids
+  # ranger's x/y matrix interface requires named columns to recognize covariates
+  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
+
+  # Save the embeddings to a file, creating the directory if it doesn't exist
+  dir.create(dir, showWarnings = FALSE, recursive = TRUE)
+  saveRDS(embeddings, path)
+
+  invisible(path)
+}
+
+# Function to load embeddings from a file, using a cache to avoid reloading if already loaded.
+# We use local here to create a closure that holds the cache environment, so each worker has its own cache.
+# Meaning that each worker will load the embeddings once per (dataset, model) combination, and reuse them for all iterations.
+load_embeddings <- local({
+
+  cache <- new.env(parent = emptyenv())
+
+  function(data_name, model, dir = embedding_dir) {
+
+    # Use a unique key for the cache based on dataset name and model
+    key <- paste0(data_name, "_", model)
+    # If the embeddings for this (dataset, model) combination are already in the cache, return them
+    if (identical(cache$key, key)) return(cache$value)
+
+    # If not, load the embeddings from the file and store them in the cache
+    path <- file.path(dir, paste0(data_name, "_", model, ".rds"))
+
+    # Drop the previous matrix before reading the next one so the two never coexist
+    cache$key   <- NULL
+    cache$value <- NULL
+    # Force garbage collection to free memory before loading the new embeddings
+    gc(verbose = FALSE)
+
+    # Read the embeddings from the file and store them in the cache
+    cache$value <- readRDS(path)
+    cache$key   <- key
+    cache$value
+  }
+})
+
+generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
-      model, # name of the sentence-transformers model used for embedding
-      embed_model, # initialized in the worker by run_sim and reused across iterations
+      model, # name of the sentence-transformers model; embeddings are loaded automatically for this (data, model) pair, see load_embeddings()
       n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
       c_target      = 0.95, # target recall for the priority screening process
@@ -27,24 +82,32 @@ generate_prioritized_data <-
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
       seed_train_pct = 0.5, # percentage of the seed studies to use for training the model; the remainder are held out for validation
+      embed_dir     = embedding_dir, # where load_embeddings() looks for the precomputed matrix; only needs overriding in tests or when workers see a different working directory
       seed          = NULL
   ) { # random seed for reproducibility
 
   total_records <- nrow(data)
   data_name <- attr(data, "data_name")
-      
+
+  # Embeddings are a deterministic function of (data, model) so they
+  # are looked up here
+  embeddings <- load_embeddings(data_name, model, dir = embed_dir)
+
   run_start_time <- Sys.time()
 
+  # One seed governs every random draw below; nothing downstream re-seeds
   if (!is.null(seed)) set.seed(seed)
 
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
   data              <- data |> dplyr::filter(included_final == 0)
   
-  irrelevant_test_study_idx <- sample.int(nrow(data), size = n_irrelevant_test_records)    
+  # Draw the irrelevant test set only from records both AI and human excluded
+  irrelevant_pool_idx <- which(data[["human_code"]] == 0 & data[["decision_binary"]] == 0)
+  irrelevant_test_study_idx <- sample(irrelevant_pool_idx, size = n_irrelevant_test_records)
   irrelevant_test_study <- data[irrelevant_test_study_idx, , drop = FALSE]
-  
-  data <- data[-irrelevant_test_study_idx, , drop = FALSE]    
+
+  data <- data[-irrelevant_test_study_idx, , drop = FALSE]
       
   # Artificially flip decision_binary to 0 for a share of ALL the finally included studies
   n_flip <- round(ai_miss_pct * nrow(final_inc_studies))
@@ -86,12 +149,12 @@ generate_prioritized_data <-
     c_target = c_target,
     R_c = R_c,
     id_col = "eppi_id",
-    seed = seed
+    seed = NULL # Set seed to null to allow for variance across simulations
   )
   target_ids <- target$target_ids
 
-  # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t% and a
-  # held-out validation set 𝐒20%.
+  # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t and a
+  # held-out validation set 𝐒v.
   St_idx <- sample.int(nrow(known_seed_studies), size = round(seed_train_pct * nrow(known_seed_studies)))
   St <- known_seed_studies[St_idx, ]
   Sv <- known_seed_studies[-St_idx, ]
@@ -101,22 +164,21 @@ generate_prioritized_data <-
 
   # Step 17: Randomly sample an irrelevant training set 𝐄    
   E_set <- AIscreenR::sample_references(
-    data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE, seed = seed
+    data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE,
+    seed = NULL # As for the target set: draw from the stream set at the top of this function
   )
 
-  # Embed every record that could possibly end up in P_star. Target sampling (below) draws from the
-  # full `data` pool using the `relevant_col` that is passed in
-  all_records <- dplyr::bind_rows(data, ai_missed, known_seed_studies, E_set) |>
-    dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
+  # Embeddings are precomputed over the whole corpus, so every record an iteration can draw is
+  # already present; rows are pulled by eppi_id. Duplicated ids (E_set is sampled with
+  # replacement) resolve to the same row, as before.
+  emb_rows <- function(ids) {
+    idx <- match(as.character(ids), rownames(embeddings))
+    embeddings[idx, , drop = FALSE]
+  }
 
-  embeddings <- embed_model$encode(paste(all_records$title, all_records$abstract))
-  rownames(embeddings) <- all_records[["eppi_id"]]
-  # ranger's x/y matrix interface requires named columns to recognize covariates
-  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
-    
   # Step 18: Train ℳ using the included training set 𝐈 and the irrelevant training set 𝐄.
   train_ids <- c(I_set[["eppi_id"]], E_set[["eppi_id"]])
-  x_train   <- embeddings[match(train_ids, rownames(embeddings)), , drop = FALSE]
+  x_train   <- emb_rows(train_ids)
   y_train   <- c(rep(1L, nrow(I_set)), rep(0L, nrow(E_set)))
 
   if (alpha == 2) {
@@ -134,7 +196,7 @@ generate_prioritized_data <-
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
 
   # Step 20: Use ℳ to rank all records in 𝐏∗.
-  x_pstar <- embeddings[match(P_star[["eppi_id"]], rownames(embeddings)), , drop = FALSE]
+  x_pstar <- emb_rows(P_star[["eppi_id"]])
   
   if (alpha == 2) {
     P_star$priority_score <- predict(fit, data = x_pstar)$predictions[, "1"]
@@ -188,58 +250,62 @@ generate_prioritized_data <-
 
 }
 
+# ## Test
+# # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
+# friends_data <- readRDS("friends/data/friends_cleaned.rds")
+# #
+# ## python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# #python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# #
+# ## Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
+# ## draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
+# ## the same sequence of results. Repeated calls still differ from each other.
+# set.seed(13082026)
+# #
+# # # Test (remove #)
+# #friends_data <- readRDS("friends/data/friends_cleaned.rds")
+# ##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# ##
+# python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
-## Test
-# # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
-friends_data <- readRDS("friends/data/friends_cleaned.rds")
-#
-## python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-#
-## Seed the whole run once, here. not inside generate_prioritized_data(). Every call below then
-## draws fresh from this one reproducible stream, so re-running this script end-to-end reproduces
-## the same sequence of results. Repeated calls still differ from each other.
-set.seed(13082026)
-#
-# # Test (remove #)
-#friends_data <- readRDS("friends/data/friends_cleaned.rds")
-##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-##
-debugonce(generate_prioritized_data)
+# # Build embeddings
+# embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir, dir = "simulation/embeddings")
 
-tictoc::tic()
-data_test_small <- generate_prioritized_data(
-  data          = friends_data,
-  embed_model   = embed_model,
-  model         = "all-MiniLM-L6-v2",
-  #python_dir    = python_dir,
-  included_var = "human_and_ai_in",
-  c_target      = 0.90,
-  R_c           = 0.95,
-  alpha         = 0,
-  seed_pct      = 0.5,
-  ai_miss_pct   = 0,
-  seed          = NULL  
-) |> 
-  suppressWarnings()
-tictoc::toc()
+# debugonce(generate_prioritized_data)
+# tictoc::tic()
+# data_test_small <- generate_prioritized_data(
+#   data          = friends_data,
+#   model         = "all-MiniLM-L6-v2",
+#   included_var  = "human_and_ai_in",
+#   c_target      = 0.90,
+#   R_c           = 0.95,
+#   alpha         = 0,
+#   seed_pct      = 0.5,
+#   ai_miss_pct   = 0,
+#   seed          = NULL,
+#   embed_dir = "simulation/embeddings"
+# ) |>
+#   suppressWarnings()
+# tictoc::toc()
 
-tictoc::tic()
-data_test_large <- generate_prioritized_data(
-  data          = friends_data,
-  embed_model   = embed_model,
-  model         = "all-mpnet-base-v2",
-  #python_dir    = python_dir,
-  included_var = "human_and_ai_in",
-  c_target      = 0.90,
-  R_c           = 0.95,
-  alpha         = 0,
-  seed_pct      = 0.5,
-  ai_miss_pct   = 0,
-  seed          = NULL  
-) |> 
-  suppressWarnings()
-tictoc::toc()
+# # Build embeddings for the second model, if not already present.
+# embed_corpus(friends_data, "all-mpnet-base-v2", python_dir, dir = "simulation/embeddings")
+
+# tictoc::tic()
+# data_test_large <- generate_prioritized_data(
+#   data          = friends_data,
+#   model         = "all-mpnet-base-v2",
+#   included_var  = "human_and_ai_in",
+#   c_target      = 0.90,
+#   R_c           = 0.95,
+#   alpha         = 0,
+#   seed_pct      = 0.5,
+#   ai_miss_pct   = 0,
+#   seed          = NULL,
+#   embed_dir = "simulation/embeddings"
+# ) |>
+#   suppressWarnings()
+# tictoc::toc()
 
 
 #--------------------------------------------------------------------------
@@ -391,28 +457,24 @@ run_sim <-
   function(
    iterations,
    data,
-   model,           
-   included_var,   
+   model,
+   included_var,
    c_target,      
    R_c,          
    alpha,        
    seed_pct,       
    ai_miss_pct,
    seed,
-   python_dir = "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+   embed_dir = "simulation/embeddings"
   ) {
 
-    # Reticulate objects are process-local, so initialize the model once per worker/run.
-    reticulate::use_python(python_dir, required = TRUE)
-    sentence_transformers <- reticulate::import("sentence_transformers")
-    embed_model <- sentence_transformers$SentenceTransformer(model)
-    
     #require(dplyr)
     #require(purrr)
-    
-    if (!is.null(seed)) set.seed(seed)
-    iteration_seeds <- sample.int(.Machine$integer.max, iterations)
-    
+
+    # Iteration j always gets seed + j, so raising `iterations` adds replicates without changing
+    # the existing ones
+    iteration_seeds <- seed + seq_len(iterations)
+
     iteration_results <- purrr::map(seq_len(iterations), function(i) {
       iteration_seed <- iteration_seeds[[i]]
 
@@ -420,8 +482,8 @@ run_sim <-
         {
           generate_prioritized_data(
             data          = data,
-            embed_model   = embed_model,
             model         = model,
+            embed_dir     = embed_dir,
             included_var  = included_var,
             c_target      = c_target,
             R_c           = R_c,

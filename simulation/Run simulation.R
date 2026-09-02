@@ -10,10 +10,8 @@ library(tidyr)
 source("simulation/Simulation function.R")
 friends_data <- readRDS("friends/data/friends_cleaned.rds")
 
-model <- "all-MiniLM-L6-v2"
-#model <- "all-mpnet-base-v2"
-
-python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+embedding_dir <- "simulation/embeddings"
 
 #--------------------------------------------------------------------------
 # Experimental design
@@ -21,25 +19,33 @@ python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/py
 
 params <- 
  tidyr::expand_grid(
-     model         = model,
+     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = 0.95,
      alpha         = c(0, 1),
      seed_pct      = 0.2,
      ai_miss_pct   = 0L,
+     seed          = 123
  ) |> 
-  mutate(
-    iterations = 10,
-    seed = round(runif(1) * 2^30) + 1:n()
-  ) |> 
-  relocate(iterations) |> 
-  as.data.frame() |> 
-  arrange(alpha)
+  mutate(iterations = 10) |>
+  relocate(iterations) |>
+  as.data.frame() |>
+  # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
+  # the worker-local cache then reloads roughly once per worker instead of once per row.
+  arrange(model, alpha)
 
 # All look right?
 params
 nrow(params)
+
+#--------------------------------------------------------------------------
+# Embeddings
+#--------------------------------------------------------------------------
+# One matrix per (dataset, model), written to simulation/embeddings once and reused by every
+# design row and every iteration.
+
+for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir)
 
 #--------------------------------------------------------------------------
 # Run simulation
@@ -59,15 +65,16 @@ results <- tryCatch(
     .l = params,
     .f = run_sim,
     data = friends_data,
-    python_dir = python_dir,
+    embed_dir = normalizePath(embedding_dir, winslash = "/"),
     .progress = TRUE,
     .options = furrr::furrr_options(
       seed = TRUE,
       globals = c(
         "params", "friends_data", "run_sim", "generate_prioritized_data",
-        "estimate_f", "assess_performance"
+        "estimate_f", "assess_performance",
+        "load_embeddings", "embedding_dir"
       ),
-      packages = c("dplyr", "purrr", "tibble", "reticulate", "glmnet", "ranger", "AIscreenR")
+      packages = c("dplyr", "purrr", "tibble", "glmnet", "ranger", "AIscreenR")
     )
   ),
   finally = future::plan(previous_plan)
