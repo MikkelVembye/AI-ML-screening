@@ -17,6 +17,10 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
   data_name <- attr(data, "data_name")
   path <- file.path(dir, paste0(data_name, "_", model, ".rds"))
 
+  if (file.exists(path)) {
+    return(invisible(path))
+  }
+
   # Every record in the corpus is embedded, so any subset an iteration draws can be looked up
   # by eppi_id. Ids must be unique.
   ids <- as.character(data[["eppi_id"]])

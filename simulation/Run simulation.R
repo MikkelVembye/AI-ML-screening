@@ -20,15 +20,15 @@ embedding_dir <- "simulation/embeddings"
 params <- 
  tidyr::expand_grid(
      model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2"),
-     included_var  = c("human_and_ai_in", "decision_binary"),
+     included_var  = c("human_and_ai_in", "decision_binary", "human_code"),
      c_target      = 0.90,
      R_c           = 0.95,
      alpha         = c(0, 1),
      seed_pct      = 0.2,
      ai_miss_pct   = 0L,
-     seed          = 123
+     seed          = 12
  ) |> 
-  mutate(iterations = 10) |>
+  mutate(iterations = 1000) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
