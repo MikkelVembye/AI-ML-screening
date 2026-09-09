@@ -15,7 +15,9 @@ embedding_dir <- "simulation/embeddings"
 embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
 
   data_name <- attr(data, "data_name")
-  path <- file.path(dir, paste0(data_name, "_", model, ".rds"))
+  # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
+  model_file <- gsub("/", "--", model, fixed = TRUE)
+  path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
 
   if (file.exists(path)) {
     return(invisible(path))
@@ -59,7 +61,8 @@ load_embeddings <- local({
     if (identical(cache$key, key)) return(cache$value)
 
     # If not, load the embeddings from the file and store them in the cache
-    path <- file.path(dir, paste0(data_name, "_", model, ".rds"))
+    model_file <- gsub("/", "--", model, fixed = TRUE)
+    path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
 
     # Drop the previous matrix before reading the next one so the two never coexist
     cache$key   <- NULL

@@ -13,13 +13,16 @@ friends_data <- readRDS("friends/data/friends_cleaned.rds")
 python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 embedding_dir <- "simulation/embeddings"
 
+# Embed corpus for model BAAI/bge-large-en-v1.5
+tictoc::tic()
+embed_corpus(friends_data, "BAAI/bge-large-en-v1.5", python_dir = python_dir, dir = embedding_dir)
+tictoc::toc()
 #--------------------------------------------------------------------------
 # Experimental design
 #--------------------------------------------------------------------------
-# "BAAI/bge-large-en-v1.5"
 params <- 
  tidyr::expand_grid(
-     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2"),
+     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2", "BAAI/bge-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = 0.95,
