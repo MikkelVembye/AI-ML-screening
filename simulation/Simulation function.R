@@ -14,7 +14,7 @@ embedding_dir <- "simulation/embeddings"
 # Function to embed the corpus using a specified model and save the embeddings to a file
 embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
 
-  data_name <- attr(data, "data_name")
+  data_name <- deparse(substitute(data)) # use deparse to get the name of the data frame as a string
   # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
   model_file <- gsub("/", "--", model, fixed = TRUE)
   path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))

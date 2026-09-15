@@ -8,15 +8,19 @@ library(purrr)
 library(tidyr)
 
 source("simulation/Simulation function.R")
-friends_data <- readRDS("friends/data/friends_cleaned.rds")
+friends_data <- readRDS("friends/data/full_screening_w_humans_FRIENDS_2.rds")$answer_data
+
 
 python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 embedding_dir <- "simulation/embeddings"
 
-# Embed corpus for model BAAI/bge-large-en-v1.5
+# Embed corpus
 tictoc::tic()
 embed_corpus(friends_data, "BAAI/bge-large-en-v1.5", python_dir = python_dir, dir = embedding_dir)
 tictoc::toc()
+# 15.44 sec elapsed
+# 58.86 sec elapsed
+# 160.07 sec elapsed
 #--------------------------------------------------------------------------
 # Experimental design
 #--------------------------------------------------------------------------
