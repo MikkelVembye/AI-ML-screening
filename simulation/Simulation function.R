@@ -157,7 +157,9 @@ generate_prioritized_data <-
     R_c = R_c,
     id_col = "eppi_id",
     seed = NULL # Set seed to null to allow for variance across simulations
-  )
+  ) |> 
+    suppressWarnings()
+   
   target_ids <- target$target_ids
 
   # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t and a
