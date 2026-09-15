@@ -8,7 +8,7 @@ library(purrr)
 library(tidyr)
 
 source("simulation/Simulation function.R")
-friends_data <- readRDS("friends/data/full_screening_w_humans_FRIENDS_2.rds")$answer_data
+friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 
 
 python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
@@ -35,7 +35,7 @@ params <-
      ai_miss_pct   = 0L,
      seed          = 12
  ) |> 
-  mutate(iterations = 1000) |>
+  mutate(iterations = 10) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
