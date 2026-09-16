@@ -108,6 +108,9 @@ generate_prioritized_data <-
   # Split off the finally included studies (included_final == 1) from the rest of the candidate pool
   final_inc_studies <- data |> dplyr::filter(included_final == 1)
   data              <- data |> dplyr::filter(included_final == 0)
+
+  # Ground truth for the reliability check
+  total_true_relevant <- nrow(final_inc_studies)
   
   # Draw the irrelevant test set only from records both AI and human excluded
   irrelevant_pool_idx <- which(data[["human_code"]] == 0 & data[["decision_binary"]] == 0)
@@ -171,6 +174,9 @@ generate_prioritized_data <-
   # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
   I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
 
+  # Of the truly relevant studies, how many are already known via the training set I_set
+  known_relevant_n <- sum(I_set[["included_final"]] == 1, na.rm = TRUE)
+
   # Step 17: Randomly sample an irrelevant training set 𝐄    
   E_set <- AIscreenR::sample_references(
     data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE,
@@ -224,7 +230,9 @@ generate_prioritized_data <-
   run_time_sec <- as.numeric(difftime(Sys.time(), run_start_time, units = "secs"))
        
   attr(P_star, "total_records") <- total_records
-  
+  attr(P_star, "total_true_relevant") <- total_true_relevant
+  attr(P_star, "known_relevant_n") <- known_relevant_n
+
   attr(P_star, "info_dat") <- tibble::tibble(
       data_name = data_name,
       model = model, 
@@ -350,9 +358,23 @@ estimate_f <- function(data) {
   }
 
   total_records <- attr(data, "total_records")
+  total_true_relevant <- attr(data, "total_true_relevant")
+  known_relevant_n <- attr(data, "known_relevant_n")
+
+  # Truly relevant studies (ground-truth included_final == 1) screened by the time all of the target studies
+  # have been found
+  screened_relevant_at_target <- sum(
+    data$included_final == 1 & data$row_number <= last_target_row,
+    na.rm = TRUE
+  )
+
+  recall_at_target <- (known_relevant_n + screened_relevant_at_target) / total_true_relevant
 
   data |>
     dplyr::summarise(
+      recall_at_target =
+        recall_at_target,
+
       workload_saved =
         (dplyr::n() - last_target_row) / total_records,
 
@@ -396,7 +418,7 @@ estimate_f <- function(data) {
     ) |>
     dplyr::bind_cols(attr(data, "info_dat")) |>
     dplyr::relocate(
-      workload_saved:any_seed_missed_after_target,
+      recall_at_target:any_seed_missed_after_target,
       .after = run_time_sec
     )
 }
@@ -434,10 +456,16 @@ assess_performance <- function(results) {
   
   #require(dplyr)
   
-  results  |> 
+  results  |>
     dplyr::summarise(
       n_sim = dplyr::n(),
       cnvg = mean(!is.na(workload_saved)),
+
+      # Check reliability:
+      recall_at_target_mean = mean(recall_at_target, na.rm = TRUE), # Compute the mean recall at target across all simulations
+      reliability = mean(recall_at_target > c_target, na.rm = TRUE), # Compute the proportion of simulations where recall at target exceeds c_target
+      reliability_se = sqrt(reliability * (1 - reliability) / n_sim), # Compute the standard error of the reliability estimate
+
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
       need_see_mean = mean(pct_needed_to_find_target, na.rm = TRUE),

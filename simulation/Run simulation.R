@@ -35,7 +35,7 @@ params <-
      ai_miss_pct   = 0L,
      seed          = 12
  ) |> 
-  mutate(iterations = 10) |>
+  mutate(iterations = 1000) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
