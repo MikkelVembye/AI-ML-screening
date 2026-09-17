@@ -11,7 +11,7 @@ source("simulation/Simulation function.R")
 friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 
 
-python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 embedding_dir <- "simulation/embeddings"
 
 # Embed corpus
@@ -28,6 +28,7 @@ params <-
  tidyr::expand_grid(
      model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2", "BAAI/bge-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary"),
+     ai_embedded   = c(TRUE, FALSE),
      c_target      = 0.90,
      R_c           = 0.95,
      alpha         = c(0, 1),

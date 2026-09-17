@@ -9,15 +9,21 @@
 # Embeddings are deterministic i.e. doesnt vary across iterations, so they are precomputed once per (dataset, model) and reused by every
 # design row and every iteration. https://medium.com/@karamvirhapal/encoding-vs-embedding-models-both-output-numbers-different-stories-5c85eced1801
 
-embedding_dir <- "simulation/embeddings"
+#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+#embedding_dir <- "simulation/embeddings"
 
 # Function to embed the corpus using a specified model and save the embeddings to a file
-embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
+embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai = FALSE) {
 
   data_name <- deparse(substitute(data)) # use deparse to get the name of the data frame as a string
   # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
   model_file <- gsub("/", "--", model, fixed = TRUE)
-  path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+  
+  if (encode_ai) {
+    path <- file.path(dir, paste0(data_name, "_", model_file, "_with_ai", ".rds"))
+  } else {
+    path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+  }
 
   if (file.exists(path)) {
     return(invisible(path))
@@ -34,7 +40,13 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
   sentence_transformers <- reticulate::import("sentence_transformers")
   embed_model <- sentence_transformers$SentenceTransformer(model)
   # Embed the corpus by concatenating the title and abstract for each record
-  embeddings <- embed_model$encode(paste(data$title, data$abstract))
+
+  if (encode_ai) {
+    embeddings <- embed_model$encode(paste(data$title, data$abstract, data$decision_binary))
+  } else {
+    embeddings <- embed_model$encode(paste(data$title, data$abstract))
+  }
+  
   rownames(embeddings) <- ids
   # ranger's x/y matrix interface requires named columns to recognize covariates
   colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
@@ -44,7 +56,14 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir) {
   saveRDS(embeddings, path)
 
   invisible(path)
-}
+  }
+
+#friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+#
+#debugonce(embed_corpus)
+#
+#embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir = python_dir, dir = embedding_dir, encode_ai = TRUE)
+
 
 # Function to load embeddings from a file, using a cache to avoid reloading if already loaded.
 # We use local here to create a closure that holds the cache environment, so each worker has its own cache.
@@ -53,16 +72,26 @@ load_embeddings <- local({
 
   cache <- new.env(parent = emptyenv())
 
-  function(data_name, model, dir = embedding_dir) {
+  function(data_name, model, ai_encoded = FALSE, dir = embedding_dir) {
 
     # Use a unique key for the cache based on dataset name and model
-    key <- paste0(data_name, "_", model)
+    if (ai_encoded) {
+      key <- paste0(data_name, "_", model, "_with_ai")
+    } else {
+      key <- paste0(data_name, "_", model)
+    }
+    
     # If the embeddings for this (dataset, model) combination are already in the cache, return them
     if (identical(cache$key, key)) return(cache$value)
 
     # If not, load the embeddings from the file and store them in the cache
     model_file <- gsub("/", "--", model, fixed = TRUE)
-    path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+    
+    if (ai_encoded) {
+      path <- file.path(dir, paste0(data_name, "_", model_file, "_with_ai", ".rds"))
+    } else {
+      path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+    }
 
     # Drop the previous matrix before reading the next one so the two never coexist
     cache$key   <- NULL
@@ -77,10 +106,15 @@ load_embeddings <- local({
   }
 })
 
+#debugonce(load_embeddings)
+#
+#load_embeddings("friends_data", "all-MiniLM-L6-v2", ai_encoded = TRUE, dir = embedding_dir)
+
 generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
       model, # name of the sentence-transformers model; embeddings are loaded automatically for this (data, model) pair, see load_embeddings()
+      ai_embedded = FALSE, # whether the embeddings were generated with the AI decision included in the text (TRUE) or not (FALSE)
       n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
       c_target      = 0.95, # target recall for the priority screening process
@@ -98,7 +132,7 @@ generate_prioritized_data <-
 
   # Embeddings are a deterministic function of (data, model) so they
   # are looked up here
-  embeddings <- load_embeddings(data_name, model, dir = embed_dir)
+  embeddings <- load_embeddings(data_name, model, ai_encoded = ai_embedded, dir = embed_dir)
 
   run_start_time <- Sys.time()
 
@@ -495,6 +529,7 @@ run_sim <-
    iterations,
    data,
    model,
+   ai_embedded = FALSE,
    included_var,
    c_target,      
    R_c,          
@@ -521,6 +556,7 @@ run_sim <-
             data          = data,
             model         = model,
             embed_dir     = embed_dir,
+            ai_embedded   = ai_embedded,
             included_var  = included_var,
             c_target      = c_target,
             R_c           = R_c,
