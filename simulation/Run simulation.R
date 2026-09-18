@@ -16,7 +16,7 @@ embedding_dir <- "simulation/embeddings"
 
 # Embed corpus
 tictoc::tic()
-embed_corpus(friends_data, "BAAI/bge-large-en-v1.5", python_dir = python_dir, dir = embedding_dir)
+embed_corpus(friends_data, "all-mpnet-base-v2", python_dir = python_dir, dir = embedding_dir, encode_ai = TRUE)
 tictoc::toc()
 # 15.44 sec elapsed
 # 58.86 sec elapsed
@@ -53,8 +53,8 @@ nrow(params)
 # One matrix per (dataset, model), written to simulation/embeddings once and reused by every
 # design row and every iteration.
 
-for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir)
-
+for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = FALSE)
+for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = TRUE)
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
