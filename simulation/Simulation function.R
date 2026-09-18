@@ -298,7 +298,6 @@ generate_prioritized_data <-
       is_ai_missed = dplyr::if_else(eppi_id %in% ai_missed[["eppi_id"]], 1L, 0L)
     )
       
-
 }
 
 # ## Test
@@ -321,24 +320,25 @@ generate_prioritized_data <-
 
 # # Build embeddings
 # embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir, dir = "simulation/embeddings")
-
-# debugonce(generate_prioritized_data)
-# tictoc::tic()
+#
+#debugonce(generate_prioritized_data)
+#tictoc::tic()
 # data_test_small <- generate_prioritized_data(
 #   data          = friends_data,
 #   model         = "all-MiniLM-L6-v2",
+#   ai_embedded   = TRUE, 
 #   included_var  = "human_and_ai_in",
 #   c_target      = 0.90,
 #   R_c           = 0.95,
 #   alpha         = 0,
-#   seed_pct      = 0.5,
-#   ai_miss_pct   = 0,
+#   seed_pct      = 0.2,
+#   ai_miss_pct   = 0.4,
 #   seed          = NULL,
 #   embed_dir = "simulation/embeddings"
 # ) |>
 #   suppressWarnings()
-# tictoc::toc()
-
+#tictoc::toc()
+#
 # # Build embeddings for the second model, if not already present.
 # embed_corpus(friends_data, "all-mpnet-base-v2", python_dir, dir = "simulation/embeddings")
 
@@ -404,10 +404,13 @@ estimate_f <- function(data) {
 
   recall_at_target <- (known_relevant_n + screened_relevant_at_target) / total_true_relevant
 
+  n_total_ai_missed <- sum(data$is_ai_missed, na.rm = TRUE)
+
+  c_target <- attr(data, "info_dat")$c_target
+
   data |>
     dplyr::summarise(
-      recall_at_target =
-        recall_at_target,
+      recall_at_target = recall_at_target,
 
       workload_saved =
         (dplyr::n() - last_target_row) / total_records,
@@ -422,6 +425,10 @@ estimate_f <- function(data) {
           na.rm = TRUE
         ),
 
+      pct_caught_of_ai_missed = (n_total_ai_missed - n_ai_missed_after_target)/n_total_ai_missed,
+      
+      target_achieved = as.integer(pct_caught_of_ai_missed > c_target),
+      
       n_ai_missed_after_seed =
         sum(
           is_ai_missed == 1 &
@@ -465,18 +472,18 @@ estimate_f <- function(data) {
 #result_list <- 
 #  purrr::map(1:2, \(i) {
 #  generate_prioritized_data(
-#    data          = friends_data,
-#    #model         = "all-MiniLM-L6-v2",
-#    #python_dir    = python_dir,
-#    included_var = "human_and_ai_in",
-#    c_target      = 0.90,
-#    R_c           = 0.95,
-#    alpha         = 0,
-#    seed_pct      = 0.2,
-#    seed_train_pct = 0.5,
-#    ai_miss_pct   = 0,
-#    seed          = NULL 
-#  ) |> 
+#   data          = friends_data,
+#   model         = "all-MiniLM-L6-v2",
+#   ai_embedded   = TRUE, 
+#   included_var  = "human_and_ai_in",
+#   c_target      = 0.90,
+#   R_c           = 0.95,
+#   alpha         = 0,
+#   seed_pct      = 0.2,
+#   ai_miss_pct   = 0.4,
+#   seed          = NULL,
+#   embed_dir = "simulation/embeddings"
+# ) |> 
 #  suppressWarnings() |> 
 #  estimate_f() 
 #}) |> 
@@ -497,21 +504,31 @@ assess_performance <- function(results) {
 
       # Check reliability:
       recall_at_target_mean = mean(recall_at_target, na.rm = TRUE), # Compute the mean recall at target across all simulations
+      
       reliability = mean(recall_at_target > c_target, na.rm = TRUE), # Compute the proportion of simulations where recall at target exceeds c_target
       reliability_se = sqrt(reliability * (1 - reliability) / n_sim), # Compute the standard error of the reliability estimate
 
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
+      
       need_see_mean = mean(pct_needed_to_find_target, na.rm = TRUE),
       need_see_se = sd(pct_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
+      
+      target_achieved_pct = mean(target_achieved, na.rm = TRUE),
+
       missed_after_target_pct = mean(any_ai_missed_after_target, na.rm = TRUE),
-      # add var
       missed_after_seed_pct = mean(any_ai_missed_after_seed, na.rm = TRUE),
+      
       times_seed_after_target_pct = mean(any_seed_missed_after_target, na.rm = TRUE),
+      
+      mean_pct_caugt_target = mean(pct_caught_of_ai_missed, na.rm = TRUE),
+      se_pct_caught_target = sd(pct_caught_of_ai_missed, na.rm = TRUE)/ sqrt(n_sim),  
+      
       mean_n_ai_missed_after_target = mean(n_ai_missed_after_target, na.rm = TRUE),
-      var_n_ai_missed_after_target = var(n_ai_missed_after_target, na.rm = TRUE),
+      se_n_ai_missed_after_target = sd(n_ai_missed_after_target, na.rm = TRUE)/ sqrt(n_sim),
+      
       mean_n_ai_missed_after_seed = mean(n_ai_missed_after_seed, na.rm = TRUE),
-      var_n_ai_missed_after_seed = var(n_ai_missed_after_seed, na.rm = TRUE),
+      se_n_ai_missed_after_seed = sd(n_ai_missed_after_seed, na.rm = TRUE)/ sqrt(n_sim),
       .by = data_name:ai_miss_pct 
     ) 
   
@@ -565,6 +582,7 @@ run_sim <-
             ai_miss_pct   = ai_miss_pct,
             seed          = iteration_seed
           ) |>
+            suppressWarnings() |> 
             estimate_f() |>
             dplyr::mutate(
               iteration = i,
@@ -642,8 +660,8 @@ run_sim <-
 #    alpha         = 0,
 #    seed_pct      = 0.2,
 #    ai_miss_pct   = 0L,
-#    seed          = NULL
-#)
+#    seed          = 12
+#) 
 #tictoc::toc()
 #sim_res$wl_mean
 #sim_res$wl_se
