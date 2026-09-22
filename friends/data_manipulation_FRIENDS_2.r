@@ -2,6 +2,8 @@
 # priority-screening simulation, mirroring the role data_manipulation.r plays for the original dataset.
 library(dplyr)
 library(AIscreenR)
+library(CiteSource)
+library(stringr)
 
 raw <- readRDS("friends/data/full_screening_w_humans_FRIENDS_2.rds")
 
@@ -40,6 +42,11 @@ friends_data <- friends_data |>
     human_and_ai_in = as.integer(decision_binary == 1L & human_code == 1L)
   )
 
+# Deduplicate the dataset to ensure unique records (by eppi_id).
+friends_data <- CiteSource::dedup_citations(friends_data) |>
+  # Drop "duplicate_id"
+  select(-duplicate_id)
+
 attr(friends_data, "data_name") <- "friends_data"
 
-saveRDS(friends_data, "friends/data/friends_FRIENDS_2_cleaned.rds")
+#saveRDS(friends_data, "friends/data/friends_FRIENDS_2_cleaned.rds")
