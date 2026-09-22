@@ -13,7 +13,7 @@
 #embedding_dir <- "simulation/embeddings"
 
 # Function to embed the corpus using a specified model and save the embeddings to a file
-embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai = FALSE) {
+embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai = FALSE, trust_remote_code = TRUE) {
 
   data_name <- deparse(substitute(data)) # use deparse to get the name of the data frame as a string
   # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
@@ -38,7 +38,7 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai
   # This is not per worker, but per (dataset, model) combination.
   reticulate::use_python(python_dir, required = TRUE)
   sentence_transformers <- reticulate::import("sentence_transformers")
-  embed_model <- sentence_transformers$SentenceTransformer(model)
+  embed_model <- sentence_transformers$SentenceTransformer(model, trust_remote_code = trust_remote_code)
   # Embed the corpus by concatenating the title and abstract for each record
 
   if (encode_ai) {
@@ -451,6 +451,30 @@ estimate_f <- function(data) {
   )
 
   recall_at_target <- (known_relevant_n + screened_relevant_at_target) / total_true_relevant
+# This computes the number of relevant studies (included_final == 1) seen by the time all target studies have been found, divided by the total number of truly relevant studies in the dataset. It represents the recall at the point when all target studies have been identified.
+  n_relevant_in_pstar <- sum(data$included_final == 1, na.rm = TRUE) # Number of truly relevant studies in the priority screening set P*
+
+  if (n_relevant_in_pstar == 0L) {
+    recall_pstar <- NA_real_
+  } else {
+    recall_pstar <- screened_relevant_at_target / n_relevant_in_pstar # Compute recall over the priority screening set P* "How many of the truly relevant studies in P* were found by the time all target studies were found?"
+  }
+
+  # This computes total amount of "false negatives" before last target divided by the total amount of "false negatives"
+  n_at_risk_in_pstar <- sum(
+    data$included_final == 1 & data$decision_binary == 0, # Compute the number of truly relevant studies in P* that were missed by the AI (decision_binary == 0)
+    na.rm = TRUE
+  )
+
+  if (n_at_risk_in_pstar == 0L) {
+    recall_at_risk <- NA_real_
+  } else {
+    n_at_risk_screened_at_target <- sum(
+      data$included_final == 1 & data$decision_binary == 0 & data$row_number <= last_target_row, # Compute the number of truly relevant studies in P* that were missed by the AI and screened by the time all target studies were found
+      na.rm = TRUE
+    )
+    recall_at_risk <- n_at_risk_screened_at_target / n_at_risk_in_pstar
+  }
 
   n_total_ai_missed <- sum(data$is_ai_missed, na.rm = TRUE)
 
@@ -477,6 +501,14 @@ estimate_f <- function(data) {
   estimation_res <- data |>
     dplyr::summarise(
       recall_at_target = recall_at_target,
+
+      recall_pstar = recall_pstar,
+
+      n_relevant_in_pstar = n_relevant_in_pstar,
+
+      recall_at_risk = recall_at_risk,
+
+      n_at_risk_in_pstar = n_at_risk_in_pstar,
 
       workload_saved = attr(data, "screen_decisions_info")$workload_saved,
 
@@ -546,21 +578,27 @@ estimate_f <- function(data) {
 #--------------------------------------------------------------------------
 # Performance assessment
 #--------------------------------------------------------------------------
-
 assess_performance <- function(results) {
-  
-  #require(dplyr)
-  
+
   results  |>
     dplyr::summarise(
       n_sim = dplyr::n(),
       cnvg = mean(!is.na(workload_saved)),
 
-      # Check reliability:
-      recall_at_target_mean = mean(recall_at_target, na.rm = TRUE), # Compute the mean recall at target across all simulations
-      
-      reliability = mean(recall_at_target > c_target, na.rm = TRUE), # Compute the proportion of simulations where recall at target exceeds c_target
-      reliability_se = sqrt(reliability * (1 - reliability) / n_sim), # Compute the standard error of the reliability estimate
+      # reliability check: recall over P* only. Compare to R_c.
+      recall_pstar_mean = mean(recall_pstar, na.rm = TRUE),
+      mean_n_relevant_in_pstar = mean(n_relevant_in_pstar, na.rm = TRUE),
+
+      reliability_pstar = mean(recall_pstar >= c_target, na.rm = TRUE), # "I am reliability_pstar confident that i have seen at least c_target of the relevant studies in P*"
+      reliability_pstar_se = sqrt(reliability_pstar * (1 - reliability_pstar) / n_sim), # within-review only
+
+      # Same, but only for studies AI never flagged (decision_binary == 0)
+      n_at_risk = sum(n_at_risk_in_pstar > 0, na.rm = TRUE),
+      recall_at_risk_mean = mean(recall_at_risk, na.rm = TRUE),
+      mean_n_at_risk_in_pstar = mean(n_at_risk_in_pstar, na.rm = TRUE),
+
+      reliability_at_risk = mean(recall_at_risk >= c_target, na.rm = TRUE), # "I am reliability_at_risk confident that i have seen at least c_target of the relevant studies in P* that were never flagged by the AI"
+      reliability_at_risk_se = sqrt(reliability_at_risk * (1 - reliability_at_risk) / n_at_risk), # within-review only
 
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
@@ -584,9 +622,9 @@ assess_performance <- function(results) {
       
       mean_n_ai_missed_after_seed = mean(n_ai_missed_after_seed, na.rm = TRUE),
       se_n_ai_missed_after_seed = sd(n_ai_missed_after_seed, na.rm = TRUE)/ sqrt(n_sim),
-      .by = data_name:ai_miss_pct 
-    ) 
-  
+      .by = data_name:ai_miss_pct
+    ) |>
+    dplyr::mutate(meets_guarantee = reliability_pstar >= R_c)
 }
 
 #assess_performance(result_list) |> View() 
