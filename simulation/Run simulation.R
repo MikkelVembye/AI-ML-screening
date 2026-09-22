@@ -30,13 +30,13 @@ params <-
      included_var  = c("human_and_ai_in", "decision_binary"),
      ai_embedded   = c(TRUE, FALSE),
      c_target      = 0.90,
-     R_c           = 0.95,
-     alpha         = c(0, 1),
+     R_c           = c(0.8, 0.9, 0.95),
+     alpha         = c(0, 0.5, 1, 2),
      seed_pct      = 0.2,
-     ai_miss_pct   = 0L,
-     seed          = 12
+     ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
+     seed          = 21092026
  ) |> 
-  mutate(iterations = 1000) |>
+  mutate(iterations = 2500) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -58,7 +58,7 @@ for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = 
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
-set.seed(13082026)
+set.seed(21092026)
 
 library(future)
 library(furrr)
@@ -99,4 +99,4 @@ results$wl_mean
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/friends-simulation-results.Rdata")
+save(params, results, session_info, run_date, file = "simulation/friends-simulation-results2.Rdata")

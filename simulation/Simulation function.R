@@ -129,6 +129,9 @@ generate_prioritized_data <-
 
   total_records <- nrow(data)
   data_name <- attr(data, "data_name")
+  
+  ## For workload saving computation ##
+  total_screen_decisions <- total_records * 2
 
   # Embeddings are a deterministic function of (data, model) so they
   # are looked up here
@@ -151,6 +154,9 @@ generate_prioritized_data <-
   irrelevant_test_study_idx <- sample(irrelevant_pool_idx, size = n_irrelevant_test_records)
   irrelevant_test_study <- data[irrelevant_test_study_idx, , drop = FALSE]
 
+  ## Number of screener decisions needed to be made to create this data ##
+  n_screen_decisons_test <- nrow(irrelevant_test_study) * 2    
+      
   data <- data[-irrelevant_test_study_idx, , drop = FALSE]
       
   # Artificially flip decision_binary to 0 for a share of ALL the finally included studies
@@ -184,6 +190,14 @@ generate_prioritized_data <-
 
   # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
   ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
+  
+  ## Number of human screening decisions needed to be made ##    
+  if (included_var == "human_and_ai_in"){
+    included_ai_dat <- data |> dplyr::filter(.data[["decision_binary"]] == 1)
+    n_screen_decision_after_ai_screen <- nrow(included_ai_dat) * 2
+  } else {
+    n_screen_decision_after_ai_screen <- 0
+  }
       
   # Steps 8-14: target set T, sampled with replacement from AH+ until k_min relevant records are
   # found (Hou & Tipton)
@@ -212,10 +226,12 @@ generate_prioritized_data <-
   known_relevant_n <- sum(I_set[["included_final"]] == 1, na.rm = TRUE)
 
   # Step 17: Randomly sample an irrelevant training set 𝐄    
-  E_set <- AIscreenR::sample_references(
-    data = irrelevant_test_study, n = nrow(I_set), id_col = "eppi_id", with_replacement = TRUE,
-    seed = NULL # As for the target set: draw from the stream set at the top of this function
-  )
+  E_set <- 
+    irrelevant_test_study |>
+    dplyr::slice_sample(
+      n = nrow(I_set),
+      replace = FALSE
+    )
 
   # Embeddings are precomputed over the whole corpus, so every record an iteration can draw is
   # already present; rows are pulled by eppi_id. Duplicated ids (E_set is sampled with
@@ -291,12 +307,45 @@ generate_prioritized_data <-
     dplyr::relocate(train_model, .after = model)
   
       
-  P_star |> 
+  res <- 
+    P_star |> 
     dplyr::mutate(
       is_target = dplyr::if_else(eppi_id %in% target_ids, 1L, 0L),
       is_seed = dplyr::if_else(eppi_id %in% Sv[["eppi_id"]], 1L, 0L),
       is_ai_missed = dplyr::if_else(eppi_id %in% ai_missed[["eppi_id"]], 1L, 0L)
     )
+  
+  target_rows <- res$row_number[res$is_target == 1L]
+
+  if (length(target_rows) == 0L) {
+    stop("No target rows found.", call. = FALSE)
+  }
+
+  last_target_row <- max(target_rows, na.rm = TRUE)
+  within_target <- seq_len(last_target_row)
+
+  among_target_dat <- res[
+    within_target[
+      !is.na(res$is_target[within_target]) &
+        res$is_target[within_target] != 1L
+    ],
+    ,
+    drop = FALSE
+  ]
+  
+  ## Number of human screening decisions to be made in the target sample  
+  n_screen_decisions_in_target_dat <- nrow(among_target_dat)
+  
+  attr(res, "screen_decisions_info") <- 
+    tibble::tibble(
+      total_decisions = total_screen_decisions,
+      test_decisions = n_screen_decisons_test,
+      after_ai_decisions = n_screen_decision_after_ai_screen,
+      among_target_decisions = n_screen_decisions_in_target_dat,
+      workload_saved = (total_decisions - test_decisions - after_ai_decisions - among_target_decisions)/total_decisions
+    )    
+      
+  res 
       
 }
 
@@ -313,7 +362,7 @@ generate_prioritized_data <-
 # set.seed(13082026)
 # #
 # # # Test (remove #)
-# #friends_data <- readRDS("friends/data/friends_cleaned.rds")
+#friends_data <- readRDS("friends/data/friends_cleaned.rds")
 # ##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
 # ##
 # python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
@@ -332,7 +381,7 @@ generate_prioritized_data <-
 #   R_c           = 0.95,
 #   alpha         = 0,
 #   seed_pct      = 0.2,
-#   ai_miss_pct   = 0.4,
+#   ai_miss_pct   = 0,
 #   seed          = NULL,
 #   embed_dir = "simulation/embeddings"
 # ) |>
@@ -380,15 +429,14 @@ estimate_f <- function(data) {
     na.rm = TRUE
   )
 
-  last_ai_missed_row <- if (
-    any(data$is_ai_missed == 1, na.rm = TRUE)
-  ) {
-    max(
+   if (any(data$is_ai_missed == 1, na.rm = TRUE)) {
+    last_ai_missed_row <-
+      max(
       data$row_number[data$is_ai_missed == 1],
       na.rm = TRUE
     )
   } else {
-    NA_integer_
+    last_ai_missed_row <- NA_integer_
   }
 
   total_records <- attr(data, "total_records")
@@ -406,35 +454,39 @@ estimate_f <- function(data) {
 
   n_total_ai_missed <- sum(data$is_ai_missed, na.rm = TRUE)
 
+  n_ai_missed_after_target <- sum(
+    data$is_ai_missed == 1 &
+      data$row_number > last_target_row,
+    na.rm = TRUE
+  )
+
+  n_ai_missed_after_seed <- sum(
+    data$is_ai_missed == 1 &
+      data$row_number > last_seed_row,
+    na.rm = TRUE
+  )
+
+  if (n_total_ai_missed == 0L) {
+    pct_caught_of_ai_missed <- NA_real_
+  } else {
+    pct_caught_of_ai_missed <- (n_total_ai_missed - n_ai_missed_after_target) / n_total_ai_missed
+  }
+
   c_target <- attr(data, "info_dat")$c_target
 
-  data |>
+  estimation_res <- data |>
     dplyr::summarise(
       recall_at_target = recall_at_target,
 
-      workload_saved =
-        (dplyr::n() - last_target_row) / total_records,
+      workload_saved = attr(data, "screen_decisions_info")$workload_saved,
 
-      pct_needed_to_find_target =
-        last_target_row / dplyr::n(),
+      pct_needed_to_find_target = last_target_row / dplyr::n(),
 
-      n_ai_missed_after_target =
-        sum(
-          is_ai_missed == 1 &
-            row_number > last_target_row,
-          na.rm = TRUE
-        ),
+      pct_caught_of_ai_missed = pct_caught_of_ai_missed,
 
-      pct_caught_of_ai_missed = (n_total_ai_missed - n_ai_missed_after_target)/n_total_ai_missed,
-      
-      target_achieved = as.integer(pct_caught_of_ai_missed > c_target),
-      
-      n_ai_missed_after_seed =
-        sum(
-          is_ai_missed == 1 &
-            row_number > last_seed_row,
-          na.rm = TRUE
-        ),
+      n_ai_missed_after_target = n_ai_missed_after_target,
+
+      n_ai_missed_after_seed = n_ai_missed_after_seed,
 
       any_ai_missed_after_target =
         dplyr::if_else(
@@ -462,11 +514,13 @@ estimate_f <- function(data) {
       recall_at_target:any_seed_missed_after_target,
       .after = run_time_sec
     )
+  
+  estimation_res 
+
 }
 
 #debugonce(estimate_f)
-#data_test_small |> estimate_f() |> View()
-##
+#data_test_small |> estimate_f() 
 #set.seed(13082026)
 #
 #result_list <- 
@@ -475,12 +529,12 @@ estimate_f <- function(data) {
 #   data          = friends_data,
 #   model         = "all-MiniLM-L6-v2",
 #   ai_embedded   = TRUE, 
-#   included_var  = "human_and_ai_in",
+#   included_var  = "decision_binary",
 #   c_target      = 0.90,
 #   R_c           = 0.95,
 #   alpha         = 0,
 #   seed_pct      = 0.2,
-#   ai_miss_pct   = 0.4,
+#   ai_miss_pct   = 0,
 #   seed          = NULL,
 #   embed_dir = "simulation/embeddings"
 # ) |> 
@@ -514,8 +568,6 @@ assess_performance <- function(results) {
       need_see_mean = mean(pct_needed_to_find_target, na.rm = TRUE),
       need_see_se = sd(pct_needed_to_find_target, na.rm = TRUE) / sqrt(n_sim),
       
-      target_achieved_pct = mean(target_achieved, na.rm = TRUE),
-
       missed_after_target_pct = mean(any_ai_missed_after_target, na.rm = TRUE),
       missed_after_seed_pct = mean(any_ai_missed_after_seed, na.rm = TRUE),
       
@@ -523,6 +575,9 @@ assess_performance <- function(results) {
       
       mean_pct_caugt_target = mean(pct_caught_of_ai_missed, na.rm = TRUE),
       se_pct_caught_target = sd(pct_caught_of_ai_missed, na.rm = TRUE)/ sqrt(n_sim),  
+
+      target_achieved_pct = mean(pct_caught_of_ai_missed > c_target, na.rm = TRUE),
+      target_achieved_se = sqrt(target_achieved_pct * (1 - target_achieved_pct) / n_sim),
       
       mean_n_ai_missed_after_target = mean(n_ai_missed_after_target, na.rm = TRUE),
       se_n_ai_missed_after_target = sd(n_ai_missed_after_target, na.rm = TRUE)/ sqrt(n_sim),
@@ -654,12 +709,12 @@ run_sim <-
 #    iterations    = 10,
 #    data          = friends_data,
 #    model         = "all-MiniLM-L6-v2",
-#    included_var  = "human_and_ai_in",
+#    included_var  = "decision_binary",
 #    c_target      = 0.90,
 #    R_c           = 0.95,
 #    alpha         = 0,
 #    seed_pct      = 0.2,
-#    ai_miss_pct   = 0L,
+#    ai_miss_pct   = 0.4,
 #    seed          = 12
 #) 
 #tictoc::toc()
