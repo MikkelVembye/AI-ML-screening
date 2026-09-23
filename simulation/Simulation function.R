@@ -110,6 +110,8 @@ load_embeddings <- local({
 #
 #load_embeddings("friends_data", "all-MiniLM-L6-v2", ai_encoded = TRUE, dir = embedding_dir)
 
+# Source sample_target.R to use the sample_target function for sampling target studies
+source("simulation/sample_target.r")
 generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
@@ -118,7 +120,7 @@ generate_prioritized_data <-
       n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
       c_target      = 0.95, # target recall for the priority screening process
-      R_c           = 0.95, # target specificity for the priority screening process
+      R_c           = 0.95, # desired target reliability for the priority screening process
       alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net). If alpha = 2 it uses Random Forest instead of logistic regression.
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
       seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
@@ -188,29 +190,25 @@ generate_prioritized_data <-
   # Step 6: Let 𝐀+ denote records classified as potentially eligible by 𝒜, and let 𝐀− denote records not classified as potentially eligible by 𝒜.
   a_minus <- dplyr::bind_rows(data |> dplyr::filter(.data[["decision_binary"]] == 0), ai_missed)
 
-  # Step 7: Define 𝐀𝐇+ as all non-seed records included both by 𝒜 and humans up to this point.
+  # Step 7: Define 𝐀𝐇+ as all non-seed records with included_var == 1 up to this point.
   ah_plus <- data |> dplyr::filter(.data[[included_var]] == 1)
-  
-  ## Number of human screening decisions needed to be made ##    
-  if (included_var == "human_and_ai_in"){
-    included_ai_dat <- data |> dplyr::filter(.data[["decision_binary"]] == 1)
-    n_screen_decision_after_ai_screen <- nrow(included_ai_dat) * 2
-  } else {
-    n_screen_decision_after_ai_screen <- 0
-  }
-      
+
+  # Number of human screening decisions needed to be made (humans double-screen all of A+)
+  included_ai_dat <- data |> dplyr::filter(.data[["decision_binary"]] == 1)
+  n_screen_decision_after_ai_screen <- nrow(included_ai_dat) * 2
+
   # Steps 8-14: target set T, sampled with replacement from AH+ until k_min relevant records are
   # found (Hou & Tipton)
-  target <- AIscreenR::sample_references(
+  target <- sample_target(
     data = data,
     relevant_col = included_var,
     c_target = c_target,
     R_c = R_c,
     id_col = "eppi_id",
     seed = NULL # Set seed to null to allow for variance across simulations
-  ) |> 
+  ) |>
     suppressWarnings()
-   
+
   target_ids <- target$target_ids
 
   # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t and a
@@ -362,20 +360,20 @@ generate_prioritized_data <-
 # set.seed(13082026)
 # #
 # # # Test (remove #)
-#friends_data <- readRDS("friends/data/friends_cleaned.rds")
-# ##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-# ##
+# friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+# # ##python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+# # ##
 # python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 
-# # Build embeddings
-# embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir, dir = "simulation/embeddings")
-#
-#debugonce(generate_prioritized_data)
-#tictoc::tic()
+# # # Build embeddings
+# # embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir, dir = "simulation/embeddings")
+# #
+# debugonce(generate_prioritized_data)
+# #tictoc::tic()
 # data_test_small <- generate_prioritized_data(
 #   data          = friends_data,
-#   model         = "all-MiniLM-L6-v2",
-#   ai_embedded   = TRUE, 
+#   model         = "Alibaba-NLP/gte-large-en-v1.5",
+#   ai_embedded   = FALSE, 
 #   included_var  = "human_and_ai_in",
 #   c_target      = 0.90,
 #   R_c           = 0.95,
@@ -439,10 +437,6 @@ estimate_f <- function(data) {
     last_ai_missed_row <- NA_integer_
   }
 
-  total_records <- attr(data, "total_records")
-  total_true_relevant <- attr(data, "total_true_relevant")
-  known_relevant_n <- attr(data, "known_relevant_n")
-
   # Truly relevant studies (ground-truth included_final == 1) screened by the time all of the target studies
   # have been found
   screened_relevant_at_target <- sum(
@@ -450,30 +444,12 @@ estimate_f <- function(data) {
     na.rm = TRUE
   )
 
-  recall_at_target <- (known_relevant_n + screened_relevant_at_target) / total_true_relevant
-# This computes the number of relevant studies (included_final == 1) seen by the time all target studies have been found, divided by the total number of truly relevant studies in the dataset. It represents the recall at the point when all target studies have been identified.
   n_relevant_in_pstar <- sum(data$included_final == 1, na.rm = TRUE) # Number of truly relevant studies in the priority screening set P*
 
   if (n_relevant_in_pstar == 0L) {
     recall_pstar <- NA_real_
   } else {
     recall_pstar <- screened_relevant_at_target / n_relevant_in_pstar # Compute recall over the priority screening set P* "How many of the truly relevant studies in P* were found by the time all target studies were found?"
-  }
-
-  # This computes total amount of "false negatives" before last target divided by the total amount of "false negatives"
-  n_at_risk_in_pstar <- sum(
-    data$included_final == 1 & data$decision_binary == 0, # Compute the number of truly relevant studies in P* that were missed by the AI (decision_binary == 0)
-    na.rm = TRUE
-  )
-
-  if (n_at_risk_in_pstar == 0L) {
-    recall_at_risk <- NA_real_
-  } else {
-    n_at_risk_screened_at_target <- sum(
-      data$included_final == 1 & data$decision_binary == 0 & data$row_number <= last_target_row, # Compute the number of truly relevant studies in P* that were missed by the AI and screened by the time all target studies were found
-      na.rm = TRUE
-    )
-    recall_at_risk <- n_at_risk_screened_at_target / n_at_risk_in_pstar
   }
 
   n_total_ai_missed <- sum(data$is_ai_missed, na.rm = TRUE)
@@ -500,15 +476,9 @@ estimate_f <- function(data) {
 
   estimation_res <- data |>
     dplyr::summarise(
-      recall_at_target = recall_at_target,
-
       recall_pstar = recall_pstar,
 
       n_relevant_in_pstar = n_relevant_in_pstar,
-
-      recall_at_risk = recall_at_risk,
-
-      n_at_risk_in_pstar = n_at_risk_in_pstar,
 
       workload_saved = attr(data, "screen_decisions_info")$workload_saved,
 
@@ -543,7 +513,7 @@ estimate_f <- function(data) {
     ) |>
     dplyr::bind_cols(attr(data, "info_dat")) |>
     dplyr::relocate(
-      recall_at_target:any_seed_missed_after_target,
+      recall_pstar:any_seed_missed_after_target,
       .after = run_time_sec
     )
   
@@ -551,29 +521,29 @@ estimate_f <- function(data) {
 
 }
 
-#debugonce(estimate_f)
-#data_test_small |> estimate_f() 
-#set.seed(13082026)
-#
-#result_list <- 
-#  purrr::map(1:2, \(i) {
-#  generate_prioritized_data(
-#   data          = friends_data,
-#   model         = "all-MiniLM-L6-v2",
-#   ai_embedded   = TRUE, 
-#   included_var  = "decision_binary",
-#   c_target      = 0.90,
-#   R_c           = 0.95,
-#   alpha         = 0,
-#   seed_pct      = 0.2,
-#   ai_miss_pct   = 0,
-#   seed          = NULL,
-#   embed_dir = "simulation/embeddings"
-# ) |> 
-#  suppressWarnings() |> 
-#  estimate_f() 
-#}) |> 
-#  purrr::list_rbind(names_to = "id")
+# debugonce(estimate_f)
+# data_test_small |> estimate_f() 
+# set.seed(13082026)
+# #
+# result_list <- 
+#   purrr::map(1:2, \(i) {
+#   generate_prioritized_data(
+#    data          = friends_data,
+#    model         = "alibaba-NLP/gte-large-en-v1.5",
+#    ai_embedded   = TRUE, 
+#    included_var  = "decision_binary",
+#    c_target      = 0.90,
+#    R_c           = 0.95,
+#    alpha         = 0,
+#    seed_pct      = 0.2,
+#    ai_miss_pct   = 0,
+#    seed          = NULL,
+#    embed_dir = "simulation/embeddings"
+#  ) |> 
+#   suppressWarnings() |> 
+#   estimate_f() 
+# }) |> 
+#   purrr::list_rbind(names_to = "id")
 
 #--------------------------------------------------------------------------
 # Performance assessment
@@ -591,14 +561,6 @@ assess_performance <- function(results) {
 
       reliability_pstar = mean(recall_pstar >= c_target, na.rm = TRUE), # "I am reliability_pstar confident that i have seen at least c_target of the relevant studies in P*"
       reliability_pstar_se = sqrt(reliability_pstar * (1 - reliability_pstar) / n_sim), # within-review only
-
-      # Same, but only for studies AI never flagged (decision_binary == 0)
-      n_at_risk = sum(n_at_risk_in_pstar > 0, na.rm = TRUE),
-      recall_at_risk_mean = mean(recall_at_risk, na.rm = TRUE),
-      mean_n_at_risk_in_pstar = mean(n_at_risk_in_pstar, na.rm = TRUE),
-
-      reliability_at_risk = mean(recall_at_risk >= c_target, na.rm = TRUE), # "I am reliability_at_risk confident that i have seen at least c_target of the relevant studies in P* that were never flagged by the AI"
-      reliability_at_risk_se = sqrt(reliability_at_risk * (1 - reliability_at_risk) / n_at_risk), # within-review only
 
       wl_mean = mean(workload_saved, na.rm = TRUE),
       wl_se = sd(workload_saved, na.rm = TRUE) / sqrt(n_sim),
@@ -641,7 +603,7 @@ run_sim <-
    model,
    ai_embedded = FALSE,
    included_var,
-   c_target,      
+   c_target,
    R_c,          
    alpha,        
    seed_pct,       
