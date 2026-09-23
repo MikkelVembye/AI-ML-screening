@@ -101,7 +101,6 @@ results <- tryCatch(
 tictoc::toc()
 
 results$wl_mean
-glimpse(results)
 
 #--------------------------------------------------------
 # Save results and details
