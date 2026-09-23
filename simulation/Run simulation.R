@@ -25,7 +25,7 @@ embedding_dir <- "simulation/embeddings"
 
 # Embed corpus
 tictoc::tic()
-embed_corpus(friends_data, "Alibaba-NLP/gte-base-en-v1.5", python_dir = python_dir, dir = embedding_dir, encode_ai = TRUE)
+embed_corpus(friends_data, "Alibaba-NLP/gte-base-en-v1.5", python_dir = python_dir, dir = embedding_dir, encode_ai = FALSE)
 tictoc::toc()
 # 15.44 sec elapsed
 # 58.86 sec elapsed
@@ -35,7 +35,7 @@ tictoc::toc()
 #--------------------------------------------------------------------------
 params <- 
  tidyr::expand_grid(
-     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2", "BAAI/bge-large-en-v1.5" , "Alibaba-NLP/gte-base-en-v1.5"),
+     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2", "BAAI/bge-large-en-v1.5" , "Alibaba-NLP/gte-base-en-v1.5", "Alibaba-NLP/gte-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      ai_embedded   = c(TRUE, FALSE),
      c_target      = 0.90,
@@ -45,7 +45,7 @@ params <-
      ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
      seed          = 21092026
  ) |> 
-  mutate(iterations = 10) |>
+  mutate(iterations = 2500) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -62,8 +62,8 @@ nrow(params)
 # One matrix per (dataset, model), written to simulation/embeddings once and reused by every
 # design row and every iteration.
 
-#for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = FALSE)
-#for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = TRUE)
+for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = FALSE)
+for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = embedding_dir, encode_ai = TRUE)
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ results <- tryCatch(
       seed = TRUE,
       globals = c(
         "params", "friends_data", "run_sim", "generate_prioritized_data",
-        "estimate_f", "assess_performance",
+        "sample_target", "estimate_f", "assess_performance",
         "load_embeddings", "embedding_dir"
       ),
       packages = c("dplyr", "purrr", "tibble", "glmnet", "ranger", "AIscreenR")
@@ -99,7 +99,9 @@ results <- tryCatch(
   purrr::list_rbind()
 
 tictoc::toc()
+
 results$wl_mean
+glimpse(results)
 
 #--------------------------------------------------------
 # Save results and details
