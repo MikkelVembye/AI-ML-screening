@@ -99,6 +99,7 @@ results <- tryCatch(
   purrr::list_rbind()
 
 tictoc::toc()
+# 104515.14 sec elapsed
 
 results$wl_mean
 
@@ -109,5 +110,5 @@ results$wl_mean
 session_info <- sessionInfo()
 run_date <- date()
 
-#save(params, results, session_info, run_date, file = "simulation/friends-simulation-results2.Rdata")
-save(params, results, file = "simulation/test-results2.Rdata")
+save(params, results, session_info, run_date, file = "simulation/friends-simulation-results3.Rdata")
+#save(params, results, file = "simulation/test-results2.Rdata")
