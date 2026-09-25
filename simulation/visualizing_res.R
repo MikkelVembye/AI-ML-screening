@@ -6,7 +6,7 @@ library(forcats)
 library(scales)
 
 # Load results from simulation\friends-simulation-results-test.Rdata
-load("simulation/test-results2.Rdata")
+load("simulation/friends-simulation-results2.Rdata")
 stopifnot(nrow(results) == nrow(params))
 results$ai_embedded <- params$ai_embedded
 
@@ -94,10 +94,10 @@ fig1
 # Figure 2 - Reliability in P*
 #--------------------------------------------------------------------------
 # Share of iterations where recall over P* reached c_target; dashed line = promised R_c
-fig2 <- ggplot(plot_dat, aes(x = included_lab, y = reliability_pstar, color = model_lab, shape = model_lab)) +
+fig2 <- ggplot(plot_dat, aes(x = included_lab, y = reliability, color = model_lab, shape = model_lab)) +
   geom_hline(aes(yintercept = R_c), linetype = "dashed", color = "grey50") +
-  geom_errorbar(aes(ymin = pmax(0, reliability_pstar - 1.96 * reliability_pstar_se),
-                    ymax = pmin(1, reliability_pstar + 1.96 * reliability_pstar_se)),
+  geom_errorbar(aes(ymin = pmax(0, reliability - 1.96 * reliability_se),
+                    ymax = pmin(1, reliability + 1.96 * reliability_se)),
                 width = 0.1, linewidth = 0.5, position = dodge) +
   geom_point(size = 3, position = dodge) +
   facets +
@@ -116,7 +116,7 @@ fig2
 #--------------------------------------------------------------------------
 # Figure 3 - Mean recall in P*
 #--------------------------------------------------------------------------
-fig3 <- ggplot(plot_dat, aes(x = included_lab, y = recall_pstar_mean, color = model_lab, shape = model_lab)) +
+fig3 <- ggplot(plot_dat, aes(x = included_lab, y = recall_at_target_mean, color = model_lab, shape = model_lab)) +
   geom_hline(aes(yintercept = c_target), linetype = "dashed", color = "grey50") +
   geom_point(size = 3, position = dodge) +
   facets +

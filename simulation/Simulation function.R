@@ -13,7 +13,16 @@
 #embedding_dir <- "simulation/embeddings"
 
 # Function to embed the corpus using a specified model and save the embeddings to a file
-embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai = FALSE, trust_remote_code = TRUE) {
+embed_corpus <- 
+  function(
+    data, 
+    model, 
+    python_dir, 
+    dir = embedding_dir, 
+    encode_ai = FALSE, 
+    trust_remote_code = TRUE,
+    add_var = FALSE
+  ) {
 
   data_name <- deparse(substitute(data)) # use deparse to get the name of the data frame as a string
   # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
@@ -42,11 +51,24 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai
   # Embed the corpus by concatenating the title and abstract for each record
 
   if (encode_ai) {
-    embeddings <- embed_model$encode(paste(data$title, data$abstract, data$decision_binary))
-  } else {
+    if (add_var){
     embeddings <- embed_model$encode(paste(data$title, data$abstract))
-  }
-  
+    
+    var_name <- paste0("V", ncol(embeddings) + 1)
+
+    embeddings <- 
+      embeddings |> 
+      tibble::as_tibble() |> 
+      dplyr::mutate(!!var_name := as.numeric(data$decision_binary)) |> 
+      as.matrix()
+    } else {
+    embeddings <- embed_model$encode(paste(data$title, data$abstract, data$decision_binary))
+    }
+  } else {
+    embeddings <- embed_model$encode(paste(data$title, data$abstract))  
+}
+    
+
   rownames(embeddings) <- ids
   # ranger's x/y matrix interface requires named columns to recognize covariates
   colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
@@ -58,7 +80,7 @@ embed_corpus <- function(data, model, python_dir, dir = embedding_dir, encode_ai
   invisible(path)
   }
 
-#friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 #
 #debugonce(embed_corpus)
 #
