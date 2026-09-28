@@ -58,8 +58,12 @@ facets <- facet_grid(
 
 theme_sim <- theme_minimal(base_size = 15) +
   theme(
+    panel.background   = element_rect(fill = "#E6E6E6", colour = NA),
+    plot.background    = element_rect(fill = "#E6E6E6", colour = NA),
+    legend.background  = element_rect(fill = "#E6E6E6", colour = NA),
     panel.grid.minor   = element_blank(),
     panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "#B3B3B3", linewidth = 0.4),
     legend.position    = "top",
     text               = element_text(color = text_primary),
     axis.text          = element_text(color = text_secondary),
@@ -166,7 +170,14 @@ fig2a <- ggplot2::ggplot(
     x = "Target studies are drawn from records relevant by",
     y = "Share of iterations with recall ≥ c_target"
   ) +
-  theme_sim
+  theme_sim +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(nrow = 2, byrow = TRUE)
+  ) +
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
+  )
 
 fig2a
 
@@ -219,9 +230,152 @@ fig2b <-
     x = "Target studies are drawn from records relevant by",
     y = "Target covered among missed studies"
   ) +
-  theme_sim
+  theme_sim +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(nrow = 2, byrow = TRUE)
+  ) +
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
+  )
 
 fig2b
+
+fig2c_dat <- 
+  plot_dat |>
+  dplyr::filter(!is.na(reliability_pstar)) |>
+  dplyr::mutate(
+    reliability_group = interaction(
+      included_lab,
+      model_lab,
+      drop = TRUE
+    ),
+    no_missed_after_target = 1 - missed_after_target_pct
+  ) |> 
+  filter_out(ai_embedded) |> 
+  filter_out(ai_miss_pct == 0)
+
+fig2c <- 
+  ggplot2::ggplot(
+  fig2c_dat,
+  ggplot2::aes(
+    x = included_lab,
+    y = no_missed_after_target,
+    color = model_lab,
+    fill = model_lab,
+    group = reliability_group
+  )
+) +
+  ggplot2::geom_hline(
+    ggplot2::aes(yintercept = R_c),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  ggplot2::geom_boxplot(
+    width = 0.55,
+    position = ggplot2::position_dodge(width = 0.7),
+    outlier.shape = NA,
+    linewidth = 0.5,
+    alpha = 0.4
+  ) +
+  facets +
+  ggplot2::scale_color_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_fill_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = pct_axis,
+    limits = c(0, 1)
+  ) +
+  ggplot2::labs(
+    x = "Target studies are drawn from records relevant by",
+    y = "% times no relevant study is missed after target"
+  ) +
+  theme_sim +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(nrow = 2, byrow = TRUE)
+  ) +
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
+  )
+
+fig2c
+
+fig2d_dat <- 
+  plot_dat |>
+  dplyr::filter(!is.na(reliability_pstar)) |>
+  dplyr::mutate(
+    reliability_group = interaction(
+      included_lab,
+      model_lab,
+      drop = TRUE
+    ),
+    no_missed_after_target = 1 - missed_after_target_pct
+  ) |> 
+  filter_out(ai_embedded) |> 
+  filter(ai_miss_pct == 0.4)
+
+fig2d <- 
+  ggplot2::ggplot(
+  fig2d_dat,
+  ggplot2::aes(
+    x = included_lab,
+    y = no_missed_after_target,
+    color = model_lab,
+    fill = model_lab,
+    group = reliability_group
+  )
+) +
+  ggplot2::geom_hline(
+    ggplot2::aes(yintercept = R_c),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  #ggplot2::geom_boxplot(
+  #  width = 0.55,
+  #  position = ggplot2::position_dodge(width = 0.7),
+  #  outlier.shape = NA,
+  #  linewidth = 0.5,
+  #  alpha = 0.4
+  #) +
+  geom_point(
+    position = dodge,
+    alpha = 0.5
+  ) +
+  facets +
+  ggplot2::scale_color_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_fill_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = pct_axis,
+    limits = c(0, 1)
+  ) +
+  ggplot2::labs(
+    title = "AI missing 40% relevant studies",
+    x = "Target studies are drawn from records relevant by",
+    y = "% times no relevant study is missed after target"
+  ) +
+  theme_sim +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(nrow = 2, byrow = TRUE)
+  ) +
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
+  )
+
+fig2d
+
 
 #--------------------------------------------------------------------------
 # Figure 3 - Mean recall in P*
