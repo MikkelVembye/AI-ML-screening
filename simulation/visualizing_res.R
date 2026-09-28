@@ -4,9 +4,10 @@ library(tidyr)
 library(ggplot2)
 library(forcats)
 library(scales)
+library(tidyverse)
 
 # Load results from simulation\friends-simulation-results-test.Rdata
-load("simulation/friends-simulation-results2.Rdata")
+load("simulation/friends-simulation-results3.Rdata")
 stopifnot(nrow(results) == nrow(params))
 results$ai_embedded <- params$ai_embedded
 
@@ -24,7 +25,7 @@ names(results)
 # Plot prep
 #--------------------------------------------------------------------------
 # Validated categorical order (blue, orange, aqua, yellow); models take slots in fixed order
-cat_pal <- c("#2a78d6", "#eb6834", "#1baf7a", "#eda100")
+cat_pal <- c("#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#7b61a8")
 text_primary   <- "#0b0b0b"
 text_secondary <- "#52514e"
 
@@ -44,7 +45,7 @@ plot_dat <- results %>%
   )
 
 model_colors <- setNames(cat_pal[seq_along(unique(plot_dat$model_lab))], sort(unique(plot_dat$model_lab)))
-model_shapes <- setNames(c(16, 17, 15, 18)[seq_along(model_colors)], names(model_colors))
+model_shapes <- setNames(c(16, 17, 15, 18, 8)[seq_along(model_colors)], names(model_colors))
 
 pct_axis <- scales::label_percent(accuracy = 1)
 dodge    <- position_dodge(width = 0.4)
@@ -94,15 +95,15 @@ fig1
 # Figure 2 - Reliability in P*
 #--------------------------------------------------------------------------
 # Share of iterations where recall over P* reached c_target; dashed line = promised R_c
-fig2 <- ggplot(plot_dat, aes(x = included_lab, y = reliability, color = model_lab, shape = model_lab)) +
+fig2 <- ggplot(plot_dat, aes(x = included_lab, y = reliability_pstar , color = model_lab, shape = model_lab)) +
   geom_hline(aes(yintercept = R_c), linetype = "dashed", color = "grey50") +
-  geom_errorbar(aes(ymin = pmax(0, reliability - 1.96 * reliability_se),
-                    ymax = pmin(1, reliability + 1.96 * reliability_se)),
+  geom_errorbar(aes(ymin = pmax(0, reliability_pstar  - 1.96 * reliability_pstar_se),
+                    ymax = pmin(1, reliability_pstar  + 1.96 * reliability_pstar_se)),
                 width = 0.1, linewidth = 0.5, position = dodge) +
   geom_point(size = 3, position = dodge) +
   facets +
   model_scales +
-  scale_y_continuous(labels = pct_axis, limits = c(0, 1)) +
+  scale_y_continuous(labels = pct_axis, limits = c(0.7, 1)) +
   labs(
     title    = "Reliability: how often recall in P* reached c_target",
     subtitle = "Dashed line = promised reliability R_c; points below it break the promise",
@@ -114,11 +115,124 @@ fig2 <- ggplot(plot_dat, aes(x = included_lab, y = reliability, color = model_la
 fig2
 
 #--------------------------------------------------------------------------
+# Figure 2a - Reliability distributions across design rows
+#--------------------------------------------------------------------------
+# These boxplots summarize the available rows in plot_dat. They are not
+# iteration-level boxplots because results contains one summary row per design.
+fig2a_dat <- plot_dat |>
+  dplyr::filter(!is.na(reliability_pstar)) |>
+  dplyr::mutate(
+    reliability_group = interaction(
+      included_lab,
+      model_lab,
+      drop = TRUE
+    )
+  ) |> 
+  filter_out(ai_embedded) |> 
+  filter_out(ai_miss_pct == 0)
+
+fig2a <- ggplot2::ggplot(
+  fig2a_dat,
+  ggplot2::aes(
+    x = included_lab,
+    y = reliability_pstar,
+    color = model_lab,
+    group = reliability_group
+  )
+) +
+  ggplot2::geom_hline(
+    ggplot2::aes(yintercept = R_c),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  ggplot2::geom_boxplot(
+    width = 0.55,
+    position = ggplot2::position_dodge(width = 0.7),
+    outlier.shape = NA,
+    linewidth = 0.5
+  ) +
+  facets +
+  ggplot2::scale_color_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = pct_axis,
+    limits = c(0.55, 1)
+  ) +
+  ggplot2::labs(
+    title = "Reliability across simulation design rows",
+    subtitle = "Boxes summarize reliability_pstar; points show individual design summaries",
+    x = "Target studies are drawn from records relevant by",
+    y = "Share of iterations with recall ≥ c_target"
+  ) +
+  theme_sim
+
+fig2a
+
+fig2b_dat <- 
+  plot_dat |>
+  dplyr::filter(!is.na(reliability_pstar)) |>
+  dplyr::mutate(
+    reliability_group = interaction(
+      included_lab,
+      model_lab,
+      drop = TRUE
+    )
+  ) |> 
+  filter_out(ai_embedded) |> 
+  filter_out(ai_miss_pct == 0)
+
+fig2b <- 
+  ggplot2::ggplot(
+  fig2b_dat,
+  ggplot2::aes(
+    x = included_lab,
+    y = target_achieved_pct,
+    color = model_lab,
+    group = reliability_group
+  )
+) +
+  ggplot2::geom_hline(
+    ggplot2::aes(yintercept = R_c),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  ggplot2::geom_boxplot(
+    width = 0.55,
+    position = ggplot2::position_dodge(width = 0.7),
+    outlier.shape = NA,
+    linewidth = 0.5
+  ) +
+  facets +
+  ggplot2::scale_color_manual(
+    values = model_colors,
+    name = "Embedding model"
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = pct_axis,
+    limits = c(0.55, 1)
+  ) +
+  ggplot2::labs(
+    title = "Reliability across simulation design rows",
+    subtitle = "Boxes summarize reliability_pstar; points show individual design summaries",
+    x = "Target studies are drawn from records relevant by",
+    y = "Target covered among missed studies"
+  ) +
+  theme_sim
+
+fig2b
+
+#--------------------------------------------------------------------------
 # Figure 3 - Mean recall in P*
 #--------------------------------------------------------------------------
-fig3 <- ggplot(plot_dat, aes(x = included_lab, y = recall_at_target_mean, color = model_lab, shape = model_lab)) +
+fig3 <- 
+  plot_dat |> 
+  filter_out(ai_miss_pct == 0) |> 
+  #filter(str_detect(model, "gte")) |> 
+  ggplot(aes(x = included_lab, y = recall_pstar_mean, color = model_lab, shape = model_lab)) +
   geom_hline(aes(yintercept = c_target), linetype = "dashed", color = "grey50") +
-  geom_point(size = 3, position = dodge) +
+  geom_point() +
   facets +
   model_scales +
   scale_y_continuous(labels = pct_axis) +
@@ -159,7 +273,11 @@ fig4
 # Top-right is best: more workload saved and more relevant studies in P* recovered at stop
 train_shapes <- setNames(c(16, 17, 15, 18), levels(plot_dat$train_model_f))
 
-fig5 <- ggplot(plot_dat, aes(x = wl_mean, y = recall_pstar_mean, color = model_lab, shape = train_model_f)) +
+fig5 <- 
+  plot_dat |> 
+  #filter(str_detect(model, "gte")) |> 
+  #filter(train_model_f, "R") |> 
+  ggplot(aes(x = wl_mean, y = recall_pstar_mean, color = model_lab, shape = train_model_f)) +
   geom_hline(aes(yintercept = c_target), linetype = "dashed", color = "grey50") +
   geom_errorbar(aes(xmin = wl_mean - 1.96 * wl_se, xmax = wl_mean + 1.96 * wl_se),
                  height = 0, linewidth = 0.5) +
@@ -181,3 +299,35 @@ fig5 <- ggplot(plot_dat, aes(x = wl_mean, y = recall_pstar_mean, color = model_l
 
 fig5
 
+fig6_dat <- 
+  plot_dat |>
+  dplyr::filter(
+    stringr::str_detect(model, "gte"),
+    ai_miss_pct == 0.4,
+    !is.na(mean_pct_caugt_target)
+  ) |> 
+  filter_out(ai_embedded)
+
+fig6 <- 
+  ggplot2::ggplot(
+  fig6_dat,
+  ggplot2::aes(
+    x = included_lab,
+    y = mean_pct_caugt_target,
+    color = model_lab,
+    shape = model_lab
+  )
+) +
+  ggplot2::geom_point(size = 3, position = dodge) +
+  facets +
+  model_scales +
+  ggplot2::scale_y_continuous(labels = pct_axis, limits = c(0.92, 1)) +
+  ggplot2::labs(
+    title = "% AI-missed studies recovered at target",
+    subtitle = "Groups with no AI-missed studies are excluded because recovery is undefined",
+    x = "Target studies are drawn from records relevant by",
+    y = "Mean share of AI-missed studies recovered"
+  ) +
+  theme_sim
+
+fig6
