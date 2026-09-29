@@ -13,26 +13,22 @@
 #embedding_dir <- "simulation/embeddings"
 
 # Function to embed the corpus using a specified model and save the embeddings to a file
-embed_corpus <- 
+# The special model name "tfidf" gives a text2vec TF-IDF matrix instead of a sentence-transformers embedding
+embed_corpus <-
   function(
-    data, 
-    model, 
-    python_dir, 
-    dir = embedding_dir, 
-    encode_ai = FALSE, 
+    data,
+    model, # sentence-transformers model name, or "tfidf" for a text2vec TF-IDF matrix
+    python_dir = NULL, # only needed for sentence-transformers models
+    dir = embedding_dir,
     trust_remote_code = TRUE,
-    add_var = FALSE
+    tfidf_max_terms = 1000 # only used for "tfidf": number of most frequent terms kept as columns
+                            # Tipton and Hou use 500. Might consider changing but larger might significantly decrease speed and might cause LASSO, elastic net and RF to fit to more noise.
   ) {
 
   data_name <- deparse(substitute(data)) # use deparse to get the name of the data frame as a string
   # HF model ids can contain "/" (e.g. "microsoft/harrier-oss-v1-270m"), which isn't valid in a filename
   model_file <- gsub("/", "--", model, fixed = TRUE)
-  
-  if (encode_ai) {
-    path <- file.path(dir, paste0(data_name, "_", model_file, "_with_ai", ".rds"))
-  } else {
-    path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
-  }
+  path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
 
   if (file.exists(path)) {
     return(invisible(path))
@@ -43,35 +39,43 @@ embed_corpus <-
   ids <- as.character(data[["eppi_id"]])
   stopifnot(!anyNA(ids), !anyDuplicated(ids))
 
-  # Use reticulate to call Python and load the sentence-transformers library
-  # This is not per worker, but per (dataset, model) combination.
-  reticulate::use_python(python_dir, required = TRUE)
-  sentence_transformers <- reticulate::import("sentence_transformers")
-  embed_model <- sentence_transformers$SentenceTransformer(model, trust_remote_code = trust_remote_code)
   # Embed the corpus by concatenating the title and abstract for each record
+  text <- paste(data$title, data$abstract)
 
-  if (encode_ai) {
-    if (add_var){
-    embeddings <- embed_model$encode(paste(data$title, data$abstract))
-    
-    var_name <- paste0("V", ncol(embeddings) + 1)
+  if (model == "tfidf") {
+    # Stopwords, terms in fewer than 5 records and terms in more than 90% of the records are dropped,
+    # then the tfidf_max_terms most frequent terms are kept. Fitted on the whole corpus without labels.
 
-    embeddings <- 
-      embeddings |> 
-      tibble::as_tibble() |> 
-      dplyr::mutate(!!var_name := as.numeric(data$decision_binary)) |> 
-      as.matrix()
-    } else {
-    embeddings <- embed_model$encode(paste(data$title, data$abstract, data$decision_binary))
-    }
+    # Create an iterator. This is used as input to the vocabulary creation and DTM creation functions.
+    it <- text2vec::itoken(text, # iterator over the text data
+                          preprocessor = tolower, # convert to lowercase
+                          tokenizer = text2vec::word_tokenizer, # tokenize into words
+                           ids = ids, # unique ids for each record
+                           progressbar = TRUE)
+
+    vocab <- text2vec::create_vocabulary(it, stopwords = stopwords::stopwords("en", source = "smart")) |>
+      text2vec::prune_vocabulary(term_count_min = 5, # drop terms that appear in fewer than 5 records
+                                doc_proportion_max = 0.9, # drop terms that appear in more than 90% of records
+                                vocab_term_max = tfidf_max_terms) # keep only the most frequent terms
+
+    dtm <- text2vec::create_dtm(it, text2vec::vocab_vectorizer(vocab)) # create a document-term matrix (DTM) using the pruned vocabulary
+    embeddings <- as.matrix(text2vec::TfIdf$new()$fit_transform(dtm)) # compute the TF-IDF weights and convert to a matrix
   } else {
-    embeddings <- embed_model$encode(paste(data$title, data$abstract))  
-}
-    
+    # Use reticulate to call Python and load the sentence-transformers library
+    # This is not per worker, but per (dataset, model) combination.
+    reticulate::use_python(python_dir, required = TRUE)
+    sentence_transformers <- reticulate::import("sentence_transformers")
+    embed_model <- sentence_transformers$SentenceTransformer(model, trust_remote_code = trust_remote_code)
+    embeddings <- embed_model$encode(text)
+  }
+
+  # ranger's x/y matrix interface requires named columns to recognize covariates.
+  # Embedding dimensions have no meaning, so they are just numbered; TF-IDF keeps the words as column names.
+  if (model != "tfidf") {
+    colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
+  }
 
   rownames(embeddings) <- ids
-  # ranger's x/y matrix interface requires named columns to recognize covariates
-  colnames(embeddings) <- paste0("V", seq_len(ncol(embeddings)))
 
   # Save the embeddings to a file, creating the directory if it doesn't exist
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
@@ -84,7 +88,7 @@ friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 #
 #debugonce(embed_corpus)
 #
-#embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir = python_dir, dir = embedding_dir, encode_ai = TRUE)
+#embed_corpus(friends_data, "all-MiniLM-L6-v2", python_dir = python_dir, dir = embedding_dir)
 
 
 # Function to load embeddings from a file, using a cache to avoid reloading if already loaded.
@@ -94,25 +98,20 @@ load_embeddings <- local({
 
   cache <- new.env(parent = emptyenv())
 
-  function(data_name, model, ai_encoded = FALSE, dir = embedding_dir) {
+  function(data_name, model, dir = embedding_dir) {
 
     # Use a unique key for the cache based on dataset name and model
-    if (ai_encoded) {
-      key <- paste0(data_name, "_", model, "_with_ai")
-    } else {
-      key <- paste0(data_name, "_", model)
-    }
-    
+    key <- paste0(data_name, "_", model)
+
     # If the embeddings for this (dataset, model) combination are already in the cache, return them
     if (identical(cache$key, key)) return(cache$value)
 
     # If not, load the embeddings from the file and store them in the cache
+    # (works for sentence-transformers models and for "tfidf"); same file naming as in embed_corpus()
     model_file <- gsub("/", "--", model, fixed = TRUE)
-    
-    if (ai_encoded) {
-      path <- file.path(dir, paste0(data_name, "_", model_file, "_with_ai", ".rds"))
-    } else {
-      path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+    path <- file.path(dir, paste0(data_name, "_", model_file, ".rds"))
+    if (!file.exists(path)) {
+      stop("No embedding file for model '", model, "' at ", path, ". Run embed_corpus() first.", call. = FALSE)
     }
 
     # Drop the previous matrix before reading the next one so the two never coexist
@@ -130,7 +129,7 @@ load_embeddings <- local({
 
 #debugonce(load_embeddings)
 #
-#load_embeddings("friends_data", "all-MiniLM-L6-v2", ai_encoded = TRUE, dir = embedding_dir)
+#load_embeddings("friends_data", "all-MiniLM-L6-v2", dir = embedding_dir)
 
 # Source sample_target.R to use the sample_target function for sampling target studies
 source("simulation/sample_target.r")
@@ -138,7 +137,6 @@ generate_prioritized_data <-
     function(
       data, # data frame containing the full AI-screened dataset; must include a binary "included_final" column (1 = finally included, 0 = not)
       model, # name of the sentence-transformers model; embeddings are loaded automatically for this (data, model) pair, see load_embeddings()
-      ai_embedded = FALSE, # whether the embeddings were generated with the AI decision included in the text (TRUE) or not (FALSE)
       n_irrelevant_test_records = 200, # number of irrelevant records to sample for testing the model's performance
       included_var = "human_and_ai_in",
       c_target      = 0.95, # target recall for the priority screening process
@@ -159,7 +157,7 @@ generate_prioritized_data <-
 
   # Embeddings are a deterministic function of (data, model) so they
   # are looked up here
-  embeddings <- load_embeddings(data_name, model, ai_encoded = ai_embedded, dir = embed_dir)
+  embeddings <- load_embeddings(data_name, model, dir = embed_dir)
 
   run_start_time <- Sys.time()
 
@@ -395,7 +393,6 @@ generate_prioritized_data <-
 # data_test_small <- generate_prioritized_data(
 #   data          = friends_data,
 #   model         = "Alibaba-NLP/gte-large-en-v1.5",
-#   ai_embedded   = FALSE, 
 #   included_var  = "human_and_ai_in",
 #   c_target      = 0.90,
 #   R_c           = 0.95,
@@ -474,6 +471,9 @@ estimate_f <- function(data) {
     recall_pstar <- screened_relevant_at_target / n_relevant_in_pstar # Compute recall over the priority screening set P* "How many of the truly relevant studies in P* were found by the time all target studies were found?"
   }
 
+  # Truly relevant studies in P* that have not been screened when the last target study is found
+  n_missed_pstar <- n_relevant_in_pstar - screened_relevant_at_target
+
   n_total_ai_missed <- sum(data$is_ai_missed, na.rm = TRUE)
 
   n_ai_missed_after_target <- sum(
@@ -501,6 +501,13 @@ estimate_f <- function(data) {
       recall_pstar = recall_pstar,
 
       n_relevant_in_pstar = n_relevant_in_pstar,
+
+      # 1 if exactly 1 / exactly 2 / more than 2 relevant studies in P* were missed at the stopping point
+      exactly_1_missed = as.integer(n_missed_pstar == 1L),
+
+      exactly_2_missed = as.integer(n_missed_pstar == 2L),
+
+      more_than_2_missed = as.integer(n_missed_pstar > 2L),
 
       workload_saved = attr(data, "screen_decisions_info")$workload_saved,
 
@@ -552,7 +559,6 @@ estimate_f <- function(data) {
 #   generate_prioritized_data(
 #    data          = friends_data,
 #    model         = "alibaba-NLP/gte-large-en-v1.5",
-#    ai_embedded   = TRUE, 
 #    included_var  = "decision_binary",
 #    c_target      = 0.90,
 #    R_c           = 0.95,
@@ -580,6 +586,11 @@ assess_performance <- function(results) {
       # reliability check: recall over P* only. Compare to R_c.
       recall_pstar_mean = mean(recall_pstar, na.rm = TRUE),
       mean_n_relevant_in_pstar = mean(n_relevant_in_pstar, na.rm = TRUE),
+
+      # Number of simulations where exactly 1, exactly 2, or more than 2 relevant studies in P* were missed
+      n_exactly_1_missed = sum(exactly_1_missed, na.rm = TRUE),
+      n_exactly_2_missed = sum(exactly_2_missed, na.rm = TRUE),
+      n_more_than_2_missed = sum(more_than_2_missed, na.rm = TRUE),
 
       reliability_pstar = mean(recall_pstar >= c_target, na.rm = TRUE), # "I am reliability_pstar confident that i have seen at least c_target of the relevant studies in P*"
       reliability_pstar_se = sqrt(reliability_pstar * (1 - reliability_pstar) / n_sim), # within-review only
@@ -623,7 +634,6 @@ run_sim <-
    iterations,
    data,
    model,
-   ai_embedded = FALSE,
    included_var,
    c_target,
    R_c,          
@@ -650,7 +660,6 @@ run_sim <-
             data          = data,
             model         = model,
             embed_dir     = embed_dir,
-            ai_embedded   = ai_embedded,
             included_var  = included_var,
             c_target      = c_target,
             R_c           = R_c,
