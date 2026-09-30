@@ -21,6 +21,8 @@ embed_corpus <-
     python_dir = NULL, # only needed for sentence-transformers models
     dir = embedding_dir,
     trust_remote_code = TRUE,
+    task = NULL, # only for models that need a task, e.g. jina-embeddings-v5 ("classification" for training a classifier on the vectors)
+    batch_size = 32L, # texts embedded at a time; lower it if the GPU runs out of memory. Do not change unless torch.OutOfMemoryError.
     tfidf_max_terms = 1000 # only used for "tfidf": number of most frequent terms kept as columns
                             # Tipton and Hou use 500. Might consider changing but larger might significantly decrease speed and might cause LASSO, elastic net and RF to fit to more noise.
   ) {
@@ -66,7 +68,9 @@ embed_corpus <-
     reticulate::use_python(python_dir, required = TRUE)
     sentence_transformers <- reticulate::import("sentence_transformers")
     embed_model <- sentence_transformers$SentenceTransformer(model, trust_remote_code = trust_remote_code)
-    embeddings <- embed_model$encode(text)
+    encode_args <- list(text, batch_size = as.integer(batch_size))
+    if (!is.null(task)) encode_args$task <- task
+    embeddings <- do.call(embed_model$encode, encode_args)
   }
 
   # ranger's x/y matrix interface requires named columns to recognize covariates.

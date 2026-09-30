@@ -35,7 +35,7 @@ tictoc::toc()
 #--------------------------------------------------------------------------
 params <- 
  tidyr::expand_grid(
-     model         = c("all-MiniLM-L6-v2", "all-mpnet-base-v2", "BAAI/bge-large-en-v1.5" , "Alibaba-NLP/gte-base-en-v1.5", "Alibaba-NLP/gte-large-en-v1.5"),
+     model         = c("all-MiniLM-L6-v2", "tfidf", "jinaai/jina-embeddings-v5-text-small", "BAAI/bge-m3", "Alibaba-NLP/gte-base-en-v1.5", "Alibaba-NLP/gte-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = c(0.8, 0.9, 0.95),
@@ -116,7 +116,7 @@ save(params, results, session_info, run_date, file = "simulation/friends-simulat
 
 params_test <- 
  tidyr::expand_grid(
-     model         = c("tfidf", "Alibaba-NLP/gte-base-en-v1.5"),
+     model         = c("tfidf", "Alibaba-NLP/gte-base-en-v1.5", "jinaai/jina-embeddings-v5-text-small", "BAAI/bge-m3", "Alibaba-NLP/gte-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary", "human_code"),
      c_target      = 0.90,
      R_c           = 0.9,
@@ -125,7 +125,7 @@ params_test <-
      ai_miss_pct   = 0,
      seed          = 21092026
  ) |> 
-  mutate(iterations = 2) |>
+  mutate(iterations = 10) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -171,14 +171,25 @@ tictoc::toc()
 
 glimpse(results_test)
 
+save(results_test, file = "simulation/friends-simulation-results-test.Rdata")
 
 # EMBED NEW MODELS
-tictoc::tic()
-embed_corpus(friends_data, "answerdotai/ModernBERT-base", python_dir = python_dir, dir = embedding_dir)
-print("answerdotai/ModernBERT-base done")
-tictoc::toc()
+# tictoc::tic()
+# embed_corpus(friends_data, "answerdotai/ModernBERT-base", python_dir = python_dir, dir = embedding_dir)
+# print("answerdotai/ModernBERT-base done")
+# tictoc::toc()
 
 tictoc::tic()
 embed_corpus(friends_data, "BAAI/bge-m3", python_dir = python_dir, dir = embedding_dir)
 print("BAAI/bge-m3 done")
 tictoc::toc()
+
+tictoc::tic()
+embed_corpus(friends_data, "jinaai/jina-embeddings-v5-text-small",
+             python_dir = python_dir, dir = embedding_dir, task = "classification", batch_size = 2)
+print("jinaai/jina-embeddings-v5-text-small done")
+tictoc::toc()
+
+# Hvis version ikke er korrekt. Brug:
+# "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe" -m pip install "transformers==4.57.6" "huggingface_hub>=0.34,<1.0" "tokenizers>=0.22,<=0.23.0"
+# Restart R 
