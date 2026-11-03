@@ -19,8 +19,8 @@ friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 # sentence-transformers/all-mpnet-base-v2: median 352, p90 639, max 18907, share over limit 42.2%
 # BAAI/bge-large-en-v1.5: median 352, p90 639, max 18907, share over limit 19.8%
 
-#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+#python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
 embedding_dir <- "simulation/embeddings"
 
 # Embed corpus
@@ -35,21 +35,23 @@ tictoc::toc()
 #--------------------------------------------------------------------------
 params <- 
  tidyr::expand_grid(
-     model         = c("all-MiniLM-L6-v2", "tfidf", "jinaai/jina-embeddings-v5-text-small", "BAAI/bge-m3", "Alibaba-NLP/gte-base-en-v1.5", "Alibaba-NLP/gte-large-en-v1.5"),
+     model         = c("all-MiniLM-L6-v2", "tfidf"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = c(0.8, 0.9, 0.95),
      alpha         = c(0, 0.5, 1, 2),
      seed_pct      = 0.2,
+     seed_train_pct = c(0.5, 1),
      ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
-     seed          = 21092026
+     seed          = 03112026
  ) |> 
-  mutate(iterations = 2500) |>
+  mutate(iterations = 10) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
   # the worker-local cache then reloads roughly once per worker instead of once per row.
-  arrange(model, alpha)
+  arrange(model, alpha) |> 
+  tibble()
 
 # All look right?
 params
@@ -65,7 +67,7 @@ for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = 
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
-set.seed(21092026)
+set.seed(03112026)
 
 library(future)
 library(furrr)
