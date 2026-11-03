@@ -88,7 +88,7 @@ embed_corpus <-
   invisible(path)
 }
 
-#friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+#
 #
 #debugonce(embed_corpus)
 #
@@ -238,9 +238,13 @@ generate_prioritized_data <-
   # Step 15: Randomly split the correctly-caught seed studies into a training set 𝐒t and a
   # held-out validation set 𝐒v.
   St_idx <- sample.int(nrow(known_seed_studies), size = round(seed_train_pct * nrow(known_seed_studies)))
-  St <- known_seed_studies[St_idx, ]
-  Sv <- known_seed_studies[-St_idx, ]
-
+  if (seed_train_pct < 1){
+    St <- known_seed_studies[St_idx, ]
+    Sv <- known_seed_studies[-St_idx, ]
+  } else {
+    St <- known_seed_studies[St_idx, ]
+  }   
+  
   # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
   I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
 
@@ -278,10 +282,14 @@ generate_prioritized_data <-
   ## We need to remove the E studies from a_minus here.    
       
   #a_minus <- a_minus |> dplyr::filter(!.data[["eppi_id"]] %in% E_set[["eppi_id"]])
-      
-  P_star <- dplyr::bind_rows(a_minus, target$target_set, Sv) |>
+  
+  if (seed_train_pct < 1){    
+    P_star <- dplyr::bind_rows(a_minus, target$target_set, Sv) |>
     dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
-
+  } else {
+    P_star <- dplyr::bind_rows(a_minus, target$target_set) |>
+    dplyr::distinct(.data[["eppi_id"]], .keep_all = TRUE)
+  }
   # Step 20: Use ℳ to rank all records in 𝐏∗.
   x_pstar <- emb_rows(P_star[["eppi_id"]])
   
@@ -369,7 +377,7 @@ generate_prioritized_data <-
       
   res 
       
-}
+    }
 
 # ## Test
 # # # Load data with the "included_final" column indicating whether each record is a finally included study (1) or not (0)
@@ -760,23 +768,25 @@ run_sim <-
     
   }
 
-#set.seed(13082026)
-##
-#tictoc::tic()
-#sim_res <- 
-#  run_sim(
-#    iterations    = 10,
-#    data          = friends_data,
-#    model         = "all-MiniLM-L6-v2",
-#    included_var  = "decision_binary",
-#    c_target      = 0.90,
-#    R_c           = 0.95,
-#    alpha         = 0,
-#    seed_pct      = 0.2,
-#    seed_train_pct = 0.6,
-#    ai_miss_pct   = 0.4,
-#    seed          = 12
-#) 
-#tictoc::toc()
-#sim_res$wl_mean
-#sim_res$wl_se
+friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+
+set.seed(13082026)
+#
+tictoc::tic()
+sim_res <- 
+  run_sim(
+    iterations    = 10,
+    data          = friends_data,
+    model         = "all-MiniLM-L6-v2",
+    included_var  = "decision_binary",
+    c_target      = 0.90,
+    R_c           = 0.95,
+    alpha         = 0,
+    seed_pct      = 0.2,
+    seed_train_pct = 1,
+    ai_miss_pct   = 0.4,
+    seed          = 12
+) 
+tictoc::toc()
+sim_res$wl_mean
+sim_res$wl_se
