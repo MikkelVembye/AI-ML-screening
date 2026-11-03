@@ -8,7 +8,7 @@ library(purrr)
 library(tidyr)
 
 source("simulation/Simulation function.R")
-friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+friends_data <- readRDS("friends/data/friends_FRIENDS_3_cleaned.rds")
 
 # Models that can embed full title + abstract text (max seq_length = 8192):
 # Alibaba-NLP/gte-base-en-v1.5
@@ -115,19 +115,27 @@ save(params, results, session_info, run_date, file = "simulation/friends-simulat
 #--------------------------------------------------------------------------
 # TEST
 #-------------------------------------------------------------------------
+#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+python_dir <- "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe"
+embedding_dir <- "simulation/embeddings"
 
 params_test <- 
  tidyr::expand_grid(
-     model         = c("tfidf", "Alibaba-NLP/gte-base-en-v1.5", "jinaai/jina-embeddings-v5-text-small", "BAAI/bge-m3", "Alibaba-NLP/gte-large-en-v1.5"),
+     model         = c("tfidf",
+                      "all-MiniLM-L6-v2",
+                      "Alibaba-NLP/gte-base-en-v1.5",
+                      "jinaai/jina-embeddings-v5-text-small",
+                      "BAAI/bge-m3",
+                      "Alibaba-NLP/gte-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary", "human_code"),
      c_target      = 0.90,
      R_c           = 0.9,
-     alpha         = c(0, 0.5, 1, 2),
+     alpha         = 0,
      seed_pct      = 0.2,
      ai_miss_pct   = 0,
      seed          = 21092026
  ) |> 
-  mutate(iterations = 10) |>
+  mutate(iterations = 2) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -195,3 +203,8 @@ tictoc::toc()
 # Hvis version ikke er korrekt. Brug:
 # "C:/Users/B375477/AppData/Local/miniconda3/envs/positron-python/python.exe" -m pip install "transformers==4.57.6" "huggingface_hub>=0.34,<1.0" "tokenizers>=0.22,<=0.23.0"
 # Restart R 
+
+# friends_data |> dplyr::filter(included_final == 1) |> dplyr::count(decision_binary)
+# Print abstract of the ai missed finally included studies
+missed_by_ai <- friends_data |> dplyr::filter(included_final == 1, decision_binary == 0) |> dplyr::select(title, abstract, human_code, human_and_ai_in, decision_binary)
+glimpse(missed_by_ai)
