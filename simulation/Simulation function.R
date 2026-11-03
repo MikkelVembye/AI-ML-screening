@@ -445,10 +445,15 @@ estimate_f <- function(data) {
     na.rm = TRUE
   )
 
-  last_seed_row <- max(
-    data$row_number[data$is_seed == 1],
-    na.rm = TRUE
-  )
+  # Held-out seeds only exist if seed_train_pct < 1; otherwise all seed measures below are NA
+  if (any(data$is_seed == 1, na.rm = TRUE)) {
+    last_seed_row <- max(
+      data$row_number[data$is_seed == 1],
+      na.rm = TRUE
+    )
+  } else {
+    last_seed_row <- NA_integer_
+  }
 
    if (any(data$is_ai_missed == 1, na.rm = TRUE)) {
     last_ai_missed_row <-
@@ -491,11 +496,15 @@ estimate_f <- function(data) {
     na.rm = TRUE
   )
 
-  n_ai_missed_after_seed <- sum(
-    data$is_ai_missed == 1 &
-      data$row_number > last_seed_row,
-    na.rm = TRUE
-  )
+  if (is.na(last_seed_row)) {
+    n_ai_missed_after_seed <- NA_integer_
+  } else {
+    n_ai_missed_after_seed <- sum(
+      data$is_ai_missed == 1 &
+        data$row_number > last_seed_row,
+      na.rm = TRUE
+    )
+  }
 
   if (n_total_ai_missed == 0L) {
     pct_caught_of_ai_missed <- NA_real_
@@ -665,7 +674,7 @@ run_sim <-
    R_c,          
    alpha,        
    seed_pct,
-   seed_train_pct,       
+   seed_train_pct = 1,
    ai_miss_pct,
    seed,
    embed_dir = "simulation/embeddings"
