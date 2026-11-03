@@ -243,7 +243,8 @@ generate_prioritized_data <-
     Sv <- known_seed_studies[-St_idx, ]
   } else {
     St <- known_seed_studies[St_idx, ]
-  }   
+    Sv <- known_seed_studies[0, ]
+  }
   
   # Step 16: Define the included training set as: 𝐈 = 𝐒t%∪(𝐀𝐇+\ 𝐓)
   I_set <- dplyr::bind_rows(St, ah_plus |> dplyr::filter(!.data[["eppi_id"]] %in% target_ids))
@@ -777,25 +778,26 @@ run_sim <-
     
   }
 
-friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+# friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 
-set.seed(13082026)
-#
-tictoc::tic()
-sim_res <- 
-  run_sim(
-    iterations    = 10,
-    data          = friends_data,
-    model         = "all-MiniLM-L6-v2",
-    included_var  = "decision_binary",
-    c_target      = 0.90,
-    R_c           = 0.95,
-    alpha         = 0,
-    seed_pct      = 0.2,
-    seed_train_pct = 1,
-    ai_miss_pct   = 0.4,
-    seed          = 12
-) 
-tictoc::toc()
-sim_res$wl_mean
-sim_res$wl_se
+# set.seed(13082026)
+# #
+# tictoc::tic()
+# sim_res <- 
+#   run_sim(
+#     iterations    = 10,
+#     data          = friends_data,
+#     model         = "all-MiniLM-L6-v2",
+#     included_var  = "decision_binary",
+#     c_target      = 0.90,
+#     R_c           = 0.95,
+#     alpha         = 0,
+#     seed_pct      = 0.2,
+#     seed_train_pct = 1,
+#     ai_miss_pct   = 0.4,
+#     seed          = 12
+# ) 
+# tictoc::toc()
+# sim_res$wl_mean
+# sim_res$wl_se
+# dplyr::glimpse(sim_res)
