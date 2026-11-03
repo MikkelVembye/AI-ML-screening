@@ -86,9 +86,9 @@ embed_corpus <-
   saveRDS(embeddings, path)
 
   invisible(path)
-  }
+}
 
-friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+#friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
 #
 #debugonce(embed_corpus)
 #
@@ -412,28 +412,28 @@ generate_prioritized_data <-
 # # Build embeddings for the second model, if not already present.
 # embed_corpus(friends_data, "all-mpnet-base-v2", python_dir, dir = "simulation/embeddings")
 
-# tictoc::tic()
-# data_test_large <- generate_prioritized_data(
-#   data          = friends_data,
-#   model         = "all-mpnet-base-v2",
-#   included_var  = "human_and_ai_in",
-#   c_target      = 0.90,
-#   R_c           = 0.95,
-#   alpha         = 0,
-#   seed_pct      = 0.5,
-#   ai_miss_pct   = 0,
-#   seed          = NULL,
-#   embed_dir = "simulation/embeddings"
-# ) |>
-#   suppressWarnings()
-# tictoc::toc()
+#tictoc::tic()
+#data_test <- generate_prioritized_data(
+#  data          = friends_data,
+#  model         = "all-mpnet-base-v2",
+#  included_var  = "human_and_ai_in",
+#  c_target      = 0.90,
+#  R_c           = 0.95,
+#  alpha         = 0,
+#  seed_pct      = 0.5,
+#  ai_miss_pct   = 0,
+#  seed          = NULL,
+#  embed_dir = "simulation/embeddings"
+#) |>
+#  suppressWarnings()
+#tictoc::toc()
 
 
 #--------------------------------------------------------------------------
 # Estimation functions
 #--------------------------------------------------------------------------
 
-#last_target_row <- max(result_data$row_number[result_data$is_target == 1]) 
+#last_target_row <- max(data_test$row_number[data_test$is_target == 1]) 
 #last_target_row
 #last_seed_row   <- max(result_data$row_number[result_data$is_seed == 1])
 #last_ai_missed_row <- max(result_data$row_number[result_data$is_ai_missed == 1])
@@ -464,6 +464,11 @@ estimate_f <- function(data) {
   # have been found
   screened_relevant_at_target <- sum(
     data$included_final == 1 & data$row_number <= last_target_row,
+    na.rm = TRUE
+  )
+
+  any_relevant_after_target <- any(
+    data$included_final == 1 & data$row_number > last_target_row,
     na.rm = TRUE
   )
 
@@ -502,6 +507,17 @@ estimate_f <- function(data) {
 
   estimation_res <- data |>
     dplyr::summarise(
+
+      last_target = last_target_row,
+
+      any_relevant_after_target = any_relevant_after_target,
+
+      last_target_when_relevant_after = if (any_relevant_after_target) {
+        last_target_row
+      } else {
+        NA_integer_
+      },
+
       recall_pstar = recall_pstar,
 
       n_relevant_in_pstar = n_relevant_in_pstar,
@@ -555,9 +571,9 @@ estimate_f <- function(data) {
 }
 
 # debugonce(estimate_f)
-# data_test_small |> estimate_f() 
+# data_test |> estimate_f() |> View()
 # set.seed(13082026)
-# #
+# 
 # result_list <- 
 #   purrr::map(1:2, \(i) {
 #   generate_prioritized_data(
@@ -586,6 +602,12 @@ assess_performance <- function(results) {
     dplyr::summarise(
       n_sim = dplyr::n(),
       cnvg = mean(!is.na(workload_saved)),
+
+      # One list element per summary row; each contains the iteration-level values.
+      last_target_rows = list(last_target),
+      last_target_rows_when_relevant_after = list(
+        last_target[any_relevant_after_target]
+      ),
 
       # reliability check: recall over P* only. Compare to R_c.
       recall_pstar_mean = mean(recall_pstar, na.rm = TRUE),
@@ -626,7 +648,7 @@ assess_performance <- function(results) {
     dplyr::mutate(meets_guarantee = reliability_pstar >= R_c)
 }
 
-#assess_performance(result_list) |> View() 
+#assess_data <- assess_performance(result_list)
 
 
 #--------------------------------------------------------------------------
@@ -737,7 +759,7 @@ run_sim <-
   }
 
 #set.seed(13082026)
-#
+##
 #tictoc::tic()
 #sim_res <- 
 #  run_sim(
