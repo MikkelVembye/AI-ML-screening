@@ -6,47 +6,50 @@ library(future)
 # Prompt
 #--------------------------------------------------------------------------
 prompt <- "Evaluate the following study based on the selection criteria
- for a systematic review and meta-analysis on the association between the quality of the
- teacher-student relationship and students' relationships with their peers in school.
- The teacher-student relationship is the relationship between a teacher and a student or a class. It covers
- positive aspects such as closeness, warmth, trust, care, support and feeling related to teachers, and negative
- aspects such as conflict, negativity, dependency, and bullying or verbal abuse by the teacher. A teacher's warm,
- caring, supportive or authoritative way of treating students, as the students perceive it, counts as well, also when
- the study calls it classroom climate. It can be reported by the
- student, by the teacher or by an observer. In many studies it is called teacher support, perceived support from
- teachers, teacher-child relationship or child-teacher interaction, and it often appears as one of several sources
- of social support (parents, teachers, classmates, friends). Peer relationships means how students get along with
- other children in school: peer acceptance and rejection (however it is measured, also with peer nominations),
- social preference, popularity, friendships, classmate relationships, support from classmates, feeling related to
- peers, peer victimization and bullying (as victim, bully or both). Cohesiveness or friendship between the students
- in the classroom, social integration in the class, sense of community among classmates and social status among
- classmates count as well. The studies are quantitative studies of children and adolescents from pre-school to the
- end of secondary school. You only have the title and the abstract and the full text is checked later, so be
- generous: it is much worse to exclude a study that belongs in the review than to include one that does not. Use the
- title as well as the abstract: if the title names teacher-student relations or peer relations as something that
- was studied, count it as measured.
- The teacher-student relationship and the peer relationships do not have to be analysed together, or related to
- each other, in the abstract. It is enough that both are measured in the same study, for example when support
- from teachers and support from classmates are both used to predict grades, well-being or behavior, or when
- bullying is studied together with teacher support. Each of them can be a predictor, an outcome, a mediator, a
- moderator or a control variable. Teaching methods, instructional quality, classroom management and teacher
- stress do not count by themselves, only if the study also looks at how teachers and students relate.
- For each study, I would like you to assess in this order:
- 1) Are the participants children or adolescents in school (pre-school, primary or secondary school, roughly
- age 3-18)? Studies of university students, adults or only teachers do not count. If not, exclude study.
- 2) Does the study measure or report something about the relationship between teachers and students? Teacher
- support, support from teachers as one of several support sources, closeness, conflict, warmth, relatedness to
- teachers and teacher behavior toward students such as verbal abuse all count. If not, exclude study.
- 3) Does the study measure or report something about peer relationships? Classmate support, relationships with
- classmates, relatedness to peers, friendships, peer acceptance or rejection, victimization and bullying all count.
- If not, exclude study.
- 4) Are both of them measured in the same study? A study that has both teacher support and classmate support, or
- bullying together with teacher support, counts even if the two are only used as separate predictors. If the abstract
- only has one of them, exclude study.
- 5) Is it an original quantitative study? Surveys, questionnaires, observations, longitudinal studies and experiments
- count, and so do mixed methods studies with a quantitative part. Purely qualitative studies, literature reviews,
- meta-analyses, theory papers and book reviews are excluded. If not, exclude study.
- If all five questions are answered yes or probably yes, include the study. If you are unsure, include the study."
+ for a systematic review and meta-analysis on the association between the affective quality of the
+ teacher-student relationship and students' relationships with their classmates. The review only uses studies in
+ which individual students have a score on both. You only have the title and the abstract, and the full text is
+ checked later. Go through the exclusion rules first. If ANY one of them applies, exclude the study. If none
+ applies, go through the inclusion rules and include the study only if ALL three are met. Say which rule decided.
+
+ EXCLUDE the study if any one of these applies:
+ X1) It is not an empirical study that reports data on students: purely qualitative studies, literature reviews,
+ meta-analyses, theory papers, case studies, book reviews.
+ X2) The sample is not from preschool, primary, middle or secondary education (roughly age 3-18): university
+ students, adults, or only teachers.
+ X3) Only one of the two relationships is studied: only the teacher-student relationship (for example with
+ achievement, motivation or engagement), or only peers (for example bullying or friendships without a teacher
+ variable).
+ X4) The teacher side is not about the relationship: teaching methods, instructional quality, classroom
+ management, teacher expectations, feedback, teacher stress, teacher training.
+ X5) The peers are not classmates: peers or friends outside school, in free time or in sports clubs, peer
+ pressure, peer influence, deviant peers, peer groups, peer-assisted learning or tutoring.
+ X6) The abstract clearly says there are only class-level or school-level scores, or it studies general
+ classroom climate, school climate, school belonging, connectedness, satisfaction, engagement or well-being
+ without separate measures of the teacher and of the classmates.
+ X7) Teacher support and general peer or friend support are the only two measures, listed among several sources
+ of social support (parents, teachers, peers, friends) that predict an unrelated outcome such as well-being,
+ health, depression, suicide, achievement, engagement or aggression.
+ X8) It evaluates an intervention, program or training, or develops a scale, and does not measure both
+ relationships as variables.
+
+ INCLUDE the study only if all three are shown in the title or abstract:
+ I1) The affective side of the teacher-student relationship was measured: closeness, warmth, trust, care,
+ affection, relatedness or attachment to the teacher; conflict, negativity, dependency, or hostile or abusive
+ behavior by the teacher; teacher support or emotional support from teachers; the emotional quality of observed
+ teacher-child interactions (sensitivity, warmth, conflict); or a named student-teacher or teacher-child
+ relationship.
+ I2) The relationships with classmates were measured: peer acceptance or rejection, being liked or disliked,
+ social preference, popularity or social status, sociometric or peer nominations, friendships, relationships
+ with classmates, or support from classmates. The peers of school students are their classmates unless the
+ abstract says otherwise, so these count even when the word classmates is not used. Peer victimization or
+ bullying counts only when the teacher side is closeness, conflict, warmth, relatedness or a named
+ student-teacher or teacher-child relationship, not teacher support alone. Only general peer support, peer
+ relations, peer interactions or friends, without one of the measures above, does not count.
+ I3) Both were measured for the same students. They do not have to be analysed together. Either can be a
+ predictor, an outcome, a mediator, a moderator or a control variable, and it does not matter when they were
+ measured. A measure of child behavior is not required.
+ If the abstract does not clearly show I1 and I2, or if you are unsure about them, exclude the study."
 
 
 #--------------------------------------------------------------------------
@@ -69,6 +72,45 @@ unique_citations <- CiteSource::dedup_citations(endedijk_raw, manual = TRUE)$uni
 
 # If a record has included_final = 1, then human_code must be 1 (included). If not, set human_code to 1.
 unique_citations <- unique_citations |> mutate(human_code = ifelse(included_final == 1, 1, human_code))
+
+# Duplicates that CiteSource missed: the same study with a different title format (case, punctuation, HTML
+# escapes such as &apos;). One copy is kept per study, with the highest labels of its copies. All copies, with
+# their original labels and a kept flag, are saved so the removal can be checked.
+duplicate_check <- unique_citations |>
+  mutate(
+    title_key = gsub("[^a-z0-9]", "", gsub("&apos;|&amp;|&quot;|&#39;", "", tolower(title))),
+    title_key = ifelse(nzchar(title_key) & !is.na(title_key), title_key, paste0("no_title_", id)),
+    abstract_chars = nchar(coalesce(abstract, ""))
+  ) |>
+  group_by(title_key) |>
+  mutate(
+    n_copies = n(),
+    human_code_original = human_code,
+    included_final_original = included_final,
+    human_code = max(human_code),
+    included_final = max(included_final)
+  ) |>
+  arrange(desc(abstract_chars), as.numeric(id), .by_group = TRUE) |>
+  mutate(kept = row_number() == 1) |>
+  ungroup()
+
+duplicate_copies <- duplicate_check |>
+  filter(n_copies > 1) |>
+  arrange(title_key, desc(kept)) |>
+  select(title_key, kept, n_copies, id, title, year, abstract_chars,
+         human_code_original, included_final_original, human_code, included_final)
+#saveRDS(duplicate_copies, "Endedijk/data/duplicates_Endedijk.rds")
+
+cat("Duplicate studies (same title):                ", n_distinct(duplicate_copies$title_key), "\n")
+cat("  extra copies removed:                        ", sum(!duplicate_copies$kept), "\n")
+cat("  removed copies that were finally included:   ", sum(!duplicate_copies$kept & duplicate_copies$included_final_original == 1), "\n")
+cat("  studies whose copies had different labels:   ",
+    sum(tapply(duplicate_copies$human_code_original, duplicate_copies$title_key, function(x) length(unique(x))) > 1 |
+        tapply(duplicate_copies$included_final_original, duplicate_copies$title_key, function(x) length(unique(x))) > 1), "\n")
+
+unique_citations <- duplicate_check |>
+  filter(kept) |>
+  select(-title_key, -abstract_chars, -n_copies, -human_code_original, -included_final_original, -kept)
 
 # All records without an abstract are removed before screening, including finally included studies
 no_abstract <- is.na(unique_citations$abstract) | trimws(unique_citations$abstract) == "" | unique_citations$abstract == "No information"
@@ -104,8 +146,9 @@ res_test <- AIscreenR::tabscreen_gpt(
   abstract = abstract,
   model = "gpt-6-luna",
   reps = 1,
-  reasoning_effort = "medium",
+  reasoning_effort = "high",
   verbosity = "low",
+  overinclusive = FALSE, # default TRUE lets the AI answer "1.1" (unsure), which counts as include
   decision_description = TRUE # explanations, to see why records were wrongly excluded/included
 )
 
@@ -120,7 +163,7 @@ fn_final_included <- res_test$answer_data |>
   filter(decision_binary == 0, included_final == 1) |>
   select(id, title, abstract, detailed_description)
 
-for (i in 1:nrow(fn_final_included)) {
+for (i in seq_len(nrow(fn_final_included))) {
   cat("ID:", fn_final_included$id[i], "\n")
   cat("Title:", fn_final_included$title[i], "\n")
   cat("Abstract:", fn_final_included$abstract[i], "\n")
@@ -130,9 +173,9 @@ for (i in 1:nrow(fn_final_included)) {
 # Human excluded studies the AI included, with its explanation
 fp_human_code <- res_test$answer_data |>
   filter(decision_binary == 1, human_code == 0) |>
-  select(id, title,abstract, detailed_description)
+  select(id, title, abstract, detailed_description)
 
-for (i in 1:nrow(fp_human_code)) {
+for (i in seq_len(nrow(fp_human_code))) {
   cat("ID:", fp_human_code$id[i], "\n")
   cat("Title:", fp_human_code$title[i], "\n")
   cat("Abstract:", fp_human_code$abstract[i], "\n")
@@ -152,8 +195,9 @@ res_all <- AIscreenR::tabscreen_gpt(
   abstract = abstract,
   model = "gpt-6-luna",
   reps = 1,
-  reasoning_effort = "medium",
+  reasoning_effort = "high",
   verbosity = "low",
+  overinclusive = FALSE,
   decision_description = FALSE
 )
 
