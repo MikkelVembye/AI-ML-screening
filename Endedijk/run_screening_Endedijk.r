@@ -128,32 +128,12 @@ cat("Records to screen:                             ", nrow(screening_data), "\n
 # Small test set
 #--------------------------------------------------------------------------
 # 50 human in + 50 human out (none of them finally included) + all finally included studies
-# + 100 human out studies that an earlier AI run wrongly included, to see if the prompt now excludes them
 set.seed(123)
-earlier_fp_ids <- if (file.exists("Endedijk/data/screening_Endedijk_ai.rds")) {
-  earlier <- readRDS("Endedijk/data/screening_Endedijk_ai.rds")$answer_data
-  as.character(earlier$id[earlier$decision_binary == 1 & earlier$human_code == 0])
-} else character(0)
-
 test_data <- bind_rows(
   screening_data |> filter(included_final == 1),
   screening_data |> filter(included_final == 0, human_code == 1) |> slice_sample(n = 50),
-  screening_data |> filter(included_final == 0, human_code == 0, !id %in% earlier_fp_ids) |> slice_sample(n = 50),
-  screening_data |> filter(id %in% earlier_fp_ids) |> slice_sample(n = min(100, length(earlier_fp_ids)))
-) |>
-  mutate(earlier_fp = id %in% earlier_fp_ids) # TRUE = was wrongly included by the earlier AI run
-
-# The test set is not a random sample, so the share of studies the AI includes in it says nothing about the
-# whole dataset. Each group is therefore weighted by its size in the whole dataset (see below).
-add_stratum <- function(x) {
-  x |> mutate(stratum = case_when(
-    included_final == 1       ~ "final_included",
-    id %in% earlier_fp_ids    ~ "earlier_ai_false_positive",
-    human_code == 1           ~ "human_in_not_final",
-    TRUE                      ~ "human_out_other"
-  ))
-}
-test_data <- add_stratum(test_data)
+  screening_data |> filter(included_final == 0, human_code == 0) |> slice_sample(n = 50)
+)
 table(human_code = test_data$human_code, included_final = test_data$included_final)
 
 plan(multisession)
@@ -168,8 +148,8 @@ res_test <- AIscreenR::tabscreen_gpt(
   reps = 1,
   reasoning_effort = "high",
   verbosity = "low",
-  overinclusive = FALSE,
-  decision_description = TRUE
+  overinclusive = FALSE, # default TRUE lets the AI answer "1.1" (unsure), which counts as include
+  decision_description = TRUE # explanations, to see why records were wrongly excluded/included
 )
 
 plan(sequential)
@@ -178,43 +158,28 @@ AIscreenR::screen_analyzer(res_test)
 table(AI = res_test$answer_data$decision_binary, human = res_test$answer_data$human_code)
 table(AI = res_test$answer_data$decision_binary, final = res_test$answer_data$included_final)
 
-# Human excluded studies only: random ones vs the ones the earlier AI run wrongly included
-res_test$answer_data |>
-  filter(human_code == 0) |>
-  count(earlier_fp, AI = decision_binary)
-
-# Estimated share of ALL studies the AI would include (the earlier full run included 23.7%).
-# Note: earlier_fp_ids come from screening_Endedijk_ai.rds, so do not overwrite that file before testing.
-group_sizes <- screening_data |> add_stratum() |> count(stratum, name = "n_all")
-res_test$answer_data |>
-  group_by(stratum) |>
-  summarise(ai_include_rate = mean(decision_binary == 1), n_test = n()) |>
-  left_join(group_sizes, by = "stratum") |>
-  mutate(ai_included_all = ai_include_rate * n_all) |>
-  summarise(estimated_ai_included_share = sum(ai_included_all) / sum(n_all))
-
 # Finally included studies the AI excluded, with its explanation
 fn_final_included <- res_test$answer_data |>
   filter(decision_binary == 0, included_final == 1) |>
   select(id, title, abstract, detailed_description)
 
-# Short version (title and the start of the explanation), so the whole list fits in a copy-paste.
-# Use the abstract only for a single study: fn_final_included$abstract[fn_final_included$id == "3801"]
-cat("Final included, missed by the AI:", nrow(fn_final_included), "\n")
 for (i in seq_len(nrow(fn_final_included))) {
-  cat("[", fn_final_included$id[i], "] ", fn_final_included$title[i], "\n   ",
-      substr(fn_final_included$detailed_description[i], 1, 250), "\n", sep = "")
+  cat("ID:", fn_final_included$id[i], "\n")
+  cat("Title:", fn_final_included$title[i], "\n")
+  cat("Abstract:", fn_final_included$abstract[i], "\n")
+  cat("AI explanation:", fn_final_included$detailed_description[i], "\n\n")
 }
 
 # Human excluded studies the AI included, with its explanation
 fp_human_code <- res_test$answer_data |>
   filter(decision_binary == 1, human_code == 0) |>
-  select(id, title,abstract, detailed_description)
+  select(id, title, abstract, detailed_description)
 
-cat("Human excluded, included by the AI:", nrow(fp_human_code), "\n")
 for (i in seq_len(nrow(fp_human_code))) {
-  cat("[", fp_human_code$id[i], "] ", fp_human_code$title[i], "\n   ",
-      substr(fp_human_code$detailed_description[i], 1, 250), "\n", sep = "")
+  cat("ID:", fp_human_code$id[i], "\n")
+  cat("Title:", fp_human_code$title[i], "\n")
+  cat("Abstract:", fp_human_code$abstract[i], "\n")
+  cat("AI explanation:", fp_human_code$detailed_description[i], "\n\n")
 }
 
 #--------------------------------------------------------------------------
