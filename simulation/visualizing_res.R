@@ -9,7 +9,8 @@ library(tidyverse)
 # Load results from simulation\friends-simulation-results-test.Rdata
 load("simulation/friends-simulation-results3.Rdata")
 stopifnot(nrow(results) == nrow(params))
-results$ai_embedded <- params$ai_embedded
+# Older result files have no ai_embedded column; treat those runs as not AI-embedded
+results$ai_embedded <- if ("ai_embedded" %in% names(params)) params$ai_embedded else FALSE
 
 # print the different values for each parameter
 params %>%
@@ -485,3 +486,24 @@ fig6 <-
   theme_sim
 
 fig6
+
+
+# Last target position
+
+gte_base_dat <- 
+  results |> 
+  filter(R_c == 0.95, str_detect(model, "gte-base"), alpha == 0, c_target == 0.9, ai_miss_pct == 0.4, seed_train_pct == 1, included_var == "decision_binary")
+
+d <- density(ltr$last_target_row)
+pt <- data.frame(x = mx, y = approx(d$x, d$y, xout = mx)$y)
+ggplot(ltr, aes(last_target_row)) +
+  geom_density() +
+  geom_vline(data = rel_after, aes(xintercept = last_target_row, color = "Relevant study found after target"),
+             alpha = 0.5) +
+  geom_point(data = pt, aes(x, y), size = 3) +
+  annotate("text", x = mx + 4, y = pt$y, hjust = 0, vjust = -0.8,
+           label = "Row 106 (6.4th percentile)") +
+  coord_cartesian(xlim = c(70, 250)) +
+  labs(x = "Row at which the last target study is found", y = "Density", color = NULL) +
+  theme(legend.position = "top")
+
