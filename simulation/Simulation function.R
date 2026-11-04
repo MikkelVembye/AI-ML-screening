@@ -324,8 +324,9 @@ generate_prioritized_data <-
       seed_train_pct = seed_train_pct,
       included_var = included_var,
       ai_miss_pct = ai_miss_pct,
+      n_irrelevant_test_records = n_irrelevant_test_records,
       run_time_sec = run_time_sec
-  ) |> 
+  ) |>
     dplyr::mutate(
       train_model = dplyr::case_when(
         alpha == 2 ~ "Random Forest",
@@ -661,7 +662,7 @@ assess_performance <- function(results) {
       
       mean_n_ai_missed_after_seed = mean(n_ai_missed_after_seed, na.rm = TRUE),
       se_n_ai_missed_after_seed = sd(n_ai_missed_after_seed, na.rm = TRUE)/ sqrt(n_sim),
-      .by = data_name:ai_miss_pct
+      .by = data_name:n_irrelevant_test_records
     ) |>
     dplyr::mutate(meets_guarantee = reliability_pstar >= R_c)
 }
@@ -686,7 +687,8 @@ run_sim <-
    seed_train_pct = 1,
    ai_miss_pct,
    seed,
-   embed_dir = "simulation/embeddings"
+   embed_dir = "simulation/embeddings",
+   n_irrelevant_test_records = 200 # size of the irrelevant test set; lower it for small datasets
   ) {
 
     #require(dplyr)
@@ -712,6 +714,7 @@ run_sim <-
             seed_pct      = seed_pct,
             seed_train_pct = seed_train_pct,
             ai_miss_pct   = ai_miss_pct,
+            n_irrelevant_test_records = n_irrelevant_test_records,
             seed          = iteration_seed
           ) |>
             suppressWarnings() |> 
