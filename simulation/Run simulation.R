@@ -35,7 +35,7 @@ tictoc::toc()
 #--------------------------------------------------------------------------
 params <- 
  tidyr::expand_grid(
-     model         = c("all-MiniLM-L6-v2", "tfidf"),
+     model         = c("all-MiniLM-L6-v2", "tfidf", "BAAI/bge-m3", "Alibaba-NLP/gte-base-en-v1.5", "Alibaba-NLP/gte-large-en-v1.5"),
      included_var  = c("human_and_ai_in", "decision_binary"),
      c_target      = 0.90,
      R_c           = c(0.8, 0.9, 0.95),
@@ -45,7 +45,7 @@ params <-
      ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
      seed          = 03112026
  ) |> 
-  mutate(iterations = 10) |>
+  mutate(iterations = 2500) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -99,7 +99,7 @@ results <- tryCatch(
   purrr::list_rbind()
 
 tictoc::toc()
-# 104515.14 sec elapsed
+# 107775.92 sec elapsed
 
 results$wl_mean
 
@@ -135,7 +135,7 @@ params_test <-
      ai_miss_pct   = 0,
      seed          = 21092026
  ) |> 
-  mutate(iterations = 2) |>
+  mutate(iterations = 2500) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -146,7 +146,7 @@ params_test <-
 params_test
 nrow(params_test)
 
-set.seed(21092026)
+set.seed(03112026)
 
 library(future)
 library(furrr)

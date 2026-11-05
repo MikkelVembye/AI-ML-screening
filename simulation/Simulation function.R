@@ -9,8 +9,8 @@
 # Embeddings are deterministic i.e. doesnt vary across iterations, so they are precomputed once per (dataset, model) and reused by every
 # design row and every iteration. https://medium.com/@karamvirhapal/encoding-vs-embedding-models-both-output-numbers-different-stories-5c85eced1801
 
-#python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
-#embedding_dir <- "simulation/embeddings"
+python_dir <- "C:/Users/B199526/AppData/Local/miniconda3/envs/positron-python/python.exe"
+embedding_dir <- "simulation/embeddings"
 
 # Function to embed the corpus using a specified model and save the embeddings to a file
 # The special model name "tfidf" gives a text2vec TF-IDF matrix instead of a sentence-transformers embedding
@@ -541,6 +541,8 @@ estimate_f <- function(data) {
 
       n_relevant_in_pstar = n_relevant_in_pstar,
 
+      n_missed_pstar = n_missed_pstar,
+
       # 1 if exactly 1 / exactly 2 / more than 2 relevant studies in P* were missed at the stopping point
       exactly_1_missed = as.integer(n_missed_pstar == 1L),
 
@@ -626,6 +628,11 @@ assess_performance <- function(results) {
       last_target_rows = list(last_target),
       last_target_rows_when_relevant_after = list(
         last_target[any_relevant_after_target]
+      ),
+
+      # Same filter and iteration order as last_target_rows_when_relevant_after.
+      n_missed_pstar_when_relevant_after = list(
+        n_missed_pstar[any_relevant_after_target]
       ),
 
       # reliability check: recall over P* only. Compare to R_c.
@@ -781,26 +788,26 @@ run_sim <-
     
   }
 
-# friends_data <- readRDS("friends/data/friends_FRIENDS_2_cleaned.rds")
+friends_data <- readRDS("friends/data/friends_FRIENDS_3_cleaned.rds")
 
-# set.seed(13082026)
-# #
-# tictoc::tic()
-# sim_res <- 
-#   run_sim(
-#     iterations    = 10,
-#     data          = friends_data,
-#     model         = "all-MiniLM-L6-v2",
-#     included_var  = "decision_binary",
-#     c_target      = 0.90,
-#     R_c           = 0.95,
-#     alpha         = 0,
-#     seed_pct      = 0.2,
-#     seed_train_pct = 1,
-#     ai_miss_pct   = 0.4,
-#     seed          = 12
-# ) 
-# tictoc::toc()
-# sim_res$wl_mean
-# sim_res$wl_se
-# dplyr::glimpse(sim_res)
+set.seed(13082026)
+
+tictoc::tic()
+sim_res <- 
+  run_sim(
+    iterations    = 10,
+    data          = friends_data,
+    model         = "all-MiniLM-L6-v2",
+    included_var  = "decision_binary",
+    c_target      = 0.90,
+    R_c           = 0.95,
+    alpha         = 0,
+    seed_pct      = 0.2,
+    seed_train_pct = 1,
+    ai_miss_pct   = 0.4,
+    seed          = 12
+) 
+tictoc::toc()
+sim_res$wl_mean
+sim_res$wl_se
+dplyr::glimpse(sim_res)
