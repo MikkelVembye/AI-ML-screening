@@ -43,7 +43,7 @@ params <-
      seed_pct      = 0.2,
      seed_train_pct = c(0.5, 1),
      ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
-     seed          = 03112026
+     seed          = 07112026
  ) |> 
   mutate(iterations = 2500) |>
   relocate(iterations) |>
@@ -67,7 +67,7 @@ for (m in unique(params$model)) embed_corpus(friends_data, m, python_dir, dir = 
 #--------------------------------------------------------------------------
 # Run simulation
 #--------------------------------------------------------------------------
-set.seed(03112026)
+set.seed(07112026)
 
 library(future)
 library(furrr)
@@ -102,6 +102,7 @@ tictoc::toc()
 # 107775.92 sec elapsed
 
 results$wl_mean
+results$need_see_mean
 
 #--------------------------------------------------------
 # Save results and details
@@ -110,7 +111,7 @@ results$wl_mean
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/friends-simulation-results3.Rdata")
+save(params, results, session_info, run_date, file = "simulation/friends-simulation-results4.Rdata")
 
 #--------------------------------------------------------------------------
 # TEST
