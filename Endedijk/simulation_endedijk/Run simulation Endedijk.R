@@ -30,7 +30,7 @@ test_run <- generate_prioritized_data(
   c_target       = 0.95,
   R_c            = 0.9,
   alpha          = 0,
-  seed_pct       = 0.5,
+  known_seed_pct = 0.5,
   ai_miss_pct    = 0,
   seed           = 03112026,
   embed_dir      = embedding_dir
@@ -78,7 +78,7 @@ params <-
     R_c            = 0.9,
     alpha          = c(0, 0.5, 1, 2),
     ai_miss_pct    = 0,
-    seed_pct       = 0.5,
+    known_seed_pct = 0.1,
     seed           = 03112026
   ) |>
   mutate(iterations = 1000) |>
@@ -136,14 +136,16 @@ for (i in which(results$n_more_than_2_missed > 0)) {
   print(params[i, ])
   cat("\n")
 }
-
+results$need_see_mean
+results$missed_after_target_pct
+results$recall_pstar_mean
 #--------------------------------------------------------------------------
 # Save results and details
 #--------------------------------------------------------------------------
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/endedijk-simulation-results.Rdata")
+save(params, results, session_info, run_date, file = "Endedijk/data/results/endedijk-simulation-results.Rdata")
 
 #--------------------------------------------------------------------------
 # Plot: workload saved for each design

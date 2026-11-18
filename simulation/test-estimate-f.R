@@ -23,7 +23,7 @@ local({
       c_target = 0.95,
       R_c = 0.95,
       alpha = 0,
-      seed_pct = 1,
+      known_seed_pct = 1,
       seed_train_pct = 1,
       included_var = "human_and_ai_in",
       ai_miss_pct = 0,

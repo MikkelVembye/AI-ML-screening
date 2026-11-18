@@ -27,10 +27,10 @@ test_run <- generate_prioritized_data(
   data           = asylum_data,
   model          = "tfidf",
   included_var   = "human_and_ai_in",
-  c_target       = 0.95,
+  c_target       = 0.9,
   R_c            = 0.95,
   alpha          = 0,
-  seed_pct       = 1,
+  known_seed_pct = 0.2,
   seed_train_pct = 1,
   ai_miss_pct    = 0,
   n_irrelevant_test_records = 200,
@@ -84,13 +84,13 @@ params <-
                        "Alibaba-NLP/gte-base-en-v1.5",
                        "Alibaba-NLP/gte-large-en-v1.5"),
     included_var   = c("human_and_ai_in", "decision_binary"),
-    c_target       = c(0.8, 0.9),
-    R_c            = c(0.8, 0.9),
+    c_target       = 0.9,
+    R_c            = c(0.8, 0.9, 0.95),
     alpha          = c(0, 0.5, 1, 2),
-    seed_pct       = 0.2,
+    known_seed_pct = 0.2,
     seed_train_pct = 1,
-    ai_miss_pct    = 0,
-    n_irrelevant_test_records = 50,
+    ai_miss_pct    = c(0, 0.1, 0.2, 0.4),
+    n_irrelevant_test_records = 200,
     seed           = 03112026
   ) |>
   mutate(iterations = 10) |>
@@ -148,28 +148,5 @@ glimpse(results)
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/asylum-simulation-results.Rdata")
-
-#--------------------------------------------------------------------------
-# Plot: workload saved for each design
-#--------------------------------------------------------------------------
-library(ggplot2)
-
-# results already holds the design columns, one row per row in params
-results |>
-  mutate(model = sub(".*/", "", model)) |> # short model names
-  ggplot(aes(x = model, y = wl_mean, color = factor(alpha))) +
-  geom_pointrange(
-    aes(ymin = wl_mean - 1.96 * wl_se, ymax = wl_mean + 1.96 * wl_se),
-    position = position_dodge(width = 0.6)
-  ) +
-  facet_grid(included_var ~ ai_miss_pct + R_c + seed_train_pct, labeller = label_both) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = NULL, y = "Workload saved", color = "alpha",
-       title = "Workload saved by design (mean and 95% CI)") +
-  theme_minimal() +
-  theme(legend.position = "bottom",
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(size = 7))
-
+save(params, results, session_info, run_date, file = "asylum/data/results/asylum-simulation-results.Rdata")
 
