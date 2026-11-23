@@ -28,10 +28,9 @@ test_run <- generate_prioritized_data(
   model          = "tfidf",
   included_var   = "human_and_ai_in",
   c_target       = 0.95,
-  R_c            = 0.95,
+  R_c            = 0.9,
   alpha          = 0,
-  seed_pct       = 0.2,
-  seed_train_pct = 1,
+  known_seed_pct = 0.5,
   ai_miss_pct    = 0,
   seed           = 03112026,
   embed_dir      = embedding_dir
@@ -51,7 +50,7 @@ left_after_target <- test_run |>
 cat("Last target at row:", last_target_row, "of", nrow(test_run), "\n")
 cat("Finally included studies in the priority set:", sum(test_run$included_final == 1, na.rm = TRUE), "\n")
 cat("Finally included studies left after the last target:", nrow(left_after_target), "\n")
-left_after_target
+left_after_target$abstract
 
 #--------------------------------------------------------------------------
 # Embeddings
@@ -76,14 +75,13 @@ params <-
                        "Alibaba-NLP/gte-large-en-v1.5"),
     included_var   = c("human_and_ai_in", "decision_binary"),
     c_target       = 0.95,
-    R_c            = 0.95,
+    R_c            = 0.9,
     alpha          = c(0, 0.5, 1, 2),
-    seed_pct       = 0.2,
-    seed_train_pct = 1,
     ai_miss_pct    = 0,
+    known_seed_pct = 0.1,
     seed           = 03112026
   ) |>
-  mutate(iterations = 10) |>
+  mutate(iterations = 1000) |>
   relocate(iterations) |>
   as.data.frame() |>
   # Sort by model so each worker gets a contiguous block of rows sharing one embedding matrix:
@@ -131,14 +129,23 @@ results <- tryCatch(
 
 tictoc::toc()
 glimpse(results)
-
+results$reliability_pstar
+# Print parameters for the rows with more than 2 missed finally included studies
+for (i in which(results$n_more_than_2_missed > 0)) {
+  cat("Row", i, "parameters:\n")
+  print(params[i, ])
+  cat("\n")
+}
+results$need_see_mean
+results$missed_after_target_pct
+results$recall_pstar_mean
 #--------------------------------------------------------------------------
 # Save results and details
 #--------------------------------------------------------------------------
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/endedijk-simulation-results.Rdata")
+save(params, results, session_info, run_date, file = "Endedijk/data/results/endedijk-simulation-results.Rdata")
 
 #--------------------------------------------------------------------------
 # Plot: workload saved for each design

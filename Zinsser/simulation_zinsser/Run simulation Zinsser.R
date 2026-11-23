@@ -30,7 +30,7 @@ test_run <- generate_prioritized_data(
   c_target       = 0.80,
   R_c            = 0.80,
   alpha          = 0,
-  seed_pct       = 0.2,
+  known_seed_pct = 0.2,
   seed_train_pct = 1,
   ai_miss_pct    = 0,
   n_irrelevant_test_records = 50,
@@ -87,7 +87,7 @@ params <-
     c_target       = c(0.8, 0.9),
     R_c            = c(0.8, 0.9),
     alpha          = c(0, 0.5, 1, 2),
-    seed_pct       = 0.2,
+    known_seed_pct = 0.2,
     seed_train_pct = 1,
     ai_miss_pct    = 0,
     n_irrelevant_test_records = 50,
@@ -148,7 +148,7 @@ glimpse(results)
 session_info <- sessionInfo()
 run_date <- date()
 
-save(params, results, session_info, run_date, file = "simulation/zinsser-simulation-results.Rdata")
+save(params, results, session_info, run_date, file = "Zinsser/data/results/zinsser-simulation-results.Rdata")
 
 #--------------------------------------------------------------------------
 # Plot: workload saved for each design

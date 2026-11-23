@@ -40,7 +40,7 @@ params <-
      c_target      = 0.90,
      R_c           = c(0.8, 0.9, 0.95),
      alpha         = c(0, 0.5, 1, 2),
-     seed_pct      = 0.2,
+     known_seed_pct = 0.2,
      seed_train_pct = c(0.5, 1),
      ai_miss_pct   = c(0, 0.1, 0.2, 0.4),
      seed          = 07112026
@@ -132,7 +132,7 @@ params_test <-
      c_target      = 0.90,
      R_c           = 0.9,
      alpha         = 0,
-     seed_pct      = 0.2,
+     known_seed_pct = 0.2,
      ai_miss_pct   = 0,
      seed          = 21092026
  ) |> 

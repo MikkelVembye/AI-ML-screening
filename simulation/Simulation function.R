@@ -147,7 +147,7 @@ generate_prioritized_data <-
       R_c           = 0.95, # desired target reliability for the priority screening process
       alpha         = 0, # regularization parameter for the logistic regression model (1 for LASSO, 0 for Ridge, between 0 and 1 for Elastic Net). If alpha = 2 it uses Random Forest instead of logistic regression.
       ai_miss_pct   = 0, # percentage of finally included studies to artificially flip to AI-missed (0 for no artificial flipping, 1 for all finally included studies flipped)
-      seed_pct      = 1, # percentage of the finally included studies to extract as the "seed studies" pool used below; the remainder are folded back into the candidate pool as ordinary records, findable only through the normal AH+/A- screening process
+      known_seed_pct = 0.1, # share of the finally included studies that are already known before screening starts. the rest go back into the candidate pool
       seed_train_pct = 1, # percentage of the seed studies to use for training the model; the remainder are held out for validation
       embed_dir     = embedding_dir, # where load_embeddings() looks for the precomputed matrix; only needs overriding in tests or when workers see a different working directory
       seed          = NULL
@@ -199,8 +199,8 @@ generate_prioritized_data <-
     caught_final_inc <- final_inc_studies
   }
 
-  # Extract seed studies as a percentage of the finally included studies
-  n_seed <- max(2L, as.integer(round(seed_pct * nrow(caught_final_inc))))
+  # Extract the known seed studies as a share (known_seed_pct) of the caught finally included studies
+  n_seed <- max(2L, as.integer(round(known_seed_pct * nrow(caught_final_inc))))
 
   seed_idx <- sample.int(nrow(caught_final_inc), size = n_seed)
   known_seed_studies <- caught_final_inc[seed_idx, , drop = FALSE]
@@ -320,7 +320,7 @@ generate_prioritized_data <-
       c_target = c_target,
       R_c = R_c,
       alpha = alpha,
-      seed_pct = seed_pct,
+      known_seed_pct = known_seed_pct,
       seed_train_pct = seed_train_pct,
       included_var = included_var,
       ai_miss_pct = ai_miss_pct,
@@ -411,7 +411,7 @@ generate_prioritized_data <-
 #   c_target      = 0.90,
 #   R_c           = 0.95,
 #   alpha         = 0,
-#   seed_pct      = 0.2,
+#   known_seed_pct = 0.2,
 #   ai_miss_pct   = 0,
 #   seed          = NULL,
 #   embed_dir = "simulation/embeddings"
@@ -430,7 +430,7 @@ generate_prioritized_data <-
 #  c_target      = 0.90,
 #  R_c           = 0.95,
 #  alpha         = 0,
-#  seed_pct      = 0.5,
+#  known_seed_pct = 0.5,
 #  ai_miss_pct   = 0,
 #  seed          = NULL,
 #  embed_dir = "simulation/embeddings"
@@ -604,7 +604,7 @@ estimate_f <- function(data) {
 #    c_target      = 0.90,
 #    R_c           = 0.95,
 #    alpha         = 0,
-#    seed_pct      = 0.2,
+#    known_seed_pct = 0.2,
 #    ai_miss_pct   = 0,
 #    seed          = NULL,
 #    embed_dir = "simulation/embeddings"
@@ -690,7 +690,7 @@ run_sim <-
    c_target,
    R_c,          
    alpha,        
-   seed_pct,
+   known_seed_pct,
    seed_train_pct = 1,
    ai_miss_pct,
    seed,
@@ -718,7 +718,7 @@ run_sim <-
             c_target      = c_target,
             R_c           = R_c,
             alpha         = alpha,
-            seed_pct      = seed_pct,
+            known_seed_pct = known_seed_pct,
             seed_train_pct = seed_train_pct,
             ai_miss_pct   = ai_miss_pct,
             n_irrelevant_test_records = n_irrelevant_test_records,
@@ -785,7 +785,7 @@ run_sim <-
         },
         .after = n_sim
       )
-    
+
   }
 
 #friends_data <- readRDS("friends/data/friends_FRIENDS_3_cleaned.rds")
@@ -802,7 +802,7 @@ run_sim <-
 #    c_target      = 0.90,
 #    R_c           = 0.95,
 #    alpha         = 0,
-#    seed_pct      = 0.2,
+#    known_seed_pct = 0.2,
 #    seed_train_pct = 1,
 #    ai_miss_pct   = 0.4,
 #    seed          = 12

@@ -45,12 +45,16 @@ res_all <- AIscreenR::tabscreen_gpt(
   abstract = abstract,
   model = "gpt-6-luna",
   reps = 1,
-  reasoning_effort = "medium",
+  overinclusive = FALSE,
+  reasoning_effort = "high",
   verbosity = "low",
   decision_description = FALSE
 )
 
 plan(sequential)
+
+# Add fake topp column with 1s for every study
+res_all$answer_data$topp <- 1
 
 AIscreenR::screen_analyzer(res_all)
 
@@ -60,7 +64,7 @@ table(res_all$answer_data$decision_binary, res_all$answer_data$human_code)
 table(res_all$answer_data$decision_binary, res_all$answer_data$included_final)
 
 false_negatives <- res_all$answer_data |>
-  filter(decision_binary == 0 & human_code == 1)
+  filter(decision_binary == 0 & included_final == 1)
 
 # Print decision_desciption and abstract of the false negatives (records that were finally included by the human but excluded by the AI)
 if (nrow(false_negatives) > 0) {
