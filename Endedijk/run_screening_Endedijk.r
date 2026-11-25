@@ -5,58 +5,55 @@ library(future)
 #--------------------------------------------------------------------------
 # Prompt
 #--------------------------------------------------------------------------
-prompt <- "Evaluate the following study based on the selection criteria
- for a systematic review and meta-analysis on the association between the affective quality of the
- teacher-student relationship and students' relationships with their classmates. The review only uses studies in
- which individual students have a score on both. You only have the title and the abstract, and the full text is
- checked later. Go through the exclusion rules first. If ANY one of them applies, exclude the study. If none
- applies, go through the inclusion rules and include the study if all three are met or likely. Say which rule decided.
+prompt <- "Select quantitative empirical studies of preschool to secondary pupils for
+full-text review of how affective teacher-child relationships relate to children's
+relationships with classroom peers. Read the complete abstract and title. They need not
+report a correlation: both constructs can be secondary variables, reported by different
+informants or measured at different times.
 
- EXCLUDE the study if any one of these applies:
- X1) It is not an empirical study that reports data on students: purely qualitative studies, literature reviews,
- meta-analyses, theory papers, case studies, book reviews.
- X2) The sample is not from preschool, primary, middle or secondary education (roughly age 3-18): university
- students, adults, or only teachers.
- X3) Only one of the two relationships is studied: only the teacher-student relationship (for example with
- achievement, motivation or engagement), or only peers (for example bullying or friendships without a teacher
- variable).
- X4) The teacher side is not about the relationship: teaching methods, instructional quality, classroom
- management, teacher expectations, feedback, teacher stress, teacher training.
- X5) The peers are not classmates: peers or friends outside school, in free time or in sports clubs, peer
- pressure, peer influence, deviant peers, peer groups, peer-assisted learning or tutoring.
- X6) The abstract clearly says there are only class-level or school-level scores, or it studies general
- classroom climate, school climate, school belonging, connectedness, satisfaction, engagement or well-being
- without separate measures of the teacher and of the classmates. Do NOT exclude because the abstract also
- mentions classroom climate, if teacher and classmate measures are present for the students.
- X7) It evaluates an intervention, program or training, or develops a scale, and does not measure both
- relationships as variables. Do NOT exclude an intervention study if the abstract says that both relationships
- were measured.
- X8) Teacher support and general peer or friend support are only two of several sources of social support
- (parents, teachers, peers, friends) used to predict an unrelated outcome such as well-being, health,
- depression, suicide, achievement, engagement or aggression, AND the abstract does not mention classmates, does
- not name a student-teacher relationship (closeness, conflict, warmth, relatedness, attachment), and does not
- mention peer acceptance, rejection, popularity or friendship. Do NOT use X8 if the abstract mentions
- classmates, or if either relationship is described in more detail than as one kind of social support. If you
- are unsure whether X8 applies, do not use it.
+Apply these exclusions first. Exclude adult retrospective surveys. Exclude peer-network
+management or teacher attunement/awareness studies even if general teacher support is an
+ancillary predictor, unless a specific dyadic teacher-pupil relationship is also
+assessed. Exclude social-risk surveys pairing generic teacher support with a peer risk
+index (e.g. time with friends and rejection), without comparable relational support
+scales. Exclude support for learning, academic help, achievement expectations, or
+instrumental help as the only support on either side. Exclude scores describing general
+school climate, academic environment, school social capital or family/community
+environment if there is no separately interpretable measure of the child's own
+relationships on both sides. Exclude when survey responses characterize a general
+institutional climate (e.g. how teachers and peers treat students at this school), even
+when several school climate dimensions are named. Relationships mentioned only as
+components of such an environment are insufficient. A teacher acting solely as informant
+about child behavior does not count.
 
- INCLUDE the study if all three are shown or likely from the title or abstract:
- I1) The affective side of the teacher-student relationship was measured: closeness, warmth, trust, care,
- affection, relatedness or attachment to the teacher; conflict, negativity, dependency, or hostile or abusive
- behavior by the teacher; teacher support or emotional support from teachers; the emotional quality of observed
- teacher-child interactions (sensitivity, warmth, conflict); or a named student-teacher or teacher-child
- relationship.
- I2) The relationships with classmates were measured: peer acceptance or rejection, being liked or disliked,
- social preference, popularity or social status, sociometric or peer nominations, friendships, relationships
- with classmates, or support from classmates. The peers of school students are their classmates unless the
- abstract says otherwise, so these count even when the word classmates is not used. General peer
- relationships, peer support or friends count as likely classmate measures. Peer victimization or bullying
- together with teacher support also counts.
- I3) Both were measured for the same students. They do not have to be analysed together. Either can be a
- predictor, an outcome, a mediator, a moderator or a control variable, and it does not matter when they were
- measured. A measure of child behavior is not required.
- If the abstract shows I1 and I2, or if they are likely to be measured in the full text, include the study.
- If the abstract does not mention one of the two relationships at all, exclude the study: do not assume it was
- measured. A general mention such as relationships with teachers and peers counts as likely measured."
+Then look for two domains. The teacher domain includes a named relationship, liking as
+perceived by the child, teacher, peers or observers, fairness, emotional support,
+closeness, conflict, abuse and bullying by a teacher. The peer domain includes
+classmates' liking, rejection, popularity, friendship, peer support, cooperation,
+belonging to the class, peer bullying or victimization. Peer victimization IS a
+relationship outcome when paired with an affective teacher measure. A child's personal
+rating of both teacher and peer support is sufficient even if other sources or outcomes
+are assessed. A generic peer or classmate support scale in school pupils can qualify. In
+contrast, a measure of friends, close friends, friendship networks or social capital
+among friends does not establish the classroom context: require school/class anchoring
+for friends specifically. Exclude if the instrument explicitly mixes classmates with
+partners or out-of-school friends. Cybervictimization alone cannot establish classroom
+peer relations. Social efficacy or relatedness with both partners qualifies. A teacher's
+positive or negative feedback about a target child in a social referencing experiment
+counts as manipulated teacher liking, including a hypothetical target if peers judge its
+acceptability.
+
+In early childhood, separately observed engagement or interaction with teachers and peers
+qualifies even when reported as behavior, activities or preschool classroom processes.
+Exclude adjustment typologies that rate behavioral problems across situations with adults
+or peers without assessing relational quality. Consider observational studies of
+classroom relational quality and children's peer interactions for full text when
+child-specific interactions are plausible. Separate teacher-relationship and
+peer-relationship subscales of children's happiness or adjustment qualify even when the
+abstract primarily describes an intervention. Child-reported source-specific support in
+school psychosocial surveys qualifies even when the results summarize the sources
+unevenly. Exclude when only one domain is present and there is no evidence for the other.
+State which measures justified the decision."
 
 
 #--------------------------------------------------------------------------
@@ -138,71 +135,6 @@ screening_data <- unique_citations[!no_abstract, ]
 cat("Records to screen:                             ", nrow(screening_data), "\n")
 
 #--------------------------------------------------------------------------
-# Small test set
-#--------------------------------------------------------------------------
-# 50 human in + 50 human out (none of them finally included) + all finally included studies
-set.seed(123)
-test_data <- bind_rows(
-  screening_data |> filter(included_final == 1),
-  screening_data |> filter(included_final == 0, human_code == 1) |> slice_sample(n = 50),
-  screening_data |> filter(included_final == 0, human_code == 0) |> slice_sample(n = 50)
-)
-table(human_code = test_data$human_code, included_final = test_data$included_final)
-
-plan(multisession)
-
-res_test <- AIscreenR::tabscreen_gpt(
-  data = test_data,
-  prompt = prompt,
-  studyid = id,
-  title = title,
-  abstract = abstract,
-  model = "gpt-6.1-terra",
-  reps = 1,
-  reasoning_effort = "high",
-  verbosity = "low",
-  overinclusive = FALSE, # default TRUE lets the AI answer "1.1" (unsure), which counts as include
-  decision_description = TRUE # explanations, to see why records were wrongly excluded/included
-)
-
-plan(sequential)
-
-AIscreenR::screen_analyzer(res_test)
-
-#   promptid model        reps p_agreement recall specificity n_screened n_missing
-#      <int> <chr>       <dbl>       <dbl>  <dbl>       <dbl>      <int>     <int>
-# 1        1 gpt-6.1-te…     1       0.915  0.911        0.94        386         0
-
-table(AI = res_test$answer_data$decision_binary, human = res_test$answer_data$human_code)
-table(AI = res_test$answer_data$decision_binary, final = res_test$answer_data$included_final)
-
-# Finally included studies the AI excluded, with its explanation
-fn_final_included <- res_test$answer_data |>
-  filter(decision_binary == 0, included_final == 1) |>
-  select(id, title, abstract, detailed_description)
-
-for (i in seq_len(nrow(fn_final_included))) {
-  cat("ID:", fn_final_included$id[i], "\n")
-  cat("Title:", fn_final_included$title[i], "\n")
-  # Print only the first 200 characters of the abstract, to avoid cluttering the console with long abstracts
-  #cat("Abstract:", substr(fn_final_included$abstract[i], 1, 200), ifelse(nchar(fn_final_included$abstract[i]) > 200, "...", ""), "\n")
-  cat("Abstract:", fn_final_included$abstract[i], "\n")
-  cat("AI explanation:", fn_final_included$detailed_description[i], "\n\n")
-}
-
-# Human excluded studies the AI included, with its explanation
-fp_human_code <- res_test$answer_data |>
-  filter(decision_binary == 1, human_code == 0) |>
-  select(id, title, abstract, detailed_description)
-
-for (i in seq_len(nrow(fp_human_code))) {
-  cat("ID:", fp_human_code$id[i], "\n")
-  cat("Title:", fp_human_code$title[i], "\n")
-  cat("Abstract:", fp_human_code$abstract[i], "\n")
-  cat("AI explanation:", fp_human_code$detailed_description[i], "\n\n")
-}
-
-#--------------------------------------------------------------------------
 # Screening
 #--------------------------------------------------------------------------
 plan(multisession)
@@ -213,10 +145,11 @@ res_all <- AIscreenR::tabscreen_gpt(
   studyid = id,
   title = title,
   abstract = abstract,
-  model = "gpt-6.1-terra",
+  model = "gpt-6-luna",
   reps = 1,
   reasoning_effort = "high",
   verbosity = "low",
+  confidence = TRUE,
   overinclusive = FALSE,
   decision_description = FALSE
 )
