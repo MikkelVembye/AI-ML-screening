@@ -89,7 +89,7 @@ PY  - 2008
 DA  - 2008/07//
 Y1  - 2008/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 20
 reason  - no abstract
 ER  - 
@@ -135,7 +135,7 @@ PY  - 1972
 DA  - 1972///
 Y1  - 1972///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 148
 reason  - no abstract
 ER  - 
@@ -156,7 +156,7 @@ PY  - 2014
 DA  - 2014///
 Y1  - 2014///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 309
 reason  - no abstract
 ER  - 
@@ -198,7 +198,7 @@ PY  - 2017
 DA  - 2017/08//
 Y1  - 2017/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 324
 reason  - duplicate
 ER  - 
@@ -264,7 +264,7 @@ U1  - 73495087
 U2  - 116184547
 NT  - Accession Number: 116184547. Language: English. Entry Date: 20160623. Revision Date: 20191111. Publication Type: Article; CEU; exam questions; questions and answers. Note: For CE answer form go to https://form.jotform.com/61233651829962. Journal Subset: Nursing; USA. Special Interest: Psychiatry/Psychology. NLM UID: 14720150R.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 429
 reason  - no abstract
 ER  - 
@@ -297,7 +297,7 @@ PY  - 1988
 DA  - 1988///
 Y1  - 1988///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 437
 reason  - no abstract
 ER  - 
@@ -354,7 +354,7 @@ PY  - 2015
 DA  - 2015/03//
 Y1  - 2015/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 480
 reason  - no abstract
 ER  - 
@@ -399,7 +399,7 @@ PY  - 1996
 DA  - 1996///
 Y1  - 1996///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 522
 reason  - no abstract
 ER  - 
@@ -443,7 +443,7 @@ PY  - 1995
 DA  - 1995/11//
 Y1  - 1995/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 547
 reason  - no abstract
 ER  - 
@@ -493,7 +493,7 @@ U1  - 73496810
 U2  - 107117465
 NT  - Accession Number: 107117465. Language: English. Entry Date: 20000701. Revision Date: 20210407. Publication Type: Journal Article; research; tables/charts. Journal Subset: Biomedical; Blind Peer Reviewed; Canada; Double Blind Peer Reviewed; Editorial Board Reviewed; Expert Peer Reviewed; Peer Reviewed. Instrumentation: Beck Depression Inventory (BDI); Work Behaviour Scale (Griffiths); Assertion I and II (Levenson and Gottman); State/Trait Anxiety Inventory (Spielberger et al); Social Adjustment Scale (Paykel et al). NLM UID: 8406631.
 human_code  - 1
-final_included  - 1
+included_final  - 1
 ID  - 587
 reason  - duplicate
 ER  - 
@@ -541,7 +541,7 @@ PY  - 2000
 DA  - 2000///
 Y1  - 2000///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 686
 reason  - no abstract
 ER  - 
@@ -572,7 +572,7 @@ PY  - 2004
 DA  - 2004///
 Y1  - 2004///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 687
 reason  - no abstract
 ER  - 
@@ -613,7 +613,7 @@ PY  - 2007
 DA  - 2007///
 Y1  - 2007///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 688
 reason  - no abstract
 ER  - 
@@ -650,7 +650,7 @@ PY  - 2016
 DA  - 2016///
 Y1  - 2016///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 689
 reason  - no abstract
 ER  - 
@@ -683,7 +683,7 @@ PY  - 1978
 DA  - 1978///
 Y1  - 1978///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 752
 reason  - no abstract
 ER  - 
@@ -724,7 +724,7 @@ PY  - 2002
 DA  - 2002/09//
 Y1  - 2002/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 935
 reason  - no abstract
 ER  - 
@@ -765,7 +765,7 @@ PY  - 2013
 DA  - 2013/11//
 Y1  - 2013/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 938
 reason  - no abstract
 ER  - 
@@ -803,7 +803,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1017
 reason  - no abstract
 ER  - 
@@ -853,7 +853,7 @@ PY  - 1975
 DA  - 1975///
 Y1  - 1975///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1022
 reason  - no abstract
 ER  - 
@@ -897,7 +897,7 @@ PY  - 2012
 DA  - 2012/06//
 Y1  - 2012/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1046
 reason  - no abstract
 ER  - 
@@ -942,7 +942,7 @@ PY  - 1996
 DA  - 1996///
 Y1  - 1996///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1147
 reason  - no abstract
 ER  - 
@@ -979,7 +979,7 @@ PY  - 1971
 DA  - 1971///
 Y1  - 1971///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1191
 reason  - no abstract
 ER  - 
@@ -1022,7 +1022,7 @@ PY  - 1967
 DA  - 1967///
 Y1  - 1967///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1256
 reason  - no abstract
 ER  - 
@@ -1072,7 +1072,7 @@ PY  - 2009
 DA  - 2009/09//
 Y1  - 2009/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1274
 reason  - no abstract
 ER  - 
@@ -1108,7 +1108,7 @@ PY  - 2008
 DA  - 2008///
 Y1  - 2008///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1310
 reason  - no abstract
 ER  - 
@@ -1182,7 +1182,7 @@ PY  - 2011
 DA  - 2011/08//
 Y1  - 2011/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1360
 reason  - no abstract
 ER  - 
@@ -1213,7 +1213,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1392
 reason  - no abstract
 ER  - 
@@ -1247,7 +1247,7 @@ PY  - 2017
 DA  - 2017/04//
 Y1  - 2017/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1433
 reason  - no abstract
 ER  - 
@@ -1285,7 +1285,7 @@ PY  - 2016
 DA  - 2016/03//
 Y1  - 2016/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1513
 reason  - duplicate
 ER  - 
@@ -1341,7 +1341,7 @@ PY  - 2014
 DA  - 2014/07//
 Y1  - 2014/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1542
 reason  - no abstract
 ER  - 
@@ -1383,7 +1383,7 @@ PY  - 2011
 DA  - 2011/02//
 Y1  - 2011/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1708
 reason  - no abstract
 ER  - 
@@ -1414,7 +1414,7 @@ U1  - 73497869
 U2  - 105486723
 NT  - Accession Number: 105486723. Language: English. Entry Date: 20090403. Revision Date: 20150711. Publication Type: Journal Article. Journal Subset: Consumer Health; USA. NLM UID: 9425758.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1719
 reason  - no abstract
 ER  - 
@@ -1460,7 +1460,7 @@ PY  - 1976
 DA  - 1976///
 Y1  - 1976///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1848
 reason  - no abstract
 ER  - 
@@ -1508,7 +1508,7 @@ PY  - 2014
 DA  - 2014/02//
 Y1  - 2014/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1895
 reason  - no abstract
 ER  - 
@@ -1545,7 +1545,7 @@ PY  - 2008
 DA  - 2008///
 Y1  - 2008///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1913
 reason  - no abstract
 ER  - 
@@ -1590,7 +1590,7 @@ PY  - 2013
 DA  - 2013/10//
 Y1  - 2013/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 1982
 reason  - duplicate
 ER  - 
@@ -1639,7 +1639,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2007
 reason  - no abstract
 ER  - 
@@ -1678,7 +1678,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2008
 reason  - no abstract
 ER  - 
@@ -1712,7 +1712,7 @@ DA  - 1990/05//
 Y1  - 1990/05//
 T2  - Dissertation Abstracts International
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2011
 reason  - no abstract
 ER  - 
@@ -1748,7 +1748,7 @@ PY  - 2008
 DA  - 2008/11//
 Y1  - 2008/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2026
 reason  - duplicate
 ER  - 
@@ -1795,7 +1795,7 @@ PY  - 2014
 DA  - 2014/03//
 Y1  - 2014/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2062
 reason  - no abstract
 ER  - 
@@ -1835,7 +1835,7 @@ PY  - 2009
 DA  - 2009///
 Y1  - 2009///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2237
 reason  - no abstract
 ER  - 
@@ -1865,7 +1865,7 @@ PY  - 2018
 DA  - 2018///
 Y1  - 2018///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2347
 reason  - no abstract
 ER  - 
@@ -1915,7 +1915,7 @@ PY  - 2010
 DA  - 2010/01//
 Y1  - 2010/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2661
 reason  - no abstract
 ER  - 
@@ -1973,7 +1973,7 @@ PY  - 2015
 DA  - 2015/09//
 Y1  - 2015/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2662
 reason  - no abstract
 ER  - 
@@ -2007,7 +2007,7 @@ PY  - 1967
 DA  - 1967///
 Y1  - 1967///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2879
 reason  - no abstract
 ER  - 
@@ -2058,7 +2058,7 @@ PY  - 2010
 DA  - 2010/09//
 Y1  - 2010/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2924
 reason  - no abstract
 ER  - 
@@ -2104,7 +2104,7 @@ PY  - 1995
 DA  - 1995/08//
 Y1  - 1995/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 2959
 reason  - no abstract
 ER  - 
@@ -2153,7 +2153,7 @@ U1  - 73497705
 U2  - 104275682
 NT  - Accession Number: 104275682. Language: English. Entry Date: 20130913. Revision Date: 20211029. Publication Type: journal article; research. Journal Subset: Biomedical; Canada; Double Blind Peer Reviewed; Expert Peer Reviewed; Peer Reviewed; Public Health. Special Interest: Public Health. NLM UID: 0372714.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3123
 reason  - duplicate
 ER  - 
@@ -2205,7 +2205,7 @@ U1  - 73496437
 U2  - 107943060
 NT  - Accession Number: 107943060. Language: English. Entry Date: 20130719. Revision Date: 20150712. Publication Type: Journal Article; research. Journal Subset: Biomedical; Double Blind Peer Reviewed; Editorial Board Reviewed; Expert Peer Reviewed; Peer Reviewed; USA. NLM UID: 101234523.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3187
 reason  - no abstract
 ER  - 
@@ -2242,7 +2242,7 @@ PY  - 1968
 DA  - 1968///
 Y1  - 1968///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3197
 reason  - no abstract
 ER  - 
@@ -2304,7 +2304,7 @@ PY  - 2018
 DA  - 2018/02//
 Y1  - 2018/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3263
 reason  - duplicate
 ER  - 
@@ -2336,7 +2336,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3326
 reason  - no abstract
 ER  - 
@@ -2378,7 +2378,7 @@ PY  - 2007
 DA  - 2007/12//
 Y1  - 2007/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3361
 reason  - duplicate
 ER  - 
@@ -2431,7 +2431,7 @@ PY  - 2012
 DA  - 2012/06//
 Y1  - 2012/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3369
 reason  - no abstract
 ER  - 
@@ -2470,7 +2470,7 @@ PY  - 2006
 DA  - 2006/01//
 Y1  - 2006/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3488
 reason  - no abstract
 ER  - 
@@ -2506,7 +2506,7 @@ PY  - 2020
 DA  - 2020///
 Y1  - 2020///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3499
 reason  - no abstract
 ER  - 
@@ -2550,7 +2550,7 @@ PY  - 1971
 DA  - 1971///
 Y1  - 1971///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3520
 reason  - no abstract
 ER  - 
@@ -2583,7 +2583,7 @@ PY  - 2004
 DA  - 2004/11//
 Y1  - 2004/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3655
 reason  - no abstract
 ER  - 
@@ -2619,7 +2619,7 @@ PY  - 1972
 DA  - 1972///
 Y1  - 1972///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3681
 reason  - no abstract
 ER  - 
@@ -2660,7 +2660,7 @@ PY  - 1979
 DA  - 1979///
 Y1  - 1979///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3808
 reason  - no abstract
 ER  - 
@@ -2702,7 +2702,7 @@ PY  - 2001
 DA  - 2001///
 Y1  - 2001///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3964
 reason  - no abstract
 ER  - 
@@ -2750,7 +2750,7 @@ PY  - 2012
 DA  - 2012/12//
 Y1  - 2012/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 3996
 reason  - no abstract
 ER  - 
@@ -2801,7 +2801,7 @@ PY  - 2009
 DA  - 2009/03//
 Y1  - 2009/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4050
 reason  - no abstract
 ER  - 
@@ -2847,7 +2847,7 @@ PY  - 1998
 DA  - 1998/06//
 Y1  - 1998/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4067
 reason  - duplicate
 ER  - 
@@ -2884,7 +2884,7 @@ PY  - 1967
 DA  - 1967///
 Y1  - 1967///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4074
 reason  - no abstract
 ER  - 
@@ -2947,7 +2947,7 @@ PY  - 2021
 DA  - 2021/01//
 Y1  - 2021/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4216
 reason  - duplicate
 ER  - 
@@ -2988,7 +2988,7 @@ PY  - 2003
 DA  - 2003///
 Y1  - 2003///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4280
 reason  - no abstract
 ER  - 
@@ -3026,7 +3026,7 @@ PY  - 1972
 DA  - 1972///
 Y1  - 1972///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4322
 reason  - no abstract
 ER  - 
@@ -3070,7 +3070,7 @@ PY  - 2009
 DA  - 2009/03//
 Y1  - 2009/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4323
 reason  - no abstract
 ER  - 
@@ -3101,7 +3101,7 @@ PY  - 2016
 DA  - 2016/09//
 Y1  - 2016/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4337
 reason  - duplicate
 ER  - 
@@ -3139,7 +3139,7 @@ DA  - 2002///
 Y1  - 2002///
 T2  - Effectiveness of Psychological Treatments for BED
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4470
 reason  - duplicate
 ER  - 
@@ -3181,7 +3181,7 @@ PY  - 2000
 DA  - 2000///
 Y1  - 2000///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4526
 reason  - no abstract
 ER  - 
@@ -3223,7 +3223,7 @@ PY  - 1992
 DA  - 1992///
 Y1  - 1992///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4579
 reason  - duplicate
 ER  - 
@@ -3261,7 +3261,7 @@ PY  - 1988
 DA  - 1988///
 Y1  - 1988///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4596
 reason  - no abstract
 ER  - 
@@ -3304,7 +3304,7 @@ PY  - 2003
 DA  - 2003///
 Y1  - 2003///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4632
 reason  - no abstract
 ER  - 
@@ -3335,7 +3335,7 @@ U1  - 73490666
 NT  - Accession Number: 17718180; Banta-Green, Caleb 1; Goldbaum, Gary 2, 3; Kingston, Susan 2; Golden, Matthew 2, 3; Harruff, Richard 2; Logan, Barry K. 4; Affiliations: 1 : Alcohol and Drug Abuse Institute, University of Washington, Seattle, Washington, USA.; 2 : Health, Seattle & King County, Washington, USA.; 3 : University of Washington, Seattle, Washington, USA.; 4 : Washington State Patrol, State Toxicology Laboratory, Washington, USA.; Source Info: 2005, Vol. 40 Issue 9/10, p1295; Note: Publisher Information: Taylor & Francis Ltd.; Subject Term: ECSTASY (Drug); Subject Term: EPIDEMIOLOGY; Subject Term: DRUG abuse; Subject Term: SUBSTANCE abuse; Subject Term: HALLUCINOGENIC drugs; Subject Term: DRUGS; Number of Pages: 21p; Document Type: Article
 T2  - Substance Use & Misuse
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4638
 reason  - duplicate
 ER  - 
@@ -3364,7 +3364,7 @@ U1  - 73490635
 NT  - Accession Number: 15501967; Bockting, W. O. 1; Email Address: bockt001@umn.edu; Robinson, B. E. 1; Forberg, J. 1; Scheltema, K. 1; Affiliations: 1 : Program in Human Sexuality, Department of Family Medicine and Community Health, Medical School, University of Minnesota, Minneapolis, USA.; Source Info: Apr2005, Vol. 17 Issue 3, p289; Note: Publisher Information: Routledge.; Subject Term: SEXUALLY transmitted diseases; Subject Term: COMMUNICABLE diseases; Subject Term: HIV (Viruses); Subject Term: SEX instruction; Subject Term: GLBT communities; Subject Term: TRANSGENDER communities; Number of Pages: 15p; Document Type: Article
 T2  - AIDS Care
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4713
 reason  - duplicate
 ER  - 
@@ -3399,7 +3399,7 @@ U1  - 73497621
 U2  - 107480270
 NT  - Accession Number: 107480270. Language: English. Entry Date: 19920301. Revision Date: 20170922. Publication Type: Journal Article. Journal Subset: Biomedical; Core Nursing; Nursing; Peer Reviewed; Public Health; USA. NLM UID: 7809641.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4828
 reason  - no abstract
 ER  - 
@@ -3433,7 +3433,7 @@ U1  - 73496442
 U2  - 104685377
 NT  - Accession Number: 104685377. Language: English. Entry Date: 20111009. Revision Date: 20200708. Publication Type: Journal Article; case study. Journal Subset: Biomedical; USA. NLM UID: 9013835.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4831
 reason  - no abstract
 ER  - 
@@ -3475,7 +3475,7 @@ PY  - 1970
 DA  - 1970///
 Y1  - 1970///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4936
 reason  - no abstract
 ER  - 
@@ -3506,7 +3506,7 @@ PY  - 1992
 DA  - 1992///
 Y1  - 1992///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4988
 reason  - no abstract
 ER  - 
@@ -3551,7 +3551,7 @@ PY  - 2003
 DA  - 2003///
 Y1  - 2003///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 4997
 reason  - no abstract
 ER  - 
@@ -3582,7 +3582,7 @@ PY  - 1977
 DA  - 1977///
 Y1  - 1977///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5040
 reason  - no abstract
 ER  - 
@@ -3613,7 +3613,7 @@ DA  - 1984/05//
 Y1  - 1984/05//
 T2  - Dissertation Abstracts International
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5049
 reason  - no abstract
 ER  - 
@@ -3648,7 +3648,7 @@ PY  - 2002
 DA  - 2002/10//
 Y1  - 2002/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5139
 reason  - no abstract
 ER  - 
@@ -3694,7 +3694,7 @@ PY  - 1968
 DA  - 1968///
 Y1  - 1968///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5207
 reason  - no abstract
 ER  - 
@@ -3743,7 +3743,7 @@ PY  - 2018
 DA  - 2018///
 Y1  - 2018///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5228
 reason  - no abstract
 ER  - 
@@ -3783,7 +3783,7 @@ PY  - 2012
 DA  - 2012/04//
 Y1  - 2012/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5280
 reason  - duplicate
 ER  - 
@@ -3821,7 +3821,7 @@ PY  - 1992
 DA  - 1992///
 Y1  - 1992///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5416
 reason  - no abstract
 ER  - 
@@ -3894,7 +3894,7 @@ PY  - 2002
 DA  - 2002///
 Y1  - 2002///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5422
 reason  - no abstract
 ER  - 
@@ -3933,7 +3933,7 @@ PY  - 1998
 DA  - 1998///
 Y1  - 1998///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5448
 reason  - duplicate
 ER  - 
@@ -3963,7 +3963,7 @@ PY  - 1995
 DA  - 1995/09//
 Y1  - 1995/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5502
 reason  - no abstract
 ER  - 
@@ -4002,7 +4002,7 @@ PY  - 1975
 DA  - 1975///
 Y1  - 1975///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5513
 reason  - no abstract
 ER  - 
@@ -4063,7 +4063,7 @@ PY  - 2014
 DA  - 2014/12//
 Y1  - 2014/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5571
 reason  - no abstract
 ER  - 
@@ -4111,7 +4111,7 @@ PY  - 2015
 DA  - 2015/03//
 Y1  - 2015/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5615
 reason  - no abstract
 ER  - 
@@ -4162,7 +4162,7 @@ PY  - 2013
 DA  - 2013/07//
 Y1  - 2013/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5620
 reason  - no abstract
 ER  - 
@@ -4218,7 +4218,7 @@ PY  - 2014
 DA  - 2014/04//
 Y1  - 2014/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5663
 reason  - no abstract
 ER  - 
@@ -4259,7 +4259,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5743
 reason  - no abstract
 ER  - 
@@ -4301,7 +4301,7 @@ PY  - 2011
 DA  - 2011/07//
 Y1  - 2011/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5854
 reason  - no abstract
 ER  - 
@@ -4336,7 +4336,7 @@ PY  - 2005
 DA  - 2005/12//
 Y1  - 2005/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5925
 reason  - no abstract
 ER  - 
@@ -4399,7 +4399,7 @@ PY  - 2019
 DA  - 2019/04//
 Y1  - 2019/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 5995
 reason  - no abstract
 ER  - 
@@ -4445,7 +4445,7 @@ PY  - 1976
 DA  - 1976///
 Y1  - 1976///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6003
 reason  - no abstract
 ER  - 
@@ -4480,7 +4480,7 @@ PY  - 2002
 DA  - 2002/04//
 Y1  - 2002/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6119
 reason  - no abstract
 ER  - 
@@ -4513,7 +4513,7 @@ PY  - 2004
 DA  - 2004///
 Y1  - 2004///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6256
 reason  - no abstract
 ER  - 
@@ -4553,7 +4553,7 @@ PY  - 1994
 DA  - 1994///
 Y1  - 1994///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6365
 reason  - no abstract
 ER  - 
@@ -4621,7 +4621,7 @@ PY  - 2022
 DA  - 2022///
 Y1  - 2022///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6477
 reason  - no abstract
 ER  - 
@@ -4665,7 +4665,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6670
 reason  - no abstract
 ER  - 
@@ -4704,7 +4704,7 @@ U1  - 73497808
 U2  - 105077665
 NT  - Accession Number: 105077665. Language: English. Entry Date: 20101210. Revision Date: 20150711. Publication Type: Journal Article; abstract. Journal Subset: Nursing; Peer Reviewed; USA. NLM UID: 7707277.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6776
 reason  - no abstract
 ER  - 
@@ -4733,7 +4733,7 @@ DA  - 2010/04//
 Y1  - 2010/04//
 T2  - Schizophrenia Research
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6787
 reason  - no abstract
 ER  - 
@@ -4767,7 +4767,7 @@ PY  - 1976
 DA  - 1976///
 Y1  - 1976///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6873
 reason  - no abstract
 ER  - 
@@ -4810,7 +4810,7 @@ PY  - 2018
 DA  - 2018///
 Y1  - 2018///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 6937
 reason  - no abstract
 ER  - 
@@ -4837,7 +4837,7 @@ U1  - 73493146
 U2  - 2000
 NT  - Source type: Scholarly Journals; Object type: Feature; Object type: Article; CSAUnique: IBSS-38046b; AccNum: 38046b
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 7247
 reason  - no abstract
 ER  - 
@@ -4874,7 +4874,7 @@ PY  - 2020
 DA  - 2020///
 Y1  - 2020///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 7621
 reason  - no abstract
 ER  - 
@@ -4913,7 +4913,7 @@ PY  - 1971
 DA  - 1971///
 Y1  - 1971///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 7791
 reason  - no abstract
 ER  - 
@@ -4961,7 +4961,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 7871
 reason  - no abstract
 ER  - 
@@ -5021,7 +5021,7 @@ PY  - 2010
 DA  - 2010/12//
 Y1  - 2010/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8173
 reason  - no abstract
 ER  - 
@@ -5060,7 +5060,7 @@ PY  - 2001
 DA  - 2001/03//
 Y1  - 2001/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8213
 reason  - no abstract
 ER  - 
@@ -5095,7 +5095,7 @@ PY  - 1978
 DA  - 1978///
 Y1  - 1978///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8255
 reason  - no abstract
 ER  - 
@@ -5149,7 +5149,7 @@ PY  - 2012
 DA  - 2012/04//
 Y1  - 2012/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8264
 reason  - no abstract
 ER  - 
@@ -5193,7 +5193,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8321
 reason  - no abstract
 ER  - 
@@ -5240,7 +5240,7 @@ PY  - 1971
 DA  - 1971///
 Y1  - 1971///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8362
 reason  - no abstract
 ER  - 
@@ -5272,7 +5272,7 @@ PY  - 1980
 DA  - 1980///
 Y1  - 1980///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8401
 reason  - no abstract
 ER  - 
@@ -5317,7 +5317,7 @@ PY  - 2001
 DA  - 2001/12//
 Y1  - 2001/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8658
 reason  - no abstract
 ER  - 
@@ -5360,7 +5360,7 @@ PY  - 2013
 DA  - 2013/01//
 Y1  - 2013/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8665
 reason  - no abstract
 ER  - 
@@ -5395,7 +5395,7 @@ DA  - 1994///
 Y1  - 1994///
 T2  - Dissertation Abstracts International: Section B: The Sciences and Engineering
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8669
 reason  - no abstract
 ER  - 
@@ -5439,7 +5439,7 @@ PY  - 2012
 DA  - 2012/07//
 Y1  - 2012/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8681
 reason  - no abstract
 ER  - 
@@ -5481,7 +5481,7 @@ PY  - 1980
 DA  - 1980///
 Y1  - 1980///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8716
 reason  - no abstract
 ER  - 
@@ -5514,7 +5514,7 @@ PY  - 1984
 DA  - 1984///
 Y1  - 1984///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8850
 reason  - no abstract
 ER  - 
@@ -5572,7 +5572,7 @@ PY  - 2013
 DA  - 2013/04//
 Y1  - 2013/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 8888
 reason  - no abstract
 ER  - 
@@ -5606,7 +5606,7 @@ PY  - 2014
 DA  - 2014///
 Y1  - 2014///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9016
 reason  - no abstract
 ER  - 
@@ -5650,7 +5650,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9227
 reason  - no abstract
 ER  - 
@@ -5685,7 +5685,7 @@ PY  - 1993
 DA  - 1993///
 Y1  - 1993///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9346
 reason  - no abstract
 ER  - 
@@ -5726,7 +5726,7 @@ PY  - 2009
 DA  - 2009///
 Y1  - 2009///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9401
 reason  - no abstract
 ER  - 
@@ -5782,7 +5782,7 @@ PY  - 2010
 DA  - 2010///
 Y1  - 2010///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9402
 reason  - no abstract
 ER  - 
@@ -5819,7 +5819,7 @@ PY  - 1972
 DA  - 1972///
 Y1  - 1972///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9470
 reason  - no abstract
 ER  - 
@@ -5862,7 +5862,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9574
 reason  - no abstract
 ER  - 
@@ -5913,7 +5913,7 @@ PY  - 2006
 DA  - 2006/11//
 Y1  - 2006/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9586
 reason  - no abstract
 ER  - 
@@ -5968,7 +5968,7 @@ PY  - 2019
 DA  - 2019/07//
 Y1  - 2019/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9635
 reason  - no abstract
 ER  - 
@@ -6023,7 +6023,7 @@ PY  - 1997
 DA  - 1997/09//
 Y1  - 1997/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9673
 reason  - duplicate
 ER  - 
@@ -6060,7 +6060,7 @@ PY  - 2019
 DA  - 2019///
 Y1  - 2019///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9686
 reason  - no abstract
 ER  - 
@@ -6108,7 +6108,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9702
 reason  - no abstract
 ER  - 
@@ -6151,7 +6151,7 @@ PY  - 2021
 DA  - 2021/08//
 Y1  - 2021/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9783
 reason  - no abstract
 ER  - 
@@ -6217,7 +6217,7 @@ PY  - 2015
 DA  - 2015/08//
 Y1  - 2015/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9836
 reason  - no abstract
 ER  - 
@@ -6254,7 +6254,7 @@ PY  - 2009
 DA  - 2009/07//
 Y1  - 2009/07//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9862
 reason  - no abstract
 ER  - 
@@ -6287,7 +6287,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 9878
 reason  - no abstract
 ER  - 
@@ -6322,7 +6322,7 @@ PY  - 1969
 DA  - 1969///
 Y1  - 1969///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10137
 reason  - no abstract
 ER  - 
@@ -6345,7 +6345,7 @@ PY  - 2022
 DA  - 2022///
 Y1  - 2022///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10173
 reason  - duplicate
 ER  - 
@@ -6401,7 +6401,7 @@ PY  - 2005
 DA  - 2005///
 Y1  - 2005///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10204
 reason  - no abstract
 ER  - 
@@ -6439,7 +6439,7 @@ PY  - 2001
 DA  - 2001/10//
 Y1  - 2001/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10231
 reason  - no abstract
 ER  - 
@@ -6481,7 +6481,7 @@ PY  - 2006
 DA  - 2006/04//
 Y1  - 2006/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10316
 reason  - no abstract
 ER  - 
@@ -6512,7 +6512,7 @@ DA  - 1983/09//
 Y1  - 1983/09//
 T2  - Dissertation Abstracts International Section A: Humanities and Social Sciences
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10358
 reason  - no abstract
 ER  - 
@@ -6567,7 +6567,7 @@ PY  - 2005
 DA  - 2005/02//
 Y1  - 2005/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10400
 reason  - duplicate
 ER  - 
@@ -6603,7 +6603,7 @@ PY  - 2003
 DA  - 2003/06//
 Y1  - 2003/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10410
 reason  - no abstract
 ER  - 
@@ -6646,7 +6646,7 @@ PY  - 2008
 DA  - 2008/09//
 Y1  - 2008/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10416
 reason  - no abstract
 ER  - 
@@ -6665,7 +6665,7 @@ PY  - 2011
 DA  - 2011///
 Y1  - 2011///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10443
 reason  - no abstract
 ER  - 
@@ -6699,7 +6699,7 @@ PY  - 1996
 DA  - 1996///
 Y1  - 1996///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10453
 reason  - no abstract
 ER  - 
@@ -6756,7 +6756,7 @@ PY  - 2011
 DA  - 2011/08//
 Y1  - 2011/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10505
 reason  - no abstract
 ER  - 
@@ -6804,7 +6804,7 @@ U1  - 73496279
 U2  - 104010320
 NT  - Accession Number: 104010320. Language: English. Entry Date: 20141010. Revision Date: 20211030. Publication Type: journal article; research. Journal Subset: Biomedical; Editorial Board Reviewed; Expert Peer Reviewed; Peer Reviewed; USA. Grant Information: R03 HS017974/HS/AHRQ HHS/United States. NLM UID: 101167762.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10518
 reason  - duplicate
 ER  - 
@@ -6844,7 +6844,7 @@ PY  - 2009
 DA  - 2009/04//
 Y1  - 2009/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10627
 reason  - duplicate
 ER  - 
@@ -6920,7 +6920,7 @@ PY  - 2015
 DA  - 2015/06//
 Y1  - 2015/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10778
 reason  - no abstract
 ER  - 
@@ -6965,7 +6965,7 @@ PY  - 1986
 DA  - 1986///
 Y1  - 1986///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10805
 reason  - no abstract
 ER  - 
@@ -6996,7 +6996,7 @@ PY  - 1999
 DA  - 1999/12//
 Y1  - 1999/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10879
 reason  - no abstract
 ER  - 
@@ -7029,7 +7029,7 @@ PY  - 2003
 DA  - 2003///
 Y1  - 2003///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 10965
 reason  - no abstract
 ER  - 
@@ -7063,7 +7063,7 @@ PY  - 2001
 DA  - 2001/10//
 Y1  - 2001/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11162
 reason  - no abstract
 ER  - 
@@ -7107,7 +7107,7 @@ U1  - 73497861
 U2  - 106970098
 NT  - Accession Number: 106970098. Language: English. Entry Date: 20021018. Revision Date: 20220222. Publication Type: Journal Article; abstract; commentary; tables/charts. Original Study: Krystal JH, Cramer JA, Krol WF, Kirk GF, Rosenheck RA. Naltrexone in the treatment of alcohol dependence. N ENGL J MED 2001 Dec 13; 345: 1734-9. Journal Subset: Biomedical; Peer Reviewed; USA. NLM UID: 9104824.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11393
 reason  - no abstract
 ER  - 
@@ -7147,7 +7147,7 @@ PY  - 2009
 DA  - 2009/10//
 Y1  - 2009/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11853
 reason  - duplicate
 ER  - 
@@ -7193,7 +7193,7 @@ PY  - 1990
 DA  - 1990///
 Y1  - 1990///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11859
 reason  - no abstract
 ER  - 
@@ -7242,7 +7242,7 @@ PY  - 2013
 DA  - 2013/05//
 Y1  - 2013/05//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11876
 reason  - no abstract
 ER  - 
@@ -7275,7 +7275,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 11994
 reason  - no abstract
 ER  - 
@@ -7314,7 +7314,7 @@ PY  - 1990
 DA  - 1990///
 Y1  - 1990///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12022
 reason  - no abstract
 ER  - 
@@ -7350,7 +7350,7 @@ PY  - 1997
 DA  - 1997/10//
 Y1  - 1997/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12033
 reason  - no abstract
 ER  - 
@@ -7427,7 +7427,7 @@ PY  - 2014
 DA  - 2014/06//
 Y1  - 2014/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12226
 reason  - no abstract
 ER  - 
@@ -7460,7 +7460,7 @@ U1  - 73497845
 U2  - 106830050
 NT  - Accession Number: 106830050. Language: English. Entry Date: 20030509. Revision Date: 20150819. Publication Type: Journal Article. Journal Subset: Nursing; USA. NLM UID: 100898538.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12242
 reason  - no abstract
 ER  - 
@@ -7520,7 +7520,7 @@ PY  - 2012
 DA  - 2012/08//
 Y1  - 2012/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12461
 reason  - no abstract
 ER  - 
@@ -7554,7 +7554,7 @@ PY  - 1985
 DA  - 1985///
 Y1  - 1985///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12582
 reason  - no abstract
 ER  - 
@@ -7610,7 +7610,7 @@ PY  - 2021
 DA  - 2021/06//
 Y1  - 2021/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12709
 reason  - duplicate
 ER  - 
@@ -7652,7 +7652,7 @@ PY  - 1982
 DA  - 1982///
 Y1  - 1982///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 12866
 reason  - no abstract
 ER  - 
@@ -7678,7 +7678,7 @@ PY  - 1995
 DA  - 1995/10//
 Y1  - 1995/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13037
 reason  - duplicate
 ER  - 
@@ -7722,7 +7722,7 @@ PY  - 2002
 DA  - 2002///
 Y1  - 2002///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13105
 reason  - no abstract
 ER  - 
@@ -7769,7 +7769,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13148
 reason  - no abstract
 ER  - 
@@ -7816,7 +7816,7 @@ PY  - 2018
 DA  - 2018/02//
 Y1  - 2018/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13157
 reason  - no abstract
 ER  - 
@@ -7867,7 +7867,7 @@ U1  - 73496892
 U2  - 104973023
 NT  - Accession Number: 104973023. Language: English. Entry Date: 20110309. Revision Date: 20200708. Publication Type: Journal Article; research; tables/charts. Journal Subset: Biomedical; Double Blind Peer Reviewed; Editorial Board Reviewed; Expert Peer Reviewed; Peer Reviewed; Public Health; USA. Instrumentation: CAGE Questionnaire; Alcohol Use Disorders Identification Test (AUDIT); Michigan Alcohol Screening Test (MAST); Brief Michigan Alcohol Screening Test (BMAST). Grant Information: This study was supported by the National Institutes of Health (NIH), National Institute of Alcohol Abuse and Alcoholism (NIAAA) from grants U01AA016482 (PI: Clark) and K02AA00291 (PI: Clark).. NLM UID: 8508122.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13206
 reason  - no abstract
 ER  - 
@@ -7910,7 +7910,7 @@ U1  - 73497830
 U2  - 105079623
 NT  - Accession Number: 105079623. Language: English. Entry Date: 20101210. Revision Date: 20150711. Publication Type: Journal Article; abstract; clinical trial; research. Journal Subset: Nursing; Peer Reviewed; USA. NLM UID: 7707277.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13518
 reason  - no abstract
 ER  - 
@@ -7957,7 +7957,7 @@ PY  - 2008
 DA  - 2008/10//
 Y1  - 2008/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13542
 reason  - no abstract
 ER  - 
@@ -7986,7 +7986,7 @@ DA  - 1993/01//
 Y1  - 1993/01//
 T2  - Dissertation Abstracts International
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13574
 reason  - no abstract
 ER  - 
@@ -8031,7 +8031,7 @@ PY  - 1975
 DA  - 1975///
 Y1  - 1975///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13747
 reason  - no abstract
 ER  - 
@@ -8090,7 +8090,7 @@ PY  - 2007
 DA  - 2007/08//
 Y1  - 2007/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13804
 reason  - duplicate
 ER  - 
@@ -8123,7 +8123,7 @@ PY  - 1994
 DA  - 1994///
 Y1  - 1994///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13846
 reason  - no abstract
 ER  - 
@@ -8182,7 +8182,7 @@ PY  - 2005
 DA  - 2005///
 Y1  - 2005///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13873
 reason  - no abstract
 ER  - 
@@ -8231,7 +8231,7 @@ PY  - 2011
 DA  - 2011/10//
 Y1  - 2011/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13914
 reason  - no abstract
 ER  - 
@@ -8282,7 +8282,7 @@ PY  - 2015
 DA  - 2015/01//
 Y1  - 2015/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13947
 reason  - no abstract
 ER  - 
@@ -8316,7 +8316,7 @@ PY  - 1995
 DA  - 1995/06//
 Y1  - 1995/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13963
 reason  - no abstract
 ER  - 
@@ -8359,7 +8359,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13965
 reason  - no abstract
 ER  - 
@@ -8411,7 +8411,7 @@ PY  - 2019
 DA  - 2019/04//
 Y1  - 2019/04//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13971
 reason  - no abstract
 ER  - 
@@ -8446,7 +8446,7 @@ PY  - 1997
 DA  - 1997/10//
 Y1  - 1997/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 13978
 reason  - no abstract
 ER  - 
@@ -8502,7 +8502,7 @@ PY  - 2002
 DA  - 2002/12//
 Y1  - 2002/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14301
 reason  - no abstract
 ER  - 
@@ -8547,7 +8547,7 @@ PY  - 2008
 DA  - 2008/09//
 Y1  - 2008/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14532
 reason  - no abstract
 ER  - 
@@ -8593,7 +8593,7 @@ PY  - 2011
 DA  - 2011/03//
 Y1  - 2011/03//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14555
 reason  - no abstract
 ER  - 
@@ -8628,7 +8628,7 @@ PY  - 2019
 DA  - 2019///
 Y1  - 2019///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14585
 reason  - no abstract
 ER  - 
@@ -8675,7 +8675,7 @@ PY  - 2000
 DA  - 2000///
 Y1  - 2000///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14594
 reason  - no abstract
 ER  - 
@@ -8726,7 +8726,7 @@ PY  - 2009
 DA  - 2009/06//
 Y1  - 2009/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14754
 reason  - no abstract
 ER  - 
@@ -8782,7 +8782,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 14840
 reason  - no abstract
 ER  - 
@@ -8818,7 +8818,7 @@ PY  - 2001
 DA  - 2001///
 Y1  - 2001///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15008
 reason  - no abstract
 ER  - 
@@ -8865,7 +8865,7 @@ PY  - 2013
 DA  - 2013/09//
 Y1  - 2013/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15233
 reason  - no abstract
 ER  - 
@@ -8899,7 +8899,7 @@ PY  - 2013
 DA  - 2013///
 Y1  - 2013///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15285
 reason  - no abstract
 ER  - 
@@ -8932,7 +8932,7 @@ PY  - 1984
 DA  - 1984///
 Y1  - 1984///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15320
 reason  - no abstract
 ER  - 
@@ -8975,7 +8975,7 @@ PY  - 1997
 DA  - 1997///
 Y1  - 1997///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15344
 reason  - no abstract
 ER  - 
@@ -9012,7 +9012,7 @@ PY  - 1973
 DA  - 1973///
 Y1  - 1973///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15398
 reason  - no abstract
 ER  - 
@@ -9042,7 +9042,7 @@ PY  - 1987
 DA  - 1987///
 Y1  - 1987///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15508
 reason  - no abstract
 ER  - 
@@ -9092,7 +9092,7 @@ PY  - 2005
 DA  - 2005/10//
 Y1  - 2005/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15608
 reason  - duplicate
 ER  - 
@@ -9134,7 +9134,7 @@ PY  - 2000
 DA  - 2000/11//
 Y1  - 2000/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15653
 reason  - no abstract
 ER  - 
@@ -9165,7 +9165,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15697
 reason  - no abstract
 ER  - 
@@ -9205,7 +9205,7 @@ PY  - 1998
 DA  - 1998///
 Y1  - 1998///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15846
 reason  - duplicate
 ER  - 
@@ -9240,7 +9240,7 @@ PY  - 1982
 DA  - 1982///
 Y1  - 1982///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15903
 reason  - no abstract
 ER  - 
@@ -9269,7 +9269,7 @@ DA  - 2006///
 Y1  - 2006///
 T2  - Empowering marginal communities with information networking
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 15983
 reason  - no abstract
 ER  - 
@@ -9325,7 +9325,7 @@ PY  - 2011
 DA  - 2011/11//
 Y1  - 2011/11//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16000
 reason  - no abstract
 ER  - 
@@ -9359,7 +9359,7 @@ PY  - 1975
 DA  - 1975///
 Y1  - 1975///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16006
 reason  - no abstract
 ER  - 
@@ -9409,7 +9409,7 @@ PY  - 2014
 DA  - 2014/05//
 Y1  - 2014/05//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16027
 reason  - duplicate
 ER  - 
@@ -9453,7 +9453,7 @@ U1  - 73497642
 U2  - 105849846
 NT  - Accession Number: 105849846. Language: English. Entry Date: 20080314. Revision Date: 20150711. Publication Type: Journal Article; clinical trial; research. Journal Subset: Biomedical; Peer Reviewed; USA. NLM UID: 0372440.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16173
 reason  - no abstract
 ER  - 
@@ -9492,7 +9492,7 @@ PY  - 2018
 DA  - 2018/08//
 Y1  - 2018/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16204
 reason  - duplicate
 ER  - 
@@ -9537,7 +9537,7 @@ PY  - 2014
 DA  - 2014/08//
 Y1  - 2014/08//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16298
 reason  - no abstract
 ER  - 
@@ -9579,7 +9579,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16404
 reason  - no abstract
 ER  - 
@@ -9613,7 +9613,7 @@ SN  - 00476765
 U1  - 73490725
 NT  - Accession Number: 19754285; Swanson, Claudia K. 1; Garwick, Geoffrey B. 2; Affiliations: 1 : Social Worker III, Ramsey County Community Human Services Department, 160 E. Kellogg Blvd., St. Paul, MN 55101; 2 : Clinical Psychologist, Ramsey County Mental Health Clinic, 529 Jackson St., St. Paul, MN 55101; Source Info: Jun1990, Vol. 28 Issue 3, p155; Note: The effectiveness of specialized treatment for sex offenders with IQs from 55 to 85 is discussed, based on the author's experience with outpatient groups of mentally handicapped offenders.; Note: Publisher Information: American Association on Mental Retardation, United States.; Subject Term: SEX offenders; Subject Term: GROUP psychotherapy; Subject Term: MENTAL retardation; Subject Term: INTELLIGENCE levels; Subject Term: PSYCHOTHERAPY; Subject Term: MENTAL health services; Subject Term: PSYCHIATRY; Subject Term: THERAPEUTICS; Subject Term: CRIMINALS; Author-Supplied Keyword: Discrimination against disabld prsns; Author-Supplied Keyword: Mentally retarded offenders; Author-Supplied Keyword: Services effectiveness; Number of Pages: 7p; Illustrations: 3 Charts, 1 Diagram; Document Type: Article
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16497
 reason  - no abstract
 ER  - 
@@ -9648,7 +9648,7 @@ U1  - 73496412
 U2  - 104669195
 NT  - Accession Number: 104669195. Language: English. Entry Date: 20110919. Revision Date: 20200708. Publication Type: Journal Article; case study. Journal Subset: Biomedical; Peer Reviewed; USA. NLM UID: 101197457.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16499
 reason  - no abstract
 ER  - 
@@ -9684,7 +9684,7 @@ PY  - 2020
 DA  - 2020/09//
 Y1  - 2020/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16662
 reason  - duplicate
 ER  - 
@@ -9737,7 +9737,7 @@ U1  - 73496819
 U2  - 107994316
 NT  - Accession Number: 107994316. Language: English. Entry Date: 20130329. Revision Date: 20150712. Publication Type: Journal Article; CEU; exam questions; tables/charts. Journal Subset: Core Nursing; Editorial Board Reviewed; Expert Peer Reviewed; Nursing; Peer Reviewed; USA. Special Interest: Case Management; Psychiatry/Psychology. NLM UID: 100972358.
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16680
 reason  - no abstract
 ER  - 
@@ -9778,7 +9778,7 @@ PY  - 1999
 DA  - 1999///
 Y1  - 1999///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16733
 reason  - no abstract
 ER  - 
@@ -9810,7 +9810,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16759
 reason  - no abstract
 ER  - 
@@ -9847,7 +9847,7 @@ PY  - 1997
 DA  - 1997///
 Y1  - 1997///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16838
 reason  - no abstract
 ER  - 
@@ -9880,7 +9880,7 @@ DA  - 1991/10//
 Y1  - 1991/10//
 T2  - Dissertation Abstracts International
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 16897
 reason  - no abstract
 ER  - 
@@ -9915,7 +9915,7 @@ DA  - 1992/11//
 Y1  - 1992/11//
 T2  - Dissertation Abstracts International Section A: Humanities and Social Sciences
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17186
 reason  - no abstract
 ER  - 
@@ -9969,7 +9969,7 @@ PY  - 2004
 DA  - 2004/01//
 Y1  - 2004/01//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17214
 reason  - duplicate
 ER  - 
@@ -9999,7 +9999,7 @@ PY  - 1974
 DA  - 1974///
 Y1  - 1974///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17267
 reason  - no abstract
 ER  - 
@@ -10033,7 +10033,7 @@ PY  - 1981
 DA  - 1981///
 Y1  - 1981///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17414
 reason  - no abstract
 ER  - 
@@ -10075,7 +10075,7 @@ PY  - 1991
 DA  - 1991///
 Y1  - 1991///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17541
 reason  - no abstract
 ER  - 
@@ -10106,7 +10106,7 @@ PY  - 2000
 DA  - 2000/06//
 Y1  - 2000/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17683
 reason  - no abstract
 ER  - 
@@ -10154,7 +10154,7 @@ PY  - 2011
 DA  - 2011/12//
 Y1  - 2011/12//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17699
 reason  - no abstract
 ER  - 
@@ -10203,7 +10203,7 @@ PY  - 2013
 DA  - 2013/06//
 Y1  - 2013/06//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17855
 reason  - no abstract
 ER  - 
@@ -10243,7 +10243,7 @@ PY  - 1975
 DA  - 1975///
 Y1  - 1975///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17869
 reason  - no abstract
 ER  - 
@@ -10288,7 +10288,7 @@ PY  - 1971
 DA  - 1971///
 Y1  - 1971///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 17926
 reason  - no abstract
 ER  - 
@@ -10331,7 +10331,7 @@ PY  - 2014
 DA  - 2014/02//
 Y1  - 2014/02//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18043
 reason  - no abstract
 ER  - 
@@ -10360,7 +10360,7 @@ PY  - 2021
 DA  - 2021/09//
 Y1  - 2021/09//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18077
 reason  - duplicate
 ER  - 
@@ -10395,7 +10395,7 @@ DA  - 2010///
 Y1  - 2010///
 T2  - Dissertation Abstracts International: Section B: The Sciences and Engineering
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18123
 reason  - duplicate
 ER  - 
@@ -10430,7 +10430,7 @@ PY  - 1996
 DA  - 1996/10//
 Y1  - 1996/10//
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18198
 reason  - no abstract
 ER  - 
@@ -10467,7 +10467,7 @@ PY  - 1990
 DA  - 1990///
 Y1  - 1990///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18202
 reason  - no abstract
 ER  - 
@@ -10514,7 +10514,7 @@ PY  - 1999
 DA  - 1999///
 Y1  - 1999///
 human_code  - 0
-final_included  - 0
+included_final  - 0
 ID  - 18238
 reason  - no abstract
 ER  - 
@@ -10550,7 +10550,7 @@ PY  - 2022
 DA  - 2022///
 Y1  - 2022///
 human_code  - 1
-final_included  - 1
+included_final  - 1
 ID  - 18272
 reason  - duplicate
 ER  - 
@@ -10588,7 +10588,7 @@ U1  - 73496127
 U2  - 104222282
 NT  - Accession Number: 104222282. Language: English. Entry Date: 20130920. Revision Date: 20200708. Publication Type: Journal Article; case study. Journal Subset: Biomedical; USA. Special Interest: Psychiatry/Psychology; Women's Health. NLM UID: 9007922.
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18278
 reason  - no abstract
 ER  - 
@@ -10651,7 +10651,7 @@ PY  - 2012
 DA  - 2012/03//
 Y1  - 2012/03//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18332
 reason  - duplicate
 ER  - 
@@ -10674,7 +10674,7 @@ SN  - 01475622
 U1  - 73490763
 NT  - Accession Number: 9702182994; Bond, Gary R.; McDonel, Elizabeth C.; Source Info: Oct91, Vol. 15 Issue 2, p31; Note: Publisher Information: Trustees of Boston University IAPSRS.; Subject Term: DUAL diagnosis; Subject: INDIANA; Number of Pages: 13p; Document Type: Article; Full Text Word Count: 5876
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18335
 reason  - duplicate
 ER  - 
@@ -10711,7 +10711,7 @@ PY  - 1999
 DA  - 1999///
 Y1  - 1999///
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18376
 reason  - no abstract
 ER  - 
@@ -10745,7 +10745,7 @@ PY  - 1998
 DA  - 1998/04//
 Y1  - 1998/04//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18407
 reason  - no abstract
 ER  - 
@@ -10785,7 +10785,7 @@ PY  - 2007
 DA  - 2007/11//
 Y1  - 2007/11//
 human_code  - 1
-final_included  - 1
+included_final  - 1
 ID  - 18626
 reason  - no abstract
 ER  - 
@@ -10819,7 +10819,7 @@ PY  - 2010
 DA  - 2010/08//
 Y1  - 2010/08//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18706
 reason  - no abstract
 ER  - 
@@ -10872,7 +10872,7 @@ PY  - 2007
 DA  - 2007/04//
 Y1  - 2007/04//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18751
 reason  - duplicate
 ER  - 
@@ -10916,7 +10916,7 @@ PY  - 2019
 DA  - 2019///
 Y1  - 2019///
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18777
 reason  - no abstract
 ER  - 
@@ -10941,7 +10941,7 @@ PY  - 2013
 DA  - 2013///
 Y1  - 2013///
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18792
 reason  - duplicate
 ER  - 
@@ -10986,7 +10986,7 @@ PY  - 2013
 DA  - 2013/02//
 Y1  - 2013/02//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18821
 reason  - no abstract
 ER  - 
@@ -11019,7 +11019,7 @@ DA  - 1994///
 Y1  - 1994///
 T2  - Dissertation Abstracts International: Section B: The Sciences and Engineering
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18852
 reason  - no abstract
 ER  - 
@@ -11058,7 +11058,7 @@ PY  - 2016
 DA  - 2016/03//
 Y1  - 2016/03//
 human_code  - 1
-final_included  - 0
+included_final  - 0
 ID  - 18875
 reason  - duplicate
 ER  - 

@@ -24,7 +24,7 @@ raw_group_based_data <- bind_rows(excl, incl)
 
 #--------------------------------------------------------------------------
 # Finally included studies
-# Match the titles and dois of the final included studies to the screening data to set final_included = 1 for those studies
+# Match the titles and dois of the final included studies to the screening data to set included_final = 1 for those studies
 #--------------------------------------------------------------------------------------------------
 # Load the 62 finally included studies. 
 # Made by hand from the preprint
@@ -34,12 +34,12 @@ final_included <- read_ris_to_dataframe("group_based/data/final_inc_from_review.
 final_titles <- substr(tolower(gsub("[^A-Za-z0-9]", "", final_included$title)), 1, 80)
 final_dois <- tolower(final_included$doi[which(final_included$doi != "")])
 
-# final_included is 1 if the title or the doi is the same as a final study
+# included_final is 1 if the title or the doi is the same as a final study
 group_based_data <- raw_group_based_data |>
   mutate(title_key = substr(tolower(gsub("[^A-Za-z0-9]", "", title)), 1, 80),
          doi_key = sub(".*doi.org/", "", tolower(doi)),
-         final_included = as.integer(title_key %in% final_titles | doi_key %in% final_dois),
-         human_code = ifelse(final_included == 1, 1, human_code)) |>
+         included_final = as.integer(title_key %in% final_titles | doi_key %in% final_dois),
+         human_code = ifelse(included_final == 1, 1, human_code)) |>
   select(-title_key, -doi_key)
 
 
@@ -51,7 +51,7 @@ group_based_data <- raw_group_based_data |>
 all_studies <- group_based_data |> mutate(record_id = as.character(row_number()))
 
 unique_studies <- CiteSource::dedup_citations(all_studies, manual = TRUE)$unique |>
-  mutate(final_included = as.integer(final_included))
+  mutate(included_final = as.integer(included_final))
 
 # CiteSource only keeps the label of one of the duplicates
 # human_code is therefore set to the highest human_code of the duplicates (record_ids)
@@ -92,7 +92,7 @@ save_dataframe_to_ris(removed_studies, "group_based/data/removed_studies.ris")
 #--------------------------------------------------------------------------
 # Made by hand gathering titles and abstracts from the final included studies not found in the screening files
 added_studies <- read_ris_to_dataframe("group_based/data/added_final_included.ris") |>
-  mutate(year = as.character(year), final_included = 1, human_code = 1)
+  mutate(year = as.character(year), included_final = 1, human_code = 1)
 
 group_based_data <- bind_rows(group_based_data, added_studies)
 
@@ -101,12 +101,12 @@ group_based_data <- bind_rows(group_based_data, added_studies)
 # Checks
 #--------------------------------------------------------------------------
 glimpse(removed_studies)
-sum(group_based_data$final_included)
+sum(group_based_data$included_final)
 glimpse(group_based_data)
 
 # Print authors of the finally included studies
 for (i in seq_len(nrow(group_based_data))) {
-  if (group_based_data$final_included[i] == 1) {
+  if (group_based_data$included_final[i] == 1) {
     cat("Title:", group_based_data$title[i], "\n")
     cat("Authors:", group_based_data$author[i], "\n")
     cat("Abstract:", group_based_data$abstract[i], "\n")
@@ -116,7 +116,7 @@ for (i in seq_len(nrow(group_based_data))) {
 # Sum of columns in the full data:
 names(group_based_data)
 sum(group_based_data$human_code)
-sum(group_based_data$final_included)
+sum(group_based_data$included_final)
 unique(group_based_data$duplicate_id) |> length()
 
 #--------------------------------------------------------------------------
