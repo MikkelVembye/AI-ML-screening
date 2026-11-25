@@ -1,61 +1,61 @@
 library(dplyr)
 library(AIscreenR)
 library(future)
-prompt <- "Evaluate the following study based on the selection criteria
- for a systematic review of detention of asylum seekers and the impact on their mental health. The review
- looks for studies on asylum seekers and refugees in which detention, or the asylum-process conditions that
- go together with detention, are studied in relation to health. Detention means the deprivation of liberty of
- asylum seekers in an immigration or asylum context, for example in detention centers, to check identity, to
- process the asylum claim or to carry out a deportation. Health outcomes mean mental health (for example PTSD,
- depression, anxiety, psychological distress), physical health or social functioning. You only have the title
- and the abstract, and the full text is checked later, so if you are unsure, include the study. Studies are
- often not about detention alone: detention is often one of several post-migration stressors that are measured
- or compared. Go through the exclusion rules first. If ANY one of them applies, exclude the study. If none
- applies, go through the inclusion rules and include the study if both are met. Say which rule decided.
+prompt <- "Assess whether this record provides evidence on the health effects of immigration
+detention or an asylum policy that exposes protection seekers to detention or
+prolonged insecure status. Use only the title and abstract. Identify the exposure
+contrast, outcome and type of evidence before deciding.
 
- EXCLUDE the study if any one of these applies:
- X1) The people are clearly not asylum seekers, refugees or immigration detainees: for example prisoners in
- criminal detention, general immigrants or migrant workers with no asylum or refugee background, or the
- general population. Studies of immigrants in general, in which refugees or asylum seekers are only
- mentioned as one of several groups, are also excluded. Asylum seekers whose claim was rejected, of all ages
- and nationalities, and refugees (the two words are often used for the same people) all count.
- X2) The abstract clearly shows that the study has nothing to do with detention or with the asylum process and
- post-migration conditions of asylum seekers (for example temporary protection or insecure residency status,
- delayed decisions, restricted access to work, housing or health care), or that it is only about
- pre-migration trauma, torture or treatment programs, with no mention of detention or post-migration
- conditions. Also exclude studies that are only about the general living conditions in a refugee camp or
- settlement (for example housing, crowding, food, nutrition, infections, or psychological work with the camp
- group), unless the abstract says that the people are held there against their will. Also exclude studies of
- the deportation or policing of immigrants in general, or of the forced return of refugees, that do not
- concern the detention of asylum seekers.
- X3) The abstract clearly shows that no health, mental health or social functioning is addressed: the study
- is only about law, politics, economics or integration, with no health information.
- X4) It is a news item, letter to the editor, book review or opinion piece, even when it describes harm to
- refugees or asylum seekers, unless it is about the detention of asylum seekers. Do NOT exclude reports,
- briefs, expert submissions or reviews that present or summarize evidence on the health effects of detention
- or of asylum policies.
- X5) The abstract positively states that there is no comparison of any kind and the study only describes one
- case. Do NOT exclude because the abstract does not mention a comparison group, and do NOT exclude
- descriptive or cross-sectional studies of detained asylum seekers.
+Include primary comparative studies when asylum seekers or refugees are compared on
+measured mental or physical health outcomes across different immigration detention
+histories, durations of immigration detention, or protection regimes. For a policy
+contrast, the study must actually compare groups facing different asylum procedures,
+legal security or temporary versus permanent protection and report psychiatric
+symptoms, psychological distress or health-related functioning. Comparisons of people
+applying after arrival with already authorized refugees or other immigrants qualify if
+postmigration difficulties attributable to insecure status are studied alongside
+psychiatric symptoms. Mixed methods qualify when a comparative health analysis is
+reported.
 
- INCLUDE the study if both are shown or likely from the title or abstract:
- I1) The main group studied is asylum seekers, refugees or immigration detainees seeking protection.
- I2) Detention, or the asylum-process conditions that go with it, are part of the study and are connected to
- health, mental health or wellbeing. This includes: detained compared with not detained; groups that differ in
- whether, for how long or under what conditions they were detained; groups that differ in asylum policy or
- status (for example temporary versus permanent protection visas, or asylum seekers compared with refugees
- and immigrants) when the abstract mentions detention or post-migration stressors as a measured factor or as
- an explanation; and descriptions of the mental or physical health of detained asylum seekers. Detention does
- not have to be the main exposure. It is enough that detention, or the asylum-process conditions that go with
- it, are measured, mentioned as an explanation, or likely to be measured in the full text. Living conditions in
- a refugee camp do not count on their own.
- If the abstract shows that I1 is met and I2 is met or likely, include the study."
+Also include formal expert evidence submissions that specifically assess the combined
+mental health effects of mandatory immigration detention and prolonged temporary legal
+status. Exclude general advocacy, letters, news, accounts of individual cases,
+literature commentary and summaries of another study. A descriptive survey of one
+group of detainees, comparison with population norms, or follow-up of a single exposed
+cohort without a policy or detention comparison group is insufficient. Before/after
+symptom changes alone do not establish an eligible comparison. Distinguish immigration
+detention from open reception centres, residential moves, general refugee camp stays,
+and premigration imprisonment. Generic trauma, service use or acculturation studies
+need a relevant exposure contrast. Explain the decision briefly.
+For detention duration, require a comparison between defined exposure groups or with
+non-detained protection seekers. Exclude a correlation between symptoms and time served
+in a single detained sample. Time awaiting an asylum decision or living in reception
+facilities does not establish detention. For status comparisons, require independently
+recruited groups or groups defined by policy at baseline. A within-person change in visa
+status is insufficient when the comparison concerns symptom change as status resolves.
+Require the report to present its own methods and findings. A news summary saying that a
+study found an effect is secondary reporting even when it gives sample sizes and scales.
+A prevalence comparison of asylum applicants versus settled refugees only qualifies when
+the analysis specifically investigates detention, restrictive protection policy or
+insecure residency as an exposure. A difference in legal labels or place of recruitment
+alone is insufficient.
+First establish that the sample actually experienced immigration detention or that the
+study directly compared asylum protection regimes. An asylum centre, repeated relocation,
+or long residence in a reception system is not evidence of detention. For mixed
+immigration detainee samples, a health service audit comparing lengths of custody across
+all detainees is insufficient unless a detention effect is reported specifically for
+protection seekers."
+
+
+
+
+
 
 
 #--------------------------------------------------------------------------
-# Data: 200 studies = 4 edge cases (2 human included, 2 human excluded) + 98 human included + 98 human excluded
+# Data: 4 edge cases, 40 additional human inclusions and 98 additional human exclusions
 #--------------------------------------------------------------------------
-edge_cases <- c("10231285", "10234026", "10232556", "10233566")
+edge_cases <- c(include = "10231285", include = "10234026", exclude = "10232556", exclude = "10233566")
 
 raw <- readRDS("asylum/data/all_studies_with_labels.rds") |>
   transmute(
@@ -72,12 +72,12 @@ raw <- readRDS("asylum/data/all_studies_with_labels.rds") |>
 set.seed(123)
 data <- bind_rows(
   raw |> filter(id %in% edge_cases),
-  raw |> filter(!id %in% edge_cases, human_code == 1) |> slice_sample(n = 98),
+  raw |> filter(!id %in% edge_cases, human_code == 1) |> slice_sample(n = 40),
   raw |> filter(!id %in% edge_cases, human_code == 0) |> slice_sample(n = 98)
 ) |>
   as_tibble()
 
-stopifnot(nrow(data) == 200, sum(data$id %in% edge_cases) == length(edge_cases))
+stopifnot(nrow(data) == 142, sum(data$id %in% edge_cases) == length(edge_cases))
 table(human_code = data$human_code)
 
 # Print the edge cases for reference
@@ -110,7 +110,7 @@ res_test <- AIscreenR::tabscreen_gpt(
 
 plan(sequential)
 
-res_test |> screen_analyzer()
+res_test |> screen_analyzer(human_decision = included_final)
 
 
 #--------------------------------------------------------------------------
