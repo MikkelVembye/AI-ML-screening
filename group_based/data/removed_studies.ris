@@ -141,6 +141,39 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Adults with autism spectrum disorder and the criminal justice system: An investigation of prevalence of contact with the criminal justice system, risk factors and sex differences in a specialist assessment service
+JF  - AUTISM
+AU  - Blackmore CE
+AU  - Woodhouse EL
+AU  - Gillan N
+AU  - Wilson E
+AU  - Ashwood KL
+AU  - Stoencheva V
+AU  - Nolan A
+AU  - McAlonan GM
+AU  - Robertson DM
+AU  - Whitwell S
+AU  - Deeley Q
+AU  - Craig MC
+AU  - Zinkstok J
+AU  - Wichers R
+AU  - Spain D
+AU  - Roberts G
+AU  - Murphy DG
+AU  - Murphy CM
+AU  - Daly E
+KW  - eppi-reviewer
+AB  - The behavioural and cognitive difficulties of some adults with autism spectrum disorder (ASD) may increase their risk of contact with the criminal justice system (CJS) as a potential suspect. There has been limited investigation of ASD and offending and available evidence is mixed. A retrospective review was completed of medical records of 1570 adults (17-75 years old) who were referred for an ASD assessment over a 17-year period (April 2003 to February 2020). Of the adults diagnosed with ASD, 23% had previous contact with the CJS. Being male or diagnosed with co-occurring attention-deficit hyperactivity disorder (ADHD) and/or psychotic disorder were risk factors for CJS contact. However, the rates of contact with the CJS or for specific offences in the ASD group were never higher than adults referred to our service but not diagnosed with ASD. We did not include a general population comparison group, therefore cannot say how rates of CJS contact in ASD compare with the general population. Further health services research for adults with ASD is warranted, as modifying the treatable risk factors (i.e. ADHD) could reduce contact with the CJS. In addition, joint working between CJS and mental health services could reduce the risk of adults with ASD having CJS contact. Lay abstract There has been growing interest in offending and contact with the criminal justice system (CJS) by people with autism spectrum disorder (ASD). However, it is not clear whether people with ASD offend more than those without ASD. Studies have started to look at whether there are particular offences people with ASD are more likely to commit and whether there are any factors that can affect whether someone comes into contact with the CJS as a potential suspect. This study looked at the patients who attended an ASD diagnostic service over a 17-year period to see the rate of contact with the CJS of those who were diagnosed with ASD and whether there were any particular factors that might increase the risk of CJS contact. Nearly a quarter of the ASD group had some contact with the CJS as a potential suspect. Factors that seemed to increase whether someone with ASD was more likely to have contact with the CJS were being male, being diagnosed with ADHD, and being diagnosed with psychosis. This study is one of the largest studies to investigate the rate of CJS contact as a potential suspect in a sample of adults with ASD in an attempt to give a clearer picture of what might influence someone with ASD to engage in offending behaviour in order to try to see what mental health services can offer to reduce the likelihood of someone with ASD coming into contact with the CJS, for example, treatment for another condition or support.
+DO  - 10.1177/13623613221081343
+SN  - 1461-7005
+U1  - 73505572
+human_code  - 0
+included_final  - 0
+ID  - 286
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - The effect of rational emotive behavior group therapy on self-concept and depression of self-introduced drug abusers referred to ofogh addiction treatment center in Zarand (Kerman, Iran)
 JF  - Biomedical and pharmacology journal
 AU  - Aghataher A
@@ -574,7 +607,7 @@ Y1  - 2004///
 human_code  - 0
 included_final  - 0
 ID  - 687
-reason  - no abstract
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -768,6 +801,42 @@ human_code  - 0
 included_final  - 0
 ID  - 938
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Older people and alcohol use.
+JF  - British Journal of Community Nursing
+AU  - Bakhshi Savita
+AU  - While Alison E
+KW  - eppi-reviewer
+KW  - Alcohol Drinking -- In Old Age -- United Kingdom
+KW  - Alcoholism -- In Old Age -- United Kingdom
+KW  - Aged
+KW  - United Kingdom
+KW  - Health Behavior
+KW  - Health Promotion
+KW  - Social Participation
+KW  - Alcoholism -- Risk Factors
+KW  - Clinical Assessment Tools
+AB  - The proportion of older people drinking alcohol above the recommended levels has been increasing in the UK. Alcohol dependency and misuse can lead to various physical and psychological problems for older people. A range of factors can influence alcohol dependency and misuse among older adults, which need careful consideration when interventions are being developed to reduce consumption. Interventions to reduce alcohol consumption among older people can include: home visits, telephone support, mentoring, one-to-one and group programmes, family and community engagement programmes, outreach programmes, and targeted support groups focused on education and social activities. There is a need for the training of community nurses focused on improving the detection (screening and assessment), treatment and service provision for older people.
+DO  - 10.12968/bjcn.2014.19.8.370
+VL  - 19
+IS  - 8
+SP  - 370
+EP  - 374
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=c8h&AN=107871935&site=ehost-live
+PB  - Mark Allen Holdings Limited
+SN  - 1462-4753
+U1  - 73495048
+U2  - 107871935
+NT  - Accession Number: 107871935. Language: English. Entry Date: 20140812. Revision Date: 20200708. Publication Type: Journal Article; pictorial. Journal Subset: Core Nursing; Double Blind Peer Reviewed; Editorial Board Reviewed; Europe; Expert Peer Reviewed; Nursing; Peer Reviewed; Public Health; UK & Ireland. Special Interest: Gerontologic Care; Public Health. Instrumentation: Alcohol Use Disorders Identification Test (AUDIT). NLM UID: 9815827.
+PY  - 2014
+DA  - 2014/08//
+Y1  - 2014/08//
+human_code  - 0
+included_final  - 0
+ID  - 998
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -1291,6 +1360,30 @@ reason  - duplicate
 ER  - 
 
 TY  - JOUR
+TI  - Psychological therapies for people with borderline personality disorder
+JF  - COCHRANE DATABASE OF SYSTEMATIC REVIEWS
+AU  - Binks CA
+AU  - Fenton M
+AU  - McCarthy L
+AU  - Lee T
+AU  - Adams CE
+AU  - Duggan C
+KW  - eppi-reviewer
+AB  - Background Borderline personality disorder (BPD) is a relatively common personality disorder with a major impact on health services as those affected often present in crisis, often self-harming. Objectives To evaluate the effects of psychological interventions for people with borderline personality disorder. Search strategy We conducted a systematic search of 26 specialist and general bibliographic databases (December 2002) and searched relevant reference lists for further trials. Selection criteria All relevant clinical randomised controlled trials involving psychological treatments for people with BPD. The definition of psychological treatments included behavioural, cognitive-behavioural, psychodynamic and psychoanalytic. Data collection and analysis We independently selected, quality assessed and data extracted studies. For binary outcomes we calculated a standard estimation of the risk ratio (RR), its 95% confidence interval (CI), and where possible the number need to help/harm (NNT/H). For continuous outcomes, endpoint data were preferred to change data. Non-skewed data from valid scales were summated using a weighted mean difference (WMD). Main results We identified seven studies involving 262 people, and five separate comparisons. Comparing dialectical behaviour therapy (DBT) with treatment as usual studies found no difference for the outcome of still meeting SCID-II criteria for the diagnosis of BPD by six months (n=28, 1 RCT, RR 0.69 CI 0.35 to 1.38) or admission to hospital in previous three months (n=28, 1 RCT, RR 0.77 CI 0.28 to 2.14). Self harm or parasuicide may decrease at 6 to 12 months (n=63, 1 RCT, RR 0.81 CI 0.66 to 0.98, NNT 12 CI 7 to 108). One study detected statistical difference in favour of people receiving DBT compared with those allocated to treatment as usual for average scores of suicidal ideation at 6 months (n=20, MD -15.30 CI -25.46 to -5.14). There was no difference for the outcome of leaving the study early (n=155, 3 RCTs, RR 0.74 CI 0.52 to 1.04). For the outcome of interviewer-assessed alcohol free days, skewed data are reported and tend to favour DBT. When a substance abuse focused DBT was compared with comprehensive validation therapy plus 12-step substance misuse programme no clear differences were found for service outcomes (n=23, 1 RCT, RR imprisoned 1.09 CI 0.64 to 1.87) or leaving the study early (n=23, 1 RCT, RR 7.58 CI 0.44 to 132.08). When dialectical behaviour therapy-oriented treatment is compared with client centred therapy no differences were found for service outcomes (n=24, 1 RCT, RR admitted 0.33 CI 0.08 to 1.33). However, fewer people in the DBT group displayed indicators of parasuicidal behaviour (n=24, RR 0.13 CI 0.02 to 0.85, NNT 2 CI 2 to 11). There were no differences for outcomes of anxiety and depression (n=24, 1 RCT, RR anxiety BAI >/=10 0.60 CI 0.32 to 1.12; RR depression HDRS >/=10 0.43 CI 0.14 to 1.28) but people who received DBT had less general psychiatric severity than those in the control (MD BPRS at 6 months -7.41 CI -13.72 to -1.10). Finally this one relevant study reports skewed data for suicidal ideation with considerably lower scores for people allocated to DBT. When psychoanalytically oriented partial hospitalization was compared with general psychiatric care the former tended to come off best. People who received treatment in a psychoanalytic orientated day hospital were less likely to be admitted into inpatient care when measured at different time points (e.g. n=44, RR admitted to inpatient 24 hour care > 18 to 24 months 0.05 CI 0.00 to 0.77, NNT 3 CI 3 to 10) Fewer people in psychoanalytically oriented partial hospitalization needed day hospital intervention in the 18 months after discharge (n=44, 1 RCT, RR 0.04 CI 0.00 to 0.59, NNT 2 CI 2 to 8). More people in the control group took psychotropic medication by the 30 to 36 month follow-up, than those receiving psychoanalytic treatment (n=44, 1 RCT, RR 0.44 CI 0.25 to 0.80, NNT 3 CI 2 to 7). Anxiety and depression scores were generally lower in the psychoanalytically oriented partial hospitalization group (n=44, 1 RCT, RR >/= 14 on BDI 0.52 CI 0.34 to 0.80, NNT 3 CI 3 to 6), as are global severity scores. People receiving psychoanalytic care in a day hospital had better social improvement in social adjustment using the SAS-SR at 6 to 12 months compared with people in general psychiatric care (MD -0.70 CI -1.08 to -0.32). Rates of attrition were the same (n=44, 1 RCT, RR leaving the study early 1.00 CI 0.23 to 4.42). Authors' conclusions This review suggests that some of the problems frequently encountered by people with borderline personality disorder may be amenable to talking/behavioural treatments but all therapies remain experimental and the studies are too few and small to inspire full confidence in their results. These findings require replication in larger 'real-world' studies.
+DO  - 10.1002/14651858.CD005652
+IS  - 1
+SN  - 1361-6137
+U1  - 73504273
+PY  - 2006
+DA  - 2006///
+Y1  - 2006///
+human_code  - 0
+included_final  - 0
+ID  - 1523
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Association of sociodemographic, psychopathological and gambling-related factors with treatment utilization for pathological gambling.
 JF  - European Addiction Research
 AU  - Bischof Anja
@@ -1344,6 +1437,49 @@ human_code  - 0
 included_final  - 0
 ID  - 1542
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - A randomized controlled trial of support group intervention after breast cancer treatment: results on sick leave, health care utilization and health economy
+JF  - Acta oncologica (Stockholm, Sweden)
+AU  - Björneklett HG
+AU  - Rosenblad A
+AU  - Lindemalm C
+AU  - Ojutkangas ML
+AU  - Letocha H
+AU  - Strang P
+AU  - Bergkvist L
+KW  - eppi-reviewer
+KW  - Adult
+KW  - Aged
+KW  - Aged, 80 and over
+KW  - Breast Neoplasms [*therapy]
+KW  - Female
+KW  - Health Services [*economics, *statistics & numerical data]
+KW  - Humans
+KW  - Imagery, Psychotherapy
+KW  - Middle Aged
+KW  - Nonverbal Communication
+KW  - Patient Education as Topic
+KW  - Prospective Studies
+KW  - Relaxation Therapy
+KW  - Self‐Help Groups
+KW  - Sick Leave [*economics, *statistics & numerical data]
+KW  - Sweden [epidemiology]
+AB  - BACKGROUND: More than 50% of breast cancer patients are diagnosed before the age of 65. Returning to work after treatment is, therefore, of interest for both the individual and society. The aim was to study the effect of support group intervention on sick leave and health care utilization in economic terms. MATERIAL AND METHODS: Of 382 patients with newly diagnosed breast cancer, 191 + 191 patients were randomized to an intervention group or to a routine control group, respectively. The intervention group received support intervention on a residential basis for one week, followed by four days of follow‐up two months later. The support intervention included informative‐educational sections, relaxation training, mental visualization and non‐verbal communication. Patients answered a questionnaire at baseline, two, six and 12 months about sick leave and health care utilization. RESULTS: There was a trend towards longer sick leave and more health care utilization in the intervention group. The difference in total costs was statistically significantly higher in the intervention group after 12 months (p = 0.0036). CONCLUSION: Costs to society were not reduced with intervention in its present form.
+DO  - 10.3109/0284186X.2012.734921
+VL  - 52
+IS  - 1
+SP  - 38‐47
+UR  - https://www.cochranelibrary.com/central/doi/10.1002/central/CN-00913304/full
+U1  - 73520029
+PY  - 2013
+DA  - 2013///
+Y1  - 2013///
+human_code  - 0
+included_final  - 0
+ID  - 1563
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -1800,6 +1936,46 @@ ID  - 2062
 reason  - no abstract
 ER  - 
 
+TY  - CHAP
+TI  - Critical incident interventions: Crisis response and debriefing
+AU  - Brucia Emily
+AU  - Cordova Matthew J
+AU  - Ruzek Josef I
+AU  - Mitchell Cary L
+AU  - Dorian Edrick H
+KW  - eppi-reviewer
+KW  - critical incident interventions
+KW  - crisis response
+KW  - debriefing
+KW  - police psychology
+KW  - police personnel
+KW  - Forensic Psychology
+KW  - Intervention
+KW  - Police Personnel
+KW  - Psychology
+KW  - Stress Reactions
+KW  - Debriefing (Psychological)
+AB  - Police officers are exposed to many critical incidents throughout their careers. This chapter discusses critical incident exposure and psychological sequelae in police officers, police culture, obstacles to mental health care, currently utilized early interventions, existing research for these approaches, alternative evidence-based early interventions, emerging models, and directions for future research. Given the frequency and potential impact of critical incidents, early intervention for exposed police officers is of central importance. One of the most commonly utilized group early interventions, Critical Incident Stress Debriefing (CISD), has limited empirical support, such that some departments are being advised against its use. That said, there are important challenges in identifying better, evidence-based alternatives. (PsycInfo Database Record (c) 2022 APA, all rights reserved)
+DO  - 10.4018/978-1-5225-0813-7.ch006
+SP  - 119
+EP  - 142
+AD  - Hershey, PA
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=psyh&AN=2017-00890-006&site=ehost-live
+PB  - Information Science Reference/IGI Global
+SN  - 978-1-522-50814-4
+U1  - 73559321
+U2  - 2017-00890-006
+NT  - Accession Number: 2017-00890-006. Partial author list: First Author & Affiliation: Brucia, Emily; Palo Alto University, Palo Alto, CA, US. Release Date: 20170306. Correction Date: 20220414. Publication Type: Book (0200), Edited Book (0280). Format Covered: Print. Document Type: Chapter. ISBN: 1-522-50813-9, ISBN Hardcover; 978-1-522-50813-7, ISBN Hardcover; 978-1-522-50814-4, ISBN Digital (undefined format). Language: EnglishMajor Descriptor: Forensic Psychology; Intervention; Police Personnel; Psychology; Stress Reactions. Minor Descriptor: Debriefing (Psychological). Classification: Forensic Psychology & Legal Issues (4200). Population: Human (10). Age Group: Adulthood (18 yrs & older) (300); Young Adulthood (18-29 yrs) (320). Intended Audience: Psychology: Professional & Research (PS). References Available: Y. Page Count: 24.
+PY  - 2017
+DA  - 2017///
+Y1  - 2017///
+T2  - Police psychology and its growing impact on modern law enforcement.
+human_code  - 0
+included_final  - 0
+ID  - 2073
+reason  - duplicate
+ER  - 
+
 TY  - JOUR
 TI  - The changing face of opioid addiction: prescription pain pill dependence and treatment.
 JF  - Health & social work
@@ -1868,6 +2044,82 @@ human_code  - 0
 included_final  - 0
 ID  - 2347
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Sleep Disturbance, Chronic Stress, and Depression in Hospice Nurses: Testing the Feasibility of an Intervention.
+JF  - Oncology Nursing Forum
+AU  - Carter Patricia A
+AU  - Dyer Kathleen A
+AU  - Mikan Sabrina Q
+KW  - eppi-reviewer
+KW  - SLEEP disorders treatment
+KW  - COGNITIVE therapy
+KW  - STATISTICAL correlation
+KW  - MENTAL depression
+KW  - RESEARCH methodology
+KW  - NURSING specialties
+KW  - PSYCHOLOGICAL tests
+KW  - RELAXATION for health
+KW  - RESEARCH funding
+KW  - HEALTH self-care
+KW  - PSYCHOLOGICAL stress
+KW  - WORK
+KW  - HOSPICE nurses
+KW  - SAMPLE size (Statistics)
+KW  - DATA analysis software
+KW  - DESCRIPTIVE statistics
+KW  - INFERENTIAL statistics
+KW  - PSYCHOLOGICAL factors
+KW  - TEXAS
+AB  - Purpose/Objectives: To test the feasibility of a cognitive-behavioral therapy for an insomnia (CBT-I) intervention in chronically bereaved hospice nurses.Design: Five-week descriptive correlational.Setting: Nonprofit hospice in central Texas.Sample: 9 agency nurses providing direct patient and family care.Methods: Direct care nurses were invited to participate. Two intervention group sessions occurred at the hospice agency and included identification of dysfunctional thoughts and beliefs about sleep, stimulus control, sleep hygiene, and relaxation techniques to promote sleep. Measurements were taken at baseline and three and five weeks postintervention.Main Research Variables: Sleep quality, depressive symptoms, and narrative reflections on the impact of sleep quality on self-care.Findings: Participants reported moderate-to-severe sleep disturbances and moderate depressive symptoms. The CBT-I intervention was well accepted by the participants, and on-site delivery increased participation.Conclusions: Additional longitudinal study is needed to investigate the effectiveness of CBT-I interventions to improve self-care among hospice nurses who are at high risk for compassion fatigue and, subsequently, leaving hospice care.Implications for Nursing: Hospice nurses are exposed to chronic bereavement that can result in sleep disturbances, which can negatively affect every aspect of hospice nurses' lives. Cognitive-behavioral sleep interventions show promise in teaching hospice nurses how to care for themselves by getting quality sleep.Knowledge Translation: Identifying the risks for sleep disturbances and depressive symptoms in hospice nurses will allow for effective, individualized interventions to help promote health and well-being. If hospice nurses achieve quality sleep, they may remain in the profession without suffering from chronic bereavement, which can result in compassion fatigue. A CBT-I intervention delivered at the agency and in a group format was feasible and acceptable by study participants. [ABSTRACT FROM AUTHOR] Copyright of Oncology Nursing Forum is the property of Oncology Nursing Society and its content may not be copied or emailed to multiple sites or posted to a listserv without the copyright holder's express written permission. However, users may print, download, or email articles for individual use. This abstract may be abridged. No warranty is given about the accuracy of the copy. Users should refer to the original published version of the material for the full abstract. (Copyright applies to all Abstracts.)
+VL  - 40
+IS  - 5
+SP  - E368
+EP  - E373
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=aph&AN=90048182&site=ehost-live
+PB  - Oncology Nursing Society
+SN  - 0190535X
+U1  - 73500314
+NT  - Accession Number: 90048182; Carter, Patricia A. 1 Dyer, Kathleen A. 2 Mikan, Sabrina Q. 3; Affiliation: 1: School of Nursing, University of Texas at Austin 2: St. David's Georgetown Hospital in Texas 3: Texas Oncology in Austin, University of Texas at Austin; Source Info: Sep2013, Vol. 40 Issue 5, pE368; Subject Term: SLEEP disorders treatment; Subject Term: COGNITIVE therapy; Subject Term: STATISTICAL correlation; Subject Term: MENTAL depression; Subject Term: RESEARCH methodology; Subject Term: NURSING specialties; Subject Term: PSYCHOLOGICAL tests; Subject Term: RELAXATION for health; Subject Term: RESEARCH funding; Subject Term: HEALTH self-care; Subject Term: PSYCHOLOGICAL stress; Subject Term: WORK; Subject Term: HOSPICE nurses; Subject Term: SAMPLE size (Statistics); Subject Term: DATA analysis software; Subject Term: DESCRIPTIVE statistics; Subject Term: INFERENTIAL statistics; Subject Term: PSYCHOLOGICAL factors; Subject Term: TEXAS; NAICS/Industry Codes: 621610 Home Health Care Services; Number of Pages: 6p; Illustrations: 2 Charts; Document Type: Article
+PY  - 2013
+DA  - 2013/09//
+Y1  - 2013/09//
+human_code  - 0
+included_final  - 0
+ID  - 2471
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Challenges in motivating treatment enrollment in community syringe exchange participants
+JF  - Journal of Urban Health
+AU  - Michael Kidorf
+AU  - Elizabeth Disney
+AU  - Van King
+AU  - Ken Kolodner
+AU  - Peter Beilenson
+AU  - Robert Brooner
+KW  - eppi-reviewer
+KW  - SYRINGES
+KW  - NEEDLE exchange programs
+KW  - BLOODBORNE infections -- Prevention
+KW  - DEPRESSION
+KW  - Mental
+AB  - Participants of syringe exchange programs (SEPs) exhibit high rates of substance use disorder but remain extremely ambivalent about seeking treatment. This study evaluated the effectiveness of motivational interviewing (MI) for encouraging SEP participants to enroll in substance abuse treatment. New opioid-dependent registrants to the Baltimore Needle Exchange Program (BNEP) (n=302) completed the Structured Clinical Interview for the Diagnostic and Statistical Manual of Mental Disorders, fourth edition (DSM-IV), and the Addiction Severity Index (ASI) and were randomly assigned to one of three treatment referral conditions: (1) MI, (2) job readiness (JR) (attention control), or (3) standard referral. Participants in each condition who expressed interest in treatment were referred to a treatment readiness group that provided further encouragement and referral to programs that were accepting new admissions. Participants were observed for 1 year following the intervention. The results showed that 10.9% of study participants enrolled in substance abuse treatment, although no condition effects were observed. White participants and those diagnosed with major depression were most likely to enter treatment. The results suggest that a single motivational interview is insufficient to motivate changes in treatment seeking in this population, whereas the identification of predictors of treatment enrollment is worthy of further investigation.
+VL  - 82
+IS  - 3
+SP  - 456
+EP  - 467
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=sih&AN=21756130&site=ehost-live
+PB  - Oxford University Press / UK
+SN  - 10993460
+U1  - 73490586
+NT  - Accession Number: 21756130; Michael Kidorf; Elizabeth Disney; Van King; Ken Kolodner; Peter Beilenson; Robert Brooner; Source Info: Sep2005, Vol. 82 Issue 3, p456; Note: Publisher Information: Oxford University Press / UK.; Subject Term: SYRINGES; Subject Term: NEEDLE exchange programs; Subject Term: BLOODBORNE infections -- Prevention; Subject Term: DEPRESSION, Mental; Number of Pages: 12p; Document Type: Article
+human_code  - 0
+included_final  - 0
+ID  - 2560
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -2061,6 +2313,30 @@ human_code  - 0
 included_final  - 0
 ID  - 2924
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - The computer-based drug and alcohol training assessment in Kenya
+JF  - Drug and alcohol dependence
+AU  - Clair V
+AU  - Mutiso V
+AU  - Musau A
+AU  - Frank E
+AU  - Ndetei D
+KW  - eppi-reviewer
+AB  - Aims: NextGenU.org, the Annenberg Physician Training Program in Addiction Medicine (APTPAM), and Africa Mental Health Foundation (AMHF) assessed the impact of online training on urban and rural Kenyan healthcare workers' (HW) delivery of substance use disorders (SUD) services; using the NextGenU.org model based on expert created competencies, free available learning objects, and mentored activities. Methods: eDATA K includes (1) a pilot study; (2) a pre‐ and posttraining knowledge, attitudes and skills (KAS) ofHWin practice; (3) a RCT comparing alcohol brief interventions (BI) versus screening and information leaflet with 6 months follow‐up (f/u); and (4) an implementation science study using a delayed control method to assess the integration of the SUD interventions in on‐going practice with or without a quality improvement course. All four studies used quantitative and qualitative methods and data collection tools, administered after obtaining ethical approval and informed consent. Results: The courses improved KAS both in the pilot and in subsequent training of HW in 15 primary care facilities. Both RCT study arms (n = 696) showed a decrease of approximately100 g of alcohol (from about 400 g at baseline) of alcohol consumption in the previous 7 days at 6 months f/u, for those with risky level of alcohol consumption as determined by the ASSIST. Focus groups revealed very significant impact on participants' health and functioning. HWs were able to integrate the screening and BI in their practice, especially after taking a quality improvement course, performing > 7000 screens and 800 BIs after the RCT. Conclusions: AMHF's, APTPAM's and NextGenU's online trainings decreased stigma, integrated SUD services in primary care, and resulted in HW providing an intervention that decreased alcohol consumption more than that found in BI meta‐analysis. Populations worldwide would benefit from access to HW trained with this free coursework.
+DO  - 10.1016/j.drugalcdep.2016.08.129
+VL  - Conference: 2016 Annual Meeting of the College on Proble
+IS  - pp e42‐e43
+UR  - https://www.cochranelibrary.com/central/doi/10.1002/central/CN-01473436/full
+U1  - 73519502
+PY  - 2017
+DA  - 2017///
+Y1  - 2017///
+human_code  - 0
+included_final  - 0
+ID  - 2930
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -2663,6 +2939,59 @@ human_code  - 0
 included_final  - 0
 ID  - 3808
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - The design and implementation of cancer patient support groups in Rural haiti
+JF  - World Cancer Congress, WCC 2018. Kuala Lumpur Malaysia.
+AU  - Deshommes O
+AU  - Greenberg L
+AU  - Haskins L
+AU  - Pierre B F
+AU  - Desameau P G
+KW  - eppi-reviewer
+KW  - adult
+KW  - cancer diagnosis
+KW  - *cancer patient
+KW  - caregiver
+KW  - clinician
+KW  - controlled study
+KW  - education
+KW  - female
+KW  - *Haiti
+KW  - home visit
+KW  - human
+KW  - lowest income group
+KW  - major clinical study
+KW  - male
+KW  - mental health
+KW  - oncology
+KW  - peer counseling
+KW  - qualitative analysis
+KW  - side effect
+KW  - social determinants of health
+KW  - speech
+KW  - *support group
+KW  - therapeutic alliance
+KW  - conference abstract
+AB  - Background: In Haiti, cancer is associated with myths that have traumatic effects on patients and families. Cancer diagnoses are drivers of socioeconomic change, with psychological repercussions for an impoverished population. Aware of this reality, the Oncology Service at University Hospital of Mirebalais (HUM) created a dedicated psychosocial team, composed of a social worker, her assistant and a psychologist. Care is provided to patients and families through: individual counseling, support groups, outreach activities, home visits, and mental health consults. This abstract focuses on patient support groups (SG). SGs act as vectors of information and training that are capable of breaking myths, and accompanying patients on their cancer journey. Aim(s): The primary aim of SGs is to create a space for patients to participate in Education and peer counseling. During sessions, the team encourages expressions of emotions and experiences in Relation to the disease and its repercussions on patients and caregivers. These discussions encourage participant solidarity and strengthen compliance to treatments. SGs, however, are not static and services are continuously improved by collecting feedback. Method(s): To address the psychosocial needs of each cancer patient, SGs were developed with specificity. Patients are categorized in Sgs according to the medical treatment they are receiving. Other SGs offered, focus on caregiver experience. SGs have about 12 participants, last 120 minutes and are held in A private space in Hum. In General, discussions relate to patient experience, side effects, relationship implications, and socio-economic impacts. Across all SGs, principles for speaking are negotiated and are always at discretion of participants. Result(s): The HUM team has provided SG services since 2013. SGs are held often and the majority of oncology patients participate. In 2017, we held 30 SGs with over 380 participants. Therapeutic alliances have improved relationships: patient-patient, family-patient, and patient-clinician-fostering interdisciplinary collaboration. However, all SGs must be performed the same day as the medical appointment due to socio-economic difficulties that can create logistical challenges. Patient needs are also fluid and flexibility is key as SGs evolve. Conclusion(s): SGs play a critical role in Comprehensive cancer care, particularly in Haiti where there are severe social implications for patients. Mental health of cancer patients is critical and SGs are an impactful way to address this need. Arranging SGs by medical treatment, the model used at HUM, is adaptable to other low-income settings. Every SG is different and facilitators approach each session without preconceptions, yet diligent to gather feedback. SGs provide critical information to clinicians about social determinants and implications of cancer diagnoses in Haiti. In The future, we hope to do robust qualitative analysis of SGs, using feedback from cancer patients at HUM.
+DO  - http://dx.doi.org/10.1200/jgo.18.31800
+VL  - 4
+IS  - Supplement 2
+SP  - 89s
+AD  - Netherlands
+UR  - https://ascopubs.org/pb-assets/pdfs/JGO_2018_UICC-1538168504637.pdf http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=emed19&NEWS=N&AN=627190652
+PB  - American Society of Clinical Oncology
+SN  - 2378-9506
+U1  - 73512293
+U2  - 627190652
+PY  - 2018
+DA  - 2018///
+Y1  - 2018///
+human_code  - 0
+included_final  - 0
+ID  - 3927
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -3340,6 +3669,44 @@ ID  - 4638
 reason  - duplicate
 ER  - 
 
+TY  - JOUR
+TI  - Known-groups validity and responsiveness to change of the Patient Experience with Treatment and Self-management (PETS vs. 2.0): a patient-reported measure of treatment burden.
+JF  - Quality of Life Research
+AU  - Eton David T
+AU  - Lee Minji K
+AU  - St Sauver
+AU  - Jennifer L
+AU  - Anderson Roger T
+KW  - eppi-reviewer
+KW  - HEALTH literacy
+KW  - PATIENT compliance
+KW  - PETS
+KW  - MEDICAL care costs
+KW  - MENTAL health
+KW  - MINNESOTA
+KW  - Multi-morbidity
+KW  - Patient-related experience
+KW  - Patient-reported outcome
+KW  - Questionnaire
+AB  - Purpose: The purpose of this study was to test the known-groups validity and responsiveness to change of the Patient Experience with Treatment and Self-management (PETS, vs. 2.0), a measure of treatment burden. Methods: The PETS and other standard measures were mailed at baseline and 12-month follow-up to adults living with multiple chronic conditions in southeast Minnesota (USA). A sample of 365 people (mean age = 62.1 years) completed both surveys. Baseline, 12-month, and changes in PETS burden scores were examined. Clinical anchors used to test validity included number of diagnoses (2–4 vs. 5+), mental health diagnosis (yes/no), medication adherence and health literacy (suboptimal/optimal), and changes in self-efficacy, global physical, and global mental health (worsening/improving). Independent-samples t-tests were used to compare scores. Results: PETS scales showed good internal consistency (αs ≥ 0.80). There were few differences across number of diagnoses, but having a mental health diagnosis was associated with higher baseline PETS burden scores (Ps <.05). Suboptimal medication adherence and health literacy over time were associated with worse 12-month PETS burden scores (Ps <.05). Compared with improvements, declines over time in self-efficacy, global physical health, and global mental health were each associated with worsening change scores on PETS impact summary, medical expenses, and bother due to medication reliance and medication side effects (Ps <.05). Conclusion: Among multi-morbid adults, the PETS demonstrated evidence of known-groups validity and responsiveness to change across both objective (e.g., mental health diagnoses) and subjective anchors (e.g., changes in self-efficacy, global physical, and global mental health). [ABSTRACT FROM AUTHOR] Copyright of Quality of Life Research is the property of Springer Nature and its content may not be copied or emailed to multiple sites or posted to a listserv without the copyright holder's express written permission. However, users may print, download, or email articles for individual use. This abstract may be abridged. No warranty is given about the accuracy of the copy. Users should refer to the original published version of the material for the full abstract. (Copyright applies to all Abstracts.)
+VL  - 29
+IS  - 11
+SP  - 3143
+EP  - 3154
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=aph&AN=146651977&site=ehost-live
+PB  - Springer Nature
+SN  - 09629343
+U1  - 73499259
+NT  - Accession Number: 146651977; Eton, David T. 1,2; Email Address: eton.david@mayo.edu Lee, Minji K. 2 St. Sauver, Jennifer L. 1,2 Anderson, Roger T. 3; Affiliation: 1: Department of Health Sciences Research, Mayo Clinic, 200 First St SW, Harwick Building, 55905, Rochester, MN, USA 2: Robert D. and Patricia E. Kern Center for the Science of Health Care Delivery, Mayo Clinic, Rochester, MN, USA 3: Department of Public Health Sciences, University of Virginia School of Medicine, Charlottesville, VA, USA; Source Info: Nov2020, Vol. 29 Issue 11, p3143; Subject Term: HEALTH literacy; Subject Term: PATIENT compliance; Subject Term: PETS; Subject Term: MEDICAL care costs; Subject Term: MENTAL health; Subject Term: MINNESOTA; Author-Supplied Keyword: Multi-morbidity; Author-Supplied Keyword: Patient-related experience; Author-Supplied Keyword: Patient-reported outcome; Author-Supplied Keyword: Questionnaire; NAICS/Industry Codes: 621330 Offices of Mental Health Practitioners (except Physicians); NAICS/Industry Codes: 411110 Live animal merchant wholesalers; NAICS/Industry Codes: 112999 All other miscellaneous animal production; NAICS/Industry Codes: 112990 All Other Animal Production; NAICS/Industry Codes: 453910 Pet and Pet Supplies Stores; Number of Pages: 12p; Illustrations: 3 Charts, 3 Graphs; Document Type: Article; Full Text Word Count: 6822
+PY  - 2020
+DA  - 2020/11//
+Y1  - 2020/11//
+human_code  - 0
+included_final  - 0
+ID  - 4697
+reason  - duplicate
+ER  - 
+
 TY  - BOOK
 TI  - Evaluation of a sexual health approach to reducing HIV/STD risk in the transgender community
 AU  - Bockting W O
@@ -3478,6 +3845,30 @@ human_code  - 0
 included_final  - 0
 ID  - 4936
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Prevalence and impact of potentially inappropriate medication on community dwelling older adults
+JF  - BIOMEDICA
+AU  - Fernandez A
+AU  - Gomez F
+AU  - Curcio CL
+AU  - Pineda E
+AU  - de Souza JF
+KW  - eppi-reviewer
+AB  - Introduction: Potentially inappropriate medication (PIM) is associated with adverse health and functional outcomes, and increased health care costs. Objective: To estimate the prevalence and types of PIM according to the Beers criteria in community dwelling older persons and to identify the major clinical and functional consequences of PIM during two years of following. Materials and methods: This was a longitudinal, descriptive and observational study that included 400 dwelling people 65 years and older (48% women) selected by simple random sampling in 2012; in 2014, 372 people were revaluated and classified in two groups based on the presence or absence of PIM through the follow up period. Results: In total, 31% had polypharmacy, (5-9 medications) and 1,8% had excessive polypharmacy (10 or more medications). A higher mean in the number of medications in the PIM group was found (3 vs 5.78 p< 0.001). Additionally, 21,9% held the PIM status at the follow up; of those, 75% had one PIM, and 23% had two PIMs. The presence of PIM was more frequent in frail, bad health self-assessment, depressed, and comorbid (especially Diabetes Mellitus and , Chronic Obstructive Pulmonary Disease, COPD) males. In the group with sustained PIM, deterioration of health self-assessment, increase in frailty, incidence of recurrent falls, and the prevalence of depression, as well as, a higher hospital admission rate, ambulatory medical consultation, and more prescribed medications were found. We did not find an impact on functional capacity. Conclusions: We validate the negative effects of PIM in the long run in the health of older people, so we determined that PIMs must be monitored in primary attention in order to avoid greater risks.
+DO  - 10.7705/biomedica.5787
+VL  - 41
+IS  - 1
+SN  - 2590-7379
+U1  - 73506550
+PY  - 2021
+DA  - 2021///
+Y1  - 2021///
+human_code  - 0
+included_final  - 0
+ID  - 4948
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -4627,6 +5018,50 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Perceived stigma toward children with emotional and behavioral problems and their families: The Attitudes about Child Mental Health Questionnaire (ACMHQ)
+JF  - Stigma and Health
+AU  - Heflinger Craig Anne
+AU  - Wallston Kenneth A
+AU  - Mukolo Abraham
+AU  - Brannan Ana Maria
+KW  - eppi-reviewer
+KW  - children
+KW  - adolescents
+KW  - families
+KW  - stigma
+KW  - rural
+KW  - Attitude Measures
+KW  - Mental Disorders
+KW  - Questionnaires
+KW  - Test Construction
+KW  - Test Validity
+KW  - Family
+KW  - Mental Health
+KW  - Rural Environments
+KW  - Stigma
+KW  - Test Reliability
+AB  - Combating the stigma of mental illness is critical to improving the quality of life of persons with mental health disorders and that of their family associates and to reducing barriers to help-seeking. There is concern that stigma toward mental health problems is even more of a barrier in rural communities. However, little research exists and measures to examine this phenomenon about children and their families are needed. This study describes the development and pilot testing of the Attitudes about Child Mental Health Questionnaire (ACMHQ) to assess perceived public stigma and personal stigmatizing attitudes. We worked with an interdisciplinary expert panel using a Delphi consensus-building process to identify and prioritize the critical dimensions for measurement and then conducted focus groups and cognitive interviews before collecting data in a rural pediatric practice. This process resulted in a conceptually grounded and empirically supported self-report questionnaire for measuring three dimensions of perceived public stigma and one of personal stigmatizing attitudes toward children with emotional and behavioral problems (EBP) and their families. The study documents levels of perceived public stigma and personal stigmatized attitudes in a rural community, including the presence of 'stigma by association' for families of children with EBP, with strong stigma by association reported for school settings, and the least for church settings. This research lays the groundwork for examining the relationship between stigma and help-seeking, and for developing interventions to reduce stigma and increase access to appropriate services, which should continue to be a priority in children’s mental health for both rural and urban populations. (PsycInfo Database Record (c) 2020 APA, all rights reserved)
+DO  - 10.1037/2376-6972.1.S.75
+VL  - 1
+IS  - S
+SP  - 75
+EP  - 85
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=psyh&AN=2015-27522-006&site=ehost-live c.heflinger@vanderbilt.edu
+PB  - Educational Publishing Foundation
+SN  - 2376-6964
+U1  - 73559565
+U2  - Sponsor: Vanderbilt University Center for Medicine
+NT  - Accession Number: 2015-27522-006. Partial author list: First Author & Affiliation: Heflinger, Craig Anne; Department of Human and Organizational Development, Vanderbilt University, Nashville, TN, US. Release Date: 20150622. Correction Date: 20200713. Publication Type: Journal (0100), Peer Reviewed Journal (0110). Format Covered: Electronic. Document Type: Journal Article; Reprint. Language: EnglishMajor Descriptor: Attitude Measures; Mental Disorders; Questionnaires; Test Construction; Test Validity. Minor Descriptor: Family; Mental Health; Rural Environments; Stigma; Test Reliability. Classification: Clinical Psychological Testing (2224); Psychological Disorders (3210). Population: Human (10); Male (30); Female (40). Location: US. Age Group: Adulthood (18 yrs & older) (300); Young Adulthood (18-29 yrs) (320); Thirties (30-39 yrs) (340); Middle Age (40-64 yrs) (360). Tests & Measures: Attitudes About Child Mental Health Questionnaire [Appended] DOI: 10.1037/t30885-000. Methodology: Empirical Study; Quantitative Study. References Available: Y. Page Count: 11. Issue Publication Date: Aug, 2015. Publication History: Accepted Date: Jan 2, 2014; Revised Date: Dec 30, 2013; First Submitted Date: Jun 13, 2013. Copyright Statement: American Psychological Association. 2015.
+PY  - 2015
+DA  - 2015/08//
+Y1  - 2015/08//
+human_code  - 0
+included_final  - 0
+ID  - 6573
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Alcohol and other drug dependence in adolescence: characteristics of those who seek treatment, and outcome of treatment.
 JF  - Currents in alcoholism
 AU  - Herrington R E
@@ -5608,7 +6043,31 @@ Y1  - 2014///
 human_code  - 0
 included_final  - 0
 ID  - 9016
-reason  - no abstract
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Management of Uninhabitable Homes - Investigation of 186 Cases of Hoarding, Domestic Neglect and Squalor in Dortmund (Germany)
+JF  - GESUNDHEITSWESEN
+AU  - Lenders T
+AU  - Kuster J
+AU  - Bispinck R
+KW  - eppi-reviewer
+AB  - Objective: To develop an intervention concept for the management of uninhabitable homes. Methods: Retrospective analysis of 186 cases of the community mental health service in Dortmund (Germany) presenting with a destitute situation of the domestic environment as core problem. Results: All patients suffered from psychiatric illnesses, mainly from addiction (F1: 41 %), psychosis (F2: 17 %), depression (F3: 17 %), and hoarding disorder (F63.8: 12 %). Main socio-demographic characteristics of our sample are: middle age (45-65 years, 48 %), male gender (73 %), isolated situation (only 7 % married, 84 % living alone), normal schooling (only 4 % without completion of schooling, 7 % attended a school for special needs), after initial integration into employment nearly all patients suffered vocational disintegration (5 % employed, 44 % unemployment benefit, 7 % welfare, 39 % pension or invalidity benefit). Psychosocial interventions differed between the 4 main diagnostic groups: F1: treatment of dependence (rehab) and treatment of concomitant somatic diseases; F2: admission to a psychiatric hospital and implementation of guardianship; F3: mediation of conflicts with neighbours/landlords and implementation of guardianship; F63.8: direct practical help by members of the community mental health team and organisation of home help/waste disposal. In all diagnostic groups, acceptance of help was impaired due to social withdrawal, resistance and psychiatric symptoms. At 13 %, compliance with help and interventions was lowest in the hoarder group (F1: 27 %, F2: 26 %, F3: 38 %). Consequently, in this group the poor outcome categories "nothing accomplished" and "lost flat/eviction" were more frequent (44 %, F1: 27 %, F2: 26 %, F3: 38 %). Conclusions: Concurrent to the deterioration of the domestic situation, patients suffer vocational disintegration as well as family and social isolation. Uninhabitable homes occur in the course of various severe and chronic psychiatric diseases. They don't constitute a syndrome and they are not characteristic for one specific diagnosis. It is important to recognise the underlying psychiatric disease as diagnosis influences acceptance of help, choice of appropriate interventions, outcome and prognosis. Tab. 1 shows our suggestion for a diagnosis differentiated approach, relating appearance of the home and behaviour of the patient to diagnosis, appropriate interventions and prognosis. Hard to reach is the group of hoarders. Patients with a psychotic illness and with hoarding disorder require implementation of long-term outreach help in their homes.
+DO  - 10.1055/s-0035-1550020
+VL  - 77
+IS  - 7
+SP  - 459
+EP  - 465
+SN  - 1439-4421
+U1  - 73504960
+PY  - 2015
+DA  - 2015///
+Y1  - 2015///
+human_code  - 0
+included_final  - 0
+ID  - 9121
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -5653,6 +6112,30 @@ human_code  - 0
 included_final  - 0
 ID  - 9227
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Training community mental health staff in Guangzhou, China: evaluation of the effect of a new training model
+JF  - BMC PSYCHIATRY
+AU  - Li J
+AU  - Li J
+AU  - Thornicroft G
+AU  - Yang H
+AU  - Chen W
+AU  - Huang YG
+KW  - eppi-reviewer
+AB  - Background: Increasing numbers of people with mental disorders receive services at primary care in China. The aims of this study are to evaluate impact of a new training course and supervision for community mental health staff to enhance their levels of mental health knowledge and to reduce their stigmatization toward people with mental illness. Methods: A total of 77 community mental health staff from eight regions in Guangzhou in China were recruited for the study. 4 regions were randomly allocated to the new training model group, and 4 to the old training model group. Levels of mental health knowledge were measured by purpose-made assessment schedule and by the Mental Health Knowledge Schedule (MAKS). Stigma was evaluated by the Mental Illness: Clinicians' Attitudes Scale (MICA) and the Reported and Intended Behavior Scale (RIBS). Evaluation questionnaires were given at the beginning of course, at the end, and at 6 month and at 12 month follow-up. Results: After the training period, the 6-month, and the 12-month, knowledge scores of the intervention group were higher than the control group. At 6-month and 12-month follow-up, means scores of MAKS of the intervention group increased more than the control group (both p < 0.05) when age, sex, marriage status, title and time were controlled for. At 6-month follow-up, means scores of MICA of the intervention group decreased more than that of the control group (p < 0.01). At after-training, at 6-months, and at 12-months, mean scores of RIBS of the intervention group increased more than the control (p < 0.01, p < 0.001, p < 0.001) when age, sex, marriage status, title and time were controlled for. Conclusions: Compared with the traditional training course and supervision, the new course improved community mental health staff knowledge of mental disorders, improving their attitudes toward people with mental disorder, and increasing their willingness to have contact with people with mental disorder. Keywords: Training program, Mental health staff, Stigma, Knowledge
+DO  - 10.1186/s12888-015-0660-1
+VL  - 15
+SN  - 1471-244X
+U1  - 73503547
+PY  - 2015
+DA  - 2015///
+Y1  - 2015///
+human_code  - 0
+included_final  - 0
+ID  - 9244
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -6810,6 +7293,42 @@ reason  - duplicate
 ER  - 
 
 TY  - JOUR
+TI  - The Effects of Tai Chi on Cognition, Instrumental Activities of Daily Living, and Health-Related Quality of Life in Community-dwelling Older People with Mild Cognitive Impairment.
+JF  - Effects of Tai Chi on Cognition, Instrumental Activities of Daily Living & Health-Related Quality of Life in Community-Dwelling Older People with Mild Cognitive Impairment
+AU  - Mei Yi Siu
+KW  - eppi-reviewer
+KW  - Treatment Outcomes
+KW  - Tai Chi -- Psychosocial Factors
+KW  - Cognition Disorders -- Therapy -- In Old Age
+KW  - Quality of Life
+KW  - Human
+KW  - Male
+KW  - Female
+KW  - Aged
+KW  - Clinical Assessment Tools
+KW  - Questionnaires
+KW  - P-Value
+KW  - Activities of Daily Living
+AB  - Background: The prevalence of older people with cognitive decline is increasing with the substantial, worldwide growth in the aging population. Cognitive impairment places older adults at high risk of functional disability in their dailylife activities and affects their quality of life. Study Aim: The aim of the research was to examine the effect of Tai Chi on cognitive functions, instrumental activities of daily living, and health-related quality of life (HRQOL) in community-dwelling older people with mild cognitive impairment (MCI) in Hong Kong. Design & Method: The study adopted a multi-site nonequivalent control-group pretest-posttest design. The study population consisted of 160 communitydwelling older people, aged 60 or above, with MCI. Four community elderly centers participated in the study; two centers were assigned for Tai Chi intervention and the other two centers were recruited for control. The intervention group (n=80) received training in the Yang-style simple form of Tai Chi, at a frequency of two lessons per week for 16 weeks. Each lesson lasted for 1 hour. The control group (n=80) had no treatment regime and joined different recreational activity groups in community centers as usual within the study period. Outcome measures included measures of global cognitive status, instrumental ADL and HRQOL. The Chinese version of the Mini-Mental State Examination (CMMSE) was used for global cognitive assessment. The Hong Kong Chinese version of Lawton's Instrumental Activities of Daily Living (IADL-CV) assessed the participants' instrumental ADL levels and the Chinese version of the Short Form-12 Health Survey-Standard 1 (SF-12) was employed to assess the participants' perceived health status. General Estimating Equations (GEE) was used to examine each of the outcome variables between the two groups across the two study time points (the baseline and at the end of study). Result: Data collection was completed on September 2016. 74 participants in the intervention group and 71 participants in the control group completed the study. The attrition rate was 7.5% and 11.25% for the intervention group and the control group respectively. No adverse events occurred during the Tai Chi training period. With adjustments for differences in age, education, marital status and living condition between the study groups, the findings revealed that the participants in the intervention group scored significantly better in the CMMSE test (p = 0.001), the instrumental ADL questionnaire (p = 0.004), the physical health component (PCS) (p = 0.036), the mental health component (MCS) (p = 0.014), as well as several subscales of SF-12, namely, the role-physical (RP) (p = 0.044), the bodily pain (BP) (p < 0.001) and the vitality (VT) (p =0.004) subscales, compared to participants in the control group. Conclusion: The research findings have provided empirical evidence to inform health care professionals about promoting Tai Chi in community settings, as it represents an affordable and safe strategy to enhance cognitive health and psychosocial wellbeing in older people. In the future, more rigorous study designs such as randomized control trials with larger sample sizes and longer interventional periods are suggested.
+SP  - 1
+EP  - 1
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=c8h&AN=130413225&site=ehost-live
+PB  - Chinese University of Hong Kong (Hong Kong)
+SN  - 9780355598971
+U1  - 73497082
+U2  - 130413225
+NT  - Accession Number: 130413225. Language: English. Entry Date: 20180730. Revision Date: 20190408. Publication Type: Article; research; doctoral dissertation. Instrumentation: Mini-Mental Status Examination (MMSE) (Folstein et al); Short Form 12 Health Survey (SF-12); Lawton's Instrumental Activities of Daily Living (IADL-CV).
+PY  - 2017
+DA  - 2017/12//
+Y1  - 2017/12//
+AV  - 10757587
+human_code  - 0
+included_final  - 0
+ID  - 10542
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - The familial aggregation of cannabis use disorders: (Alcoholism and Drug Addiction)
 JF  - Addiction
 AU  - Merikangas Kathleen R
@@ -6846,6 +7365,40 @@ Y1  - 2009/04//
 human_code  - 0
 included_final  - 0
 ID  - 10627
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Methodological overview of an African American couple-based HIV/STD prevention trial
+JF  - NIMH multisite HIV/STD prevention trial for African American couples
+KW  - eppi-reviewer
+KW  - methodological overview
+KW  - African American couple
+KW  - HIV
+KW  - sexually transmitted disease prevention trial
+KW  - Distress
+KW  - Heterosexuality
+KW  - Sexually Transmitted Diseases
+KW  - Clinical Trials
+KW  - Couples
+KW  - Health Promotion
+AB  - Objective: To provide an overview of the National Institute of Mental Health Multisite HIV/sexually transmitted disease (STD) Prevention Trial for African American Couples conducted in 4 urban areas: Atlanta, Los Angeles, New York, and Philadelphia. The rationale, study design methods, proposed data analyses, and study management are described. Design: This is a 2-arm randomized trial, implementing a modified randomized block design, to evaluate the efficacy of a couples-based intervention designed for HIV-serodiscordant African American couples. Methods: The study phases consisted of formative work, pilot studies, and a randomized clinical trial. The sample is 535 HIV-serodiscordant heterosexual African American couples. There are 2 theoretically derived behavioral interventions with 8 group and individual sessions: the Eban HIV/STD Risk Reduction Intervention (treatment) versus the Eban Health Promotion Intervention (control). The treatment intervention was couples based and focused on HIV/STD risk reduction whereas the control was individual based and focused on health promotion. The 2 study conditions were structurally similar in length and types of activities. At baseline, participants completed an audio computer-assisted self-interview and interviewer-administered questionnaire and provided biological specimens to assess for STDs. Similar follow-up assessments were conducted immediately after the intervention, at 6 months, and at 12 months. Results: The trial results will be analyzed across the 4 sites by randomization assignment. Generalized estimating equations and mixed-effects modeling are planned to test: (1) the effects of the intervention on STD incidence and condom use and on mediator variables of these outcomes and (2) whether the effects of the intervention differ depending on key moderator variables (eg, gender of the HIV-seropositive partners, length of relationship, psychological distress, sexual abuse history, and substance abuse history). Conclusions: The lessons learned from the design and conduct of this clinical trial provide guidelines for future couples-based clinical trials in HIV/STD risk reduction and can be generalized to other couples-based behavioral interventions. (PsycINFO Database Record (c) 2018 APA, all rights reserved)
+VL  - 49
+IS  - Suppl1
+SP  - S3
+EP  - S14
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=psyh&AN=2008-17904-002&site=ehost-live
+PB  - Lippincott Williams & Wilkins
+SN  - 1077-9450
+U1  - 73561203
+U2  - 2008-17904-002
+NT  - Accession Number: 2008-17904-002. Other Journal Title: Journal of Acquired Immune Deficiency Syndromes and Human Retrovirology. Institutional Authors: NIMH Multisite HIV/STD Prevention Trial for African American Couples Group. Other Publishers: Lippincott-Raven Publishers. Release Date: 20091214. Correction Date: 20180416. Publication Type: Journal (0100), Peer Reviewed Journal (0110). Format Covered: Print. Document Type: Journal Article. Language: EnglishMajor Descriptor: Distress; Heterosexuality; HIV; Sexually Transmitted Diseases. Minor Descriptor: Clinical Trials; Couples; Health Promotion. Classification: Immunological Disorders (3291). Population: Human (10); Male (30); Female (40). Location: US. Age Group: Adulthood (18 yrs & older) (300). Tests & Measures: Mini Mental State Examination. Methodology: Empirical Study; Quantitative Study; Treatment Outcome. References Available: Y. Page Count: 12. Issue Publication Date: Sep, 2008. Copyright Statement: Lippincott Williams & Wilkins. 2008.
+PY  - 2008
+DA  - 2008/09//
+Y1  - 2008/09//
+human_code  - 0
+included_final  - 0
+ID  - 10655
 reason  - duplicate
 ER  - 
 
@@ -7002,6 +7555,36 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Gamma oscillations predict pro-cognitive and clinical response to auditory-based cognitive training in schizophrenia
+JF  - TRANSLATIONAL PSYCHIATRY
+AU  - Molina JL
+AU  - Thomas ML
+AU  - Joshi YB
+AU  - Hochberger WC
+AU  - Koshiyama D
+AU  - Nungaray JA
+AU  - Cardoso L
+AU  - Sprock J
+AU  - Braff DL
+AU  - Swerdlow NR
+AU  - Light GA
+KW  - eppi-reviewer
+AB  - Cognitive impairments are pervasive and disabling features of schizophrenia. Targeted cognitive training (TCT) is a "bottom-up" cognitive remediation intervention with efficacy for neurocognitive outcomes in schizophrenia, yet individual responses are variable. Gamma oscillatory measures are leading candidate biomarkers in the development of biologically informed pro-cognitive therapeutics. Forty-two schizophrenia patients were recruited from a long-term residential treatment facility. Participants were randomized to receive either 1 h of cognitive training (TCT, n = 21) or computer games (TAU, n = 21). All participants received standard-of-care treatment; the TCT group additionally completed 30 h of cognitive training. The auditory steady-state response paradigm was used to elicit gamma oscillatory power and synchrony during electroencephalogram recordings. Detailed clinical and cognitive assessments were collected at baseline and after completion of the study. Baseline gamma power predicted cognitive gains after a full course of TCT (MCCB, R-2 = 0.31). A change in gamma power after 1-h TCT exposure predicted improvement in both positive (SAPS, R-2 = 0.40) and negative (SANS, R-2 = 0.30) symptoms. These relationships were not observed in the TAU group (MCCB, SAPS, and SANS, all R-2 < 0.06). The results indicate that the capacity to support gamma oscillations, as well as the plasticity of the underlying ASSR circuitry after acute exposure to 1 h of TCT, reflect neural mechanisms underlying the efficacy of TCT, and may be used to predict individualized treatment outcomes. These findings suggest that gamma oscillatory biomarkers applied within the context of experimental medicine designs can be used to personalize individual treatment options for pro-cognitive interventions in patients with schizophrenia.
+DO  - 10.1038/s41398-020-01089-6
+VL  - 10
+IS  - 1
+SN  - 2158-3188
+U1  - 73505489
+PY  - 2020
+DA  - 2020///
+Y1  - 2020///
+human_code  - 0
+included_final  - 0
+ID  - 10919
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Treatment attendance and suicidal behavior 1 month and 3 months after a suicide attempt: a comparison between two samples
 JF  - Archives of Suicide Research
 AU  - Monti Karin
@@ -7032,6 +7615,70 @@ human_code  - 0
 included_final  - 0
 ID  - 10965
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - The Experiences of Project Liberty Crisis Counselors in the Bronx
+JF  - Community mental health journal
+AU  - Moynihan Patrick J
+AU  - Levine Jeffrey M
+AU  - Rodriguez Orlando
+KW  - eppi-reviewer
+KW  - Medical Sciences--Psychiatry And Neurology
+KW  - Crisis intervention
+KW  - Counseling
+KW  - Terrorism
+KW  - Focus groups
+KW  - Hypothesis testing
+KW  - Emergency preparedness
+KW  - Disaster recovery
+KW  - Mental health care
+KW  - Mental disorders
+KW  - Sociology
+KW  - Social exclusion
+KW  - Community
+KW  - September 11 terrorist attacks-2001
+KW  - Health services
+KW  - United States--US
+KW  - Bronx New York
+KW  - 62133:Offices of Mental Health Practitioners (except Physicians)
+KW  - 62419:Other Individual and Family Services
+KW  - New York City
+KW  - Attitude of Health Personnel
+KW  - Relief Work
+KW  - Humans
+KW  - Questionnaires
+KW  - Interprofessional Relations
+KW  - Interviews as Topic
+KW  - Program Evaluation
+KW  - Job Satisfaction
+KW  - Emergency Services, Psychiatric -- manpower
+KW  - Stress Disorders, Post-Traumatic -- therapy
+KW  - Health Services Accessibility
+KW  - Disaster Planning
+KW  - Social Support
+KW  - September 11 Terrorist Attacks -- psychology
+KW  - Counseling -- manpower
+AB  - This exploratory study collected qualitative interview data from Bronx-based crisis counselors associated with the post-9/11 recovery program Project Liberty. Two focus groups from a single area provider were conducted to identify key thematic issues regarding program implementation. As conditions in the Bronx were demanding, the descriptions of relief efforts as told by these workers are informative for developing models for emergency service response in marginalized areas as well as in locations that are not directly impacted by events but are in relatively close proximity. [PUBLICATION ABSTRACT]
+DO  - https://doi.org/10.1007/s10597-005-8847-4
+VL  - 41
+IS  - 6
+SP  - 665
+EP  - 73
+AD  - New York, Netherlands New York, New York
+UR  - https://doi.org/10.1007/s10597-005-8847-4 https://www.proquest.com/scholarly-journals/experiences-project-liberty-crisis-counselors/docview/228310323/se-2?accountid=27042
+PB  - Springer Nature B.V.
+SN  - 00103853
+U1  - 73491418
+U2  - 2819
+NT  - Source type: Scholarly Journals; Object type: Article; Object type: Feature; Copyright: Springer Science+Business Media, Inc. 2005; DOCID: 929502521; PCID: 16730531; PMID: 19197; CODEN: CMHJAY; ProvJournalCode: PCMH; AccNum: 16328581; PublisherXID: SPVLPCMH10597418847; DOI: 10.1007/s10597-005-8847-4
+PY  - 2005
+DA  - 2005/12//
+Y1  - 2005/12//
+human_code  - 0
+included_final  - 0
+ID  - 11142
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -7465,6 +8112,34 @@ ID  - 12242
 reason  - no abstract
 ER  - 
 
+TY  - BOOK
+TI  - OUTCOMES OF MANDATED AND NONMANDATED NEW YORK CITY JAIL DIVERSION FOR OFFENDERS WITH ALCOHOL, DRUG, AND MENTAL DISORDERS
+AU  - Broner Nahama
+AU  - Mayrl Damon W
+AU  - Landsberg Gerald
+KW  - eppi-reviewer
+KW  - PRISONERS
+KW  - MENTALLY ill
+KW  - SUBSTANCE abuse
+KW  - MENTAL health
+KW  - CONDUCT of life
+KW  - PRISONS
+AB  - The authors studied175 mentally ill, substance-using adult jail detainees assessed at baseline, 3, and 12 months through a quasi-experimental comparison design. The study examines the effect of diversion, treatment, and individual characteristics on criminal justice, mental health, substance use, and life satisfaction outcomes. The intervention group included nonmandated and mandated diversion tracks. The comparison participants met diversion acceptance criteria but underwent standard criminal justice processes. Main findings included that mandated diversion clients were less likely to spend as much time in prison and more likely to spend time in the community, have been linked to residential and outpatient treatment, have received more treatment, and decrease drug use. However, those who did not perceive themselves coerced and had insight into their mental illness received more treatment regardless of diversion condition. Although mandated diversion was found effective for some outcomes, individual characteristics, treatment, and diversion in general significantly contributed.
+IS  - 1
+SP  - 18
+EP  - 49
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=sih&AN=16316941&site=ehost-live
+PB  - Sage Publications Inc.
+SN  - 00328855
+U1  - 73490584
+NT  - Accession Number: 16316941; Broner, Nahama 1; Mayrl, Damon W. 2; Landsberg, Gerald 3; Affiliations: 1 : RTI International; 2 : University of California, Berkeley; 3 : New York University; Source Info: Mar2005, Vol. 85 Issue 1, p18; Note: Publisher Information: Sage Publications Inc..; Subject Term: PRISONERS; Subject Term: MENTALLY ill; Subject Term: SUBSTANCE abuse; Subject Term: MENTAL health; Subject Term: CONDUCT of life; Subject Term: PRISONS; Number of Pages: 32p; Illustrations: 5 Charts; Document Type: Article
+T2  - Prison Journal
+human_code  - 0
+included_final  - 0
+ID  - 12342
+reason  - duplicate
+ER  - 
+
 TY  - JOUR
 TI  - The effect on reconviction of an intervention for drink-driving offenders in the community.
 JF  - International Journal of Offender Therapy & Comparative Criminology
@@ -7523,6 +8198,65 @@ human_code  - 0
 included_final  - 0
 ID  - 12461
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - How are you?: A culturally sensitive group therapy program for Latinos
+JF  - 24th European Congress of Psychiatry, EPA 2016. Madrid Spain.
+AU  - Paris M
+AU  - Lopez M
+AU  - Leon-Quismondo L
+AU  - Silva M
+AU  - Anez L
+KW  - eppi-reviewer
+KW  - *Hispanic
+KW  - *European
+KW  - *psychiatry
+KW  - *group therapy
+KW  - human
+KW  - speech
+KW  - mental disease
+KW  - mental health
+KW  - psychology
+KW  - language
+KW  - health
+KW  - student
+KW  - mental health service
+KW  - unemployment
+KW  - adult
+KW  - social support
+KW  - organization and management
+KW  - hospitalization
+KW  - emergency ward
+KW  - population
+KW  - poverty
+KW  - skill
+KW  - coping behavior
+KW  - religion
+KW  - community
+KW  - hospital
+KW  - motivational interviewing
+KW  - cognitive therapy
+KW  - psychologist
+KW  - injury
+KW  - United States
+AB  - Introduction An ongoing challenge for the behavioral health field in the United States is ensuring access to culturally and linguistically responsive treatments for the growing number of monolingual Spanish speakers. The limited availability of services further compromises mental health outcomes given the unique psychosocial stressors often experienced in this population, such as language barriers, family separation and inadequate social support, unemployment, trauma, and poverty. Objective In response to the local demand for services, the authors describe a specialized group program for monolingual Spanish speaking adults with chronic and persistent mental illness. Aims The program aims are two-fold: - to reduce exacerbation of psychiatric symptoms for individuals presenting in an acute state of distress through the provision of recovery-oriented mental health services in a familiar setting and preferred language; - to offer a specialized behavioral health training experience for bilingual psychology doctoral students. Methods The group is led by the psychology fellow and is offered twice per week for a total of six hours, and includes elements of interpersonal and cognitive behavioral therapy; motivational interviewing; spirituality; coping skills training; and art/music. Results The described mental health group program is the only one available in Spanish in the local community and has reduced utilization of the hospital emergency room. Consequently, it fills an important gap in the service system and offers care that would otherwise be unavailable for individuals in need. Conclusions The program is a cost-effective alternative to hospitalization for Spanish speaking Latinos and a unique professional experience for psychologists in-training interested in a career in the public sector.
+DO  - http://dx.doi.org/10.1016/j.eurpsy.2016.01.1767
+VL  - 33
+IS  - SUPPL.
+SP  - S482
+UR  - http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=emed17&NEWS=N&AN=72291884
+PB  - Elsevier Masson SAS
+SN  - 1778-3585
+U1  - 73512643
+U2  - 72291884
+PY  - 2016
+DA  - 2016///
+Y1  - 2016///
+human_code  - 0
+included_final  - 0
+ID  - 12516
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -7615,6 +8349,37 @@ ID  - 12709
 reason  - duplicate
 ER  - 
 
+TY  - THES
+TI  - Cognitive-behavioral couple therapy for same-sex female couples: A pilot study
+AU  - Pentel Kimberly Zoe
+KW  - eppi-reviewer
+KW  - cognitive behavioral couple therapy
+KW  - same-sex female couples
+KW  - sexual minority
+KW  - Couples Therapy
+KW  - Distress
+KW  - Lesbianism
+KW  - Stress
+KW  - Treatment Compliance
+KW  - Same Sex Couples
+KW  - Sexual Minority Groups
+AB  - Despite comparable levels of relationship satisfaction and intimacy, same-sex couples break up faster and more often than different-sex couples highlighting a need for quality couple therapy. Research suggests that culturally tailored services are desired by same-sex couples and may be more effective and better received. Although efficacious couple therapies exist to treat relationship distress, they have been overwhelmingly studied with different-sex couples. Sexual minority (SM) affirming couple therapies have not been systematically developed or evaluated. The current study involved developing and pilot testing a tailored couple therapy for distressed same-sex female couples. This treatment integrates the empirically-supported cognitive-behavioral couple therapy framework and SM stress model. Doctoral student therapists delivered the treatment in an open-trial format to a pilot sample of 11 same-sex female couples experiencing relationship distress and SM stress. Treatment was delivered with high adherence to the treatment manual. Participants reported high treatment satisfaction. As hypothesized, participants experienced significant decreases in relationship distress and improvements in couple coping with SM stress from pre- to post-treatment. The small sample size and floor effects precluded clear conclusions regarding anticipated improvements in individual mental health. Participants experienced comparable or stronger improvements in relationship functioning compared to couples in a similar benchmark study. Given this is a small pilot study, results are interpreted with caution. The ACCESS Program is the first culturally tailored couple therapy for same-sex couples. Implications for culturally tailoring evidence-based couple therapy for marginalized groups are discussed. (PsycInfo Database Record (c) 2020 APA, all rights reserved)
+IS  - 2-B
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=psyh&AN=2020-67313-209&site=ehost-live
+SN  - 979-8664729252
+U1  - 73558265
+U2  - 2020-67313-209
+NT  - Accession Number: 2020-67313-209. Other Journal Title: Dissertation Abstracts International. Partial author list: First Author & Affiliation: Pentel, Kimberly Zoe; The University of North Carolina at Chapel Hill, Psychology, US. Release Date: 20201005. Publication Type: Dissertation Abstract (0400). Format Covered: Electronic. Document Type: Dissertation. Dissertation Number: AAI28023889. ISBN: 979-8664729252. Language: EnglishMajor Descriptor: Couples Therapy; Distress; Lesbianism; Stress. Minor Descriptor: Treatment Compliance; Same Sex Couples; Sexual Minority Groups. Classification: Health & Mental Health Treatment & Prevention (3300). Population: Human (10); Female (40). Age Group: Adulthood (18 yrs & older) (300). Methodology: Empirical Study; Quantitative Study.
+PY  - 2021
+DA  - 2021///
+Y1  - 2021///
+T2  - Dissertation Abstracts International: Section B: The Sciences and Engineering
+human_code  - 0
+included_final  - 0
+ID  - 12724
+reason  - duplicate
+ER  - 
+
 TY  - JOUR
 TI  - The natural history of alcoholism over four years after treatment.
 JF  - Journal of studies on alcohol
@@ -7655,6 +8420,65 @@ human_code  - 0
 included_final  - 0
 ID  - 12866
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Palliative care for rare advanced lung diseases in underserved Appalachia: Study protocol for a randomized controlled trial
+JF  - Journal of advanced nursing
+AU  - Piamjariyakul U
+AU  - Smothers A
+AU  - Young S
+AU  - Petitte T
+AU  - Wen S
+AU  - Morrissey E
+AU  - Shafique S
+AU  - Zulfikar R
+AU  - Sangani R
+AU  - Smith C E
+KW  - eppi-reviewer
+KW  - adult
+KW  - anxiety
+KW  - article
+KW  - caregiver
+KW  - controlled study
+KW  - cooperation
+KW  - dyspnea
+KW  - female
+KW  - home care
+KW  - human
+KW  - incidence
+KW  - institutional review
+KW  - intervention study
+KW  - *living will
+KW  - *lung disease
+KW  - male
+KW  - medical record
+KW  - nurse
+KW  - *nursing intervention
+KW  - outcome assessment
+KW  - outpatient
+KW  - *palliative therapy
+KW  - patient preference
+KW  - pulmonologist
+KW  - randomized controlled trial
+KW  - self report
+KW  - *terminal care
+KW  - West Virginia
+AB  - AIM: To pilot test a home end-of-life and palliative care intervention for family caregivers and patients with rare advanced lung diseases and estimate effect-size for the power analysis in a future clinical trial. DESIGN: This study uses a parallel randomized control trial. Families are randomly assigned to the intervention group or the control group in a 1:1 fashion. METHOD(S): The study population includes patients with rare advanced lung diseases and their family caregivers who are involved in patients' home care. The control group receives standard care through their hospital or outpatient clinics. The intervention group receives standard care plus 2-weekly home end-of-life and palliative care coaching by experienced community nurses. Primary outcome is breathlessness measured by shortness of breath scale. Secondary outcomes are: (1) caregivers' anxiety and depression measures; (2) the presence of patient's signed advance directives in the medical record or not; and (3) Helpfulness of intervention measured by self-report Helpfulness scale. The study was funded in October 2018 and received ethical Institutional Review Board approval in February 2019. DISCUSSION: West Virginia has one of the highest incidence rates of lung disease deaths in the nation. However, there is inadequate home end-of-life and palliative care for this underserved population. This is an initial interventional study of nurse-led coaching home-based palliative care for rare advanced lung diseases in rural Appalachia. Developing research collaboration with clinicians is essential for enrollment. Enrollment was successful due to regular meetings with pulmonologists who screened patients per the study inclusion criteria in their specialty clinic and made direct referrals to the research assistants. Results of this study will be used in the future trial. IMPACT: The findings will contribute to the evidence-based home nursing care, planning for family/patient preferences and supportive end-of-life palliative care for managing advanced lung diseases at home.Copyright This article is protected by copyright. All rights reserved.
+DO  - http://dx.doi.org/10.1111/jan.14395
+AD  - United Kingdom
+UR  - http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=emed21&NEWS=N&AN=631534000
+PB  - NLM (Medline)
+SN  - 1365-2648
+U1  - 73511976
+U2  - 631534000
+PY  - 2020
+DA  - 2020///
+Y1  - 2020///
+human_code  - 0
+included_final  - 0
+ID  - 12897
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -7818,7 +8642,7 @@ Y1  - 2018/02//
 human_code  - 0
 included_final  - 0
 ID  - 13157
-reason  - no abstract
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -7916,6 +8740,36 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Evaluating the structural reform of outpatient psychotherapy in Germany (ES-RiP trial) - a qualitative study of provider perspectives
+JF  - BMC HEALTH SERVICES RESEARCH
+AU  - Regina PD
+AU  - Martin H
+AU  - Milena B
+AU  - Mechthild H
+AU  - Johannes K
+AU  - Hanna K
+AU  - Gereon H
+AU  - Carsten S
+AU  - Beate W
+AU  - Joachim S
+AU  - Hans-Christoph F
+KW  - eppi-reviewer
+AB  - Background: Access to outpatient mental healthcare can be challenging for patients. In Germany, a national structural reform was implemented in 2017 to accelerate and enhance access to outpatient psychotherapy and reduce waiting times. During the first phase of the study 'Evaluation of a structural reform of the outpatient psychotherapy guideline (ES-RiP)' and embedded into a process evaluation, the implementation was to be evaluated through assessing general practitioners' (GPs) and psychotherapists' (PTs) perspectives regarding utilization of provided new measures, and perceived potential for optimization. Particular focus was on patients with a comorbidity of mental disorders and chronic physical conditions (cMPs). Methods: This exploratory cross-sectional qualitative study used on-site and online focus group discussions and semi-structured telephone interviews with GPs and outpatient PTs. Generated data were analyzed using thematic framework analysis. Descriptive statistics were used to analyze participant characteristics collected via a socio-demographic questionnaire. Results: Perspectives on the structural reform were heterogenous. GPs and PTs considered the component of timely initial psychotherapeutic assessment consultations beneficial. GPs disapproved of their deficits in detailed information about the structural reform and exchange with outpatient PTs. Improvement suggestions included structured short information exchange and joint quality circles. The overall number of available outpatient PTs in rural areas was perceived as insufficient. For patients with cMPs, GPs saw patient barriers for therapy access and continuity in low intrinsic motivation, physical impediments and older age. PTs also saw patient challenges regarding low intrinsic motivation and keeping scheduled appointments. They considered post-reform administrative efforts to be high and reported that the regulations (conformity) lead to planning difficulties and financial losses. Reform elements were tailored to fit in with PTs key therapy areas. Stronger networking and joint lectures were suggested as remedy for the currently still limited exchange with GPs. Unlike the GPs, PTs emphasized that accepting patients into psychotherapeutic treatment was independent of a possibly present chronic physical disease. Conclusions: The findings contribute to understanding the integration of the delivered structural reform into daily care processes and provide an indication about reached targets and potential improvements. Further phases of the ES-RiP study can build on the findings and broaden insights.
+DO  - 10.1186/s12913-021-07220-7
+VL  - 21
+IS  - 1
+SN  - 1472-6963
+U1  - 73506107
+PY  - 2021
+DA  - 2021///
+Y1  - 2021///
+human_code  - 0
+included_final  - 0
+ID  - 13533
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Coffee and cigarette consumption and perceived effects in recovering alcoholics participating in alcoholics anonymous in Nashville, Tennessee.
 JF  - Alcoholism: Clinical & Experimental Research
 AU  - Reich MS
@@ -7989,6 +8843,37 @@ human_code  - 0
 included_final  - 0
 ID  - 13574
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - A Randomized Controlled Trial to Decrease Job Burnout in First-Year Internal Medicine Residents Using a Facilitated Discussion Group Intervention
+JF  - Journal of graduate medical education
+AU  - Ripp JA
+AU  - Fallar R
+AU  - Korenstein D
+KW  - eppi-reviewer
+KW  - Adult
+KW  - Burnout, Professional [*prevention & control]
+KW  - Group Processes
+KW  - Humans
+KW  - Internal Medicine [education]
+KW  - Internship and Residency
+KW  - Physicians [*psychology]
+KW  - Surveys and Questionnaires
+AB  - Background Burnout is common in internal medicine (IM) trainees and is associated with depression and suboptimal patient care. Facilitated group discussion reduces burnout among practicing clinicians. Objective We hypothesized that this type of intervention would reduce incident burnout among first‐year IM residents. Methods Between June 2013 and May 2014, participants from a convenience sample of 51 incoming IM residents were randomly assigned (in groups of 3) to the intervention or a control. Twice‐monthly theme‐based discussion sessions (18 total) led by expert facilitators were held for intervention groups. Surveys were administered at study onset and completion. Demographic and personal characteristics were collected. Burnout and burnout domains were the primary outcomes. Following convention, we defined burnout as a high emotional exhaustion or depersonalization score on the Maslach Burnout Inventory. Results All 51 eligible residents participated; 39 (76%) completed both surveys. Initial burnout prevalence (10 of 21 [48%] versus 7 of 17 [41%], P = .69), incidence of burnout at year end (9 of 11 [82%] versus 5 of 10 [50%], P = .18), and secondary outcomes were similar in intervention and control arms. More residents in the intervention group had high year‐end depersonalization scores (18 of 21 [86%] versus 9 of 17 [53%], P = .04). Many intervention residents revealed that sessions did not truly free them from clinical or educational responsibilities. Conclusions A facilitated group discussion intervention did not decrease burnout in resident physicians. Future discussion‐based interventions for reducing resident burnout should be voluntary and effectively free participants from clinical duties.
+DO  - 10.4300/JGME-D-15-00120.1
+VL  - 8
+IS  - 2
+SP  - 256‐259
+UR  - https://www.cochranelibrary.com/central/doi/10.1002/central/CN-01263858/full
+U1  - 73519439
+PY  - 2016
+DA  - 2016///
+Y1  - 2016///
+human_code  - 0
+included_final  - 0
+ID  - 13735
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -9245,6 +10130,49 @@ ID  - 15903
 reason  - no abstract
 ER  - 
 
+TY  - JOUR
+TI  - Comparison between group and personal rehabilitation for dementia in a geriatric health service facility: single-blinded randomized controlled study
+JF  - Psychogeriatrics
+AU  - Tanaka S
+AU  - Honda S
+AU  - Nakano H
+AU  - Sato Y
+AU  - Araya K
+AU  - Yamaguchi H
+KW  - eppi-reviewer
+KW  - Activities of Daily Living
+KW  - Affect
+KW  - Aged
+KW  - Aged, 80 and over
+KW  - Behavior [*physiology]
+KW  - Cognition [*physiology]
+KW  - Dementia [psychology, *rehabilitation]
+KW  - Female
+KW  - Health Services for the Aged [*organization & administration]
+KW  - Humans
+KW  - Male
+KW  - Memory [physiology]
+KW  - Neuropsychological Tests
+KW  - Outcome Assessment, Health Care
+KW  - Psychotherapy, Group
+KW  - Quality of Life [psychology]
+KW  - Severity of Illness Index
+AB  - AIM: The aim of this study was to compare the effects of rehabilitation involving group and personal sessions on demented participants. METHODS: This single‐blinded randomized controlled trial included 60 elderly participants with dementia in a geriatric health service facility, or R oken. Staff members, who did not participate in the intervention, examined cognitive function, mood, communication ability, severity of dementia, objective quality of life, vitality, and daily behaviour. After a baseline assessment, participants were randomly divided into three groups: (i) group intervention; (ii) personal intervention; and (iii) control. The 1‐h group intervention (3‐5 subjects) and 20‐min personal intervention (one staff member per participant) were performed twice a week for 12 weeks (24 total sessions). The cognitive rehabilitation programme consisted of reminiscence, reality orientation, and physical exercise, and it was based on five principles of brain‐activating rehabilitation; (i) pleasant atmosphere; (ii) communication; (iii) social roles; (iv) praising; and (v) errorless support. Data were analyzed after the second assessment. RESULTS: Outcome measures were analyzed in 43 participants‐14 in the control group, 13 in group intervention, and 16 in personal intervention. Repeated measure ancova showed a significant interaction for cognitive function score (Mini‐Mental State Examination) between group intervention and controls ( F = 5.535, P = 0.029). In the post‐hoc analysis, group intervention showed significant improvement (P = 0.016). Global severity of dementia tended to improve (P = 0.094) in group intervention compared to control (Mann‐Whitney U ‐test). There were no significant interactions or improvements for other measurements. CONCLUSIONS: Group rehabilitation for dementia is more effective for improving cognitive function and global severity of dementia than personal rehabilitation in Roken.
+DO  - 10.1111/psyg.12212
+VL  - 17
+IS  - 3
+SP  - 177‐185
+UR  - https://www.cochranelibrary.com/central/doi/10.1002/central/CN-01401746/full
+U1  - 73519446
+PY  - 2017
+DA  - 2017///
+Y1  - 2017///
+human_code  - 0
+included_final  - 0
+ID  - 15956
+reason  - duplicate
+ER  - 
+
 TY  - CHAP
 TI  - Community-based information technology interventions for persons with mental illness
 AU  - Tarsiero Rosanna
@@ -9415,6 +10343,37 @@ reason  - duplicate
 ER  - 
 
 TY  - JOUR
+TI  - The Disproportionate Impact of COVID-19 on Minority Groups: A Social Justice Concern.
+JF  - Journal of Gerontological Social Work
+AU  - Lee HeeSoon
+AU  - Miller Vivian J
+KW  - eppi-reviewer
+KW  - Ethnic groups
+KW  - Minorities -- Psychology
+KW  - People with disabilities
+KW  - Social justice
+KW  - LGBTQ+ people
+KW  - Socioeconomic factors
+KW  - Old age
+KW  - Social distancing
+KW  - COVID-19 pandemic
+KW  - United States
+AB  - The article offers information on the disproportionate Impact of Covid-19 on minority groups in the U.S. It mentions that social distancing has brought adverse side effects such as social isolation, along with discusses that older adults has been witnessing family members suffer due to job loss and financial difficulties, which may increase the risk of mental health concerns.
+VL  - 63
+IS  - 6/7
+SP  - 580
+EP  - 584
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=sih&AN=147756468&site=ehost-live
+SN  - 01634372
+U1  - 73490101
+NT  - Accession Number: 147756468; Lee, HeeSoon 1; Email Address: leeh@bgsu.edu; Miller, Vivian J. 1; Affiliations: 1 : Social Work, Department of Human Services, Bowling Green State University, Bowling Green, Ohio, USA; Source Info: Aug-Oct2020, Vol. 63 Issue 6/7, p580; Thesaurus Term: Ethnic groups; Thesaurus Term: Minorities -- Psychology; Thesaurus Term: People with disabilities; Thesaurus Term: Social justice; Thesaurus Term: LGBTQ+ people; Thesaurus Term: Socioeconomic factors; Thesaurus Term: Old age; Subject Term: Social distancing; Subject Term: COVID-19 pandemic; Subject: United States; Number of Pages: 5p; Document Type: Article
+human_code  - 0
+included_final  - 0
+ID  - 16121
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - The nicotine patch in smoking cessation. A randomized trial with telephone counseling.
 JF  - Archives of Internal Medicine
 AU  - Westman EC
@@ -9543,6 +10502,32 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Effect of Psychodrama Group Therapy on Remission and Relapse in Opioid Dependence
+JF  - NOROPSIKIYATRI ARSIVI-ARCHIVES OF NEUROPSYCHIATRY
+AU  - Toker Ugurlu
+AU  - T
+AU  - Kalkan Oguzhanoglu
+AU  - N
+AU  - Atesci F
+KW  - eppi-reviewer
+AB  - Introduction: Relapse is one of the most common problems in the addiction treatment. The aim of this study was to increase the remission rates, reduce relapse rates and investigate the effect of psychodrama on depression, anxiety and locus of control after treatment in a group of inpatients diagnosed with opioid use disorder (OUD). Method: The study was started with 13 inpatients diagnosed with OUD and completed with six members. In addition to psychoeducation, the psychodrama study of 13 sessions lasted. The control group consisted of six individuals with the same diagnosis and characteristics, who had only undergone psychoeducation. Hamilton Depression-Anxiety and Rotter Locus of Control Scales were applied to the participants before and after the group. Results: Anxiety rates decreased in both groups according to pre-test and post-test results. In the outpatient part of the study, five patients in the patient group remained in treatment and clean at the end of the fifth month and four at the end of the sixth month. In the control group only two people could remain in treatment and clean at the end of the sixth month. The most effective psychodrama techniques were empty chair, doubling and mirroring. Discussion: Both psychodrama techniques and SAMBA program are applications that reduce anxiety levels of patients. It was concluded that psychodrama applications aimed at increasing the internal control belief may be beneficial in terms of increasing the motivation of the patients and coping with relapse.
+DO  - 10.29399/npa.25001
+VL  - 57
+IS  - 3
+SP  - 197
+EP  - 203
+SN  - 1309-4866
+U1  - 73503926
+PY  - 2020
+DA  - 2020///
+Y1  - 2020///
+human_code  - 0
+included_final  - 0
+ID  - 16380
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - "Binge" and continuous drinkers. Characteristics and treatment follow-up.
 JF  - Quarterly journal of studies on alcohol
 AU  - Tomsovic M
@@ -9582,6 +10567,37 @@ human_code  - 0
 included_final  - 0
 ID  - 16404
 reason  - no abstract
+ER  - 
+
+TY  - BOOK
+TI  - Treating prison inmates with co-occurring disorders: an integrative review of existing programs
+AU  - John F Edens
+AU  - Matthew
+AU  - Roger H Peters
+AU  - Matthew
+AU  - Holly A Hills
+AU  - Matthew
+KW  - eppi-reviewer
+KW  - COGNITIVE therapy
+KW  - MENTAL health
+KW  - MENTAL illness -- Treatment
+KW  - PRISONERS -- Health & hygiene
+KW  - DISEASES -- Relapse
+KW  - SUBSTANCE abuse -- Diagnosis
+AB  - The tremendous growth in state and federal correctional populations has focused greater attention on the needs of mentally ill and substance abusing inmates. Although an estimated 3–11% of prison inmates have co-occurring mental health (psychotic and major mood) disorders and substance abuse disorders, few treatment programs are described in the literature and there is little available information regarding effective treatment strategies for this population. The current study provides an integrative review of seven ‘dual diagnosis’ treatment programs that recently have been developed in state and federal prisons. Many of these have evolved from existing substance abuse treatment programs and approaches. Key program components include an extended assessment period, orientation/motivational activities, psychoeducational groups, cognitive–behavioral interventions such as restructuring of ‘criminal thinking errors’, self-help groups, medication monitoring, relapse prevention, and transition into institution or community-based aftercare facilities. Many programs use therapeutic community approaches that are modified to provide (a) greater individual counseling and support, (b) less confrontation, (c) smaller staff caseloads, and (d) cross-training of staff. Research is underway in three of the seven sites to examine the effectiveness of these new programs. © 1997 John Wiley & Sons, Ltd.
+IS  - 4
+SP  - 439
+EP  - 457
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=sih&AN=11822749&site=ehost-live
+PB  - John Wiley & Sons, Ltd. 2004
+SN  - 07353936
+U1  - 73490530
+NT  - Accession Number: 11822749; John F. Edens, Matthew 1; Roger H. Peters, Matthew 1; Holly A. Hills, Matthew 2; Affiliations: 1 : Department of Mental Health Law & Policy, University of South Florida.; 2 : Department of Community Mental Health, University of South Florida.; Source Info: Autumn1997, Vol. 15 Issue 4, p439; Note: Publisher Information: John Wiley & Sons, Ltd. 2004.; Subject Term: COGNITIVE therapy; Subject Term: MENTAL health; Subject Term: MENTAL illness -- Treatment; Subject Term: PRISONERS -- Health & hygiene; Subject Term: DISEASES -- Relapse; Subject Term: SUBSTANCE abuse -- Diagnosis; Number of Pages: 19p; Document Type: Article
+T2  - Behavioral Sciences & the Law
+human_code  - 0
+included_final  - 0
+ID  - 16492
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -9852,6 +10868,68 @@ ID  - 16838
 reason  - no abstract
 ER  - 
 
+TY  - JOUR
+TI  - The effect of preoperative physical activity on knee and hip arthroplasty outcome in patients with osteoarthritis
+JF  - Annual European Congress of Rheumatology, EULAR 2020. Frankfurt Germany.
+AU  - Vandelli E
+AU  - Duflos C
+AU  - Akouete S
+AU  - Guillemin F
+AU  - Rat A C
+AU  - Pers Y M
+KW  - eppi-reviewer
+KW  - aged
+KW  - body mass
+KW  - clinical outcome
+KW  - cohort analysis
+KW  - comorbidity
+KW  - conference abstract
+KW  - controlled study
+KW  - female
+KW  - follow up
+KW  - Frenchman
+KW  - *hip osteoarthritis
+KW  - human
+KW  - *knee osteoarthritis
+KW  - major clinical study
+KW  - male
+KW  - mental health
+KW  - obesity
+KW  - pain
+KW  - *physical activity
+KW  - preoperative evaluation
+KW  - prevalence
+KW  - quality of life
+KW  - questionnaire
+KW  - rehabilitation
+KW  - Short Form 36
+KW  - social interaction
+KW  - *total hip replacement
+KW  - total knee arthroplasty
+KW  - visual analog scale
+KW  - walking distance
+KW  - Western Ontario and McMaster Universities Osteoarthritis Index
+KW  - World Health Organization
+AB  - Background: Joint replacement is a therapeutic option increasingly widespread among osteoarthritis (OA) patients. Besides improving operating techniques and postoperative management, it is important to pursue the best preoperative conditions in order to achieve the desired result. As physical activity (PA) potentially acts on the preoperative predictors, knowing the effect of leisure and occupational PA should be of great interest to obtain a positive outcome. Objective(s): To investigate the influence of preoperative PA on the clinical outcomes of total hip arthroplasty (THA) and total knee arthroplasty (TKA) in OA patients. Method(s): Data from the Knee and Hip OsteoArthritis Long-term Assessment (KHOALA) cohort (1), a multi-regional French cohort of 878 patients with symptomatic hip and/or knee OA, were analysed. We included in our study patients undergoing THA or TKA during a 7-year-follow-up period. The level of total and leisure-time preoperative PA was measured with the Modifiable Activity Questionnaire (MAQ). Outcomes were measured one year after surgery. For the primary endpoint, quality of life (QoL) was measured with the OsteoArthritis Knee and Hip Quality Of Life questionnaire (OAKHQOL). For secondary endpoints, QoL was measured with Short Form 36 (SF-36), pain with the Visual Analogue Scale (VAS), function with the Western Ontario and McMaster Universities Osteoarthritis Index (WOMAC) and with walking distance. The population characteristics were described using frequency or mean and standard deviation (SD), depending on the distribution of the variable. Association between exposures and outcomes was calculated with a multivariate linear analysis with backward selection, adjusting for confounders (age, sex, body mass index, site of joint replacement, polyarticular OA, OA duration, comorbidities, radiological grade of OA, inclusion centre, rehabilitation after surgery, previous joint issues, instruction level). A p-value <0.05 was set as statistically significant. Result(s): 150 patients were included. 58.7% underwent TKA and 41.3% THA. The mean age at the time of surgery was 66.6 years (+/-7.7 SD). The majority of patients were female (75%), overweight (mean BMI 29.63 kg/m2, +/-5.5 SD) and had polyarticular OA (60%). 53% of patients met the World Health Organization recommendations on PA before surgery. For the primary endpoint, a high preoperative total PA was associated with a better relationship with the partner (beta = 0.55, p = 0.02) one year after surgery. As for secondary endpoints, a high two-year preoperative total PA was associated with an impaired SF-36 Mental Component Summary score (beta =-0.87, p = 0.02), but a longer walking distance (beta = 442.81, p < 0.01). Leisure-time PA also showed a positive impact on walking distance (beta = 76.25, p = 0.02), but a negative one on social functioning in SF-36 (beta =-0.47, p = 0.01). No statistically significant association between preoperative PA and pain nor WOMAC was found. Conclusion(s): In this cohort study, the preoperative level of PA demonstrated a heterogeneous effect on the various aspects of QoL one year after THA and TKA in OA patients. Preoperative PA was directly associated with gain of function, measured as walking distance, after surgery. Considering the increasing prevalence of OA and the crucial role of PA on health, further studies on this relevant topic are needed.
+DO  - http://dx.doi.org/10.1136/annrheumdis-2020-eular.2040
+VL  - 79
+IS  - SUPPL 1
+SP  - 529
+AD  - Netherlands
+UR  - http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=emed21&NEWS=N&AN=633303670
+PB  - BMJ Publishing Group
+SN  - 1468-2060
+U1  - 73511942
+U2  - 633303670
+PY  - 2020
+DA  - 2020///
+Y1  - 2020///
+human_code  - 0
+included_final  - 0
+ID  - 16881
+reason  - duplicate
+ER  - 
+
 TY  - THES
 TI  - A study of inpatient treatment for the mentally ill/chemically dependent person
 AU  - Vann Gary G
@@ -9883,6 +10961,105 @@ human_code  - 0
 included_final  - 0
 ID  - 16897
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - From field experiments to program implementation: Assessing the potential outcomes of an experimental intervention program for unemployed persons
+JF  - Preventive Intervention Research Centers
+AU  - Vinokur Amiram D
+AU  - Price Richard H
+AU  - Caplan Robert D
+KW  - eppi-reviewer
+KW  - preventive intervention
+KW  - motivation & mental health & reemployment
+KW  - unemployed participants vs nonparticipants
+KW  - Adolescent
+KW  - Adult
+KW  - Data Collection
+KW  - Employment
+KW  - Female
+KW  - Humans
+KW  - Male
+KW  - Models, Statistical
+KW  - Reproducibility of Results
+KW  - Research Design
+KW  - Unemployment
+KW  - Dropouts
+KW  - Participation
+KW  - Prevention
+KW  - Reemployment
+KW  - Mental Health
+KW  - Motivation
+KW  - Occupational Guidance
+AB  - Demonstrated a procedure suggested by H. S. Bloom (1984) to provide estimates for effects of an intervention on its actual participants compared to global effects on study participants in the intervention group, whether or not they showed up. Data on 1,087 Ss were collected in a field experiment that tested a preventive intervention for unemployed persons (R. D. Caplan et al, 1989). Effect size estimates were 2 to 3 times larger for participant group than for the entire experimental group on employment outcomes (e.g., earnings) and mental health (anxiety and depression). Compared to participants, nonparticipants achieved significantly higher levels of reemployment at posttests and did not differ significantly from participants on all other outcomes. (PsycINFO Database Record (c) 2016 APA, all rights reserved)
+DO  - 10.1007/BF00937991
+VL  - 19
+IS  - 4
+SP  - 543
+EP  - 562
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=psyh&AN=1992-14730-001&site=ehost-live
+PB  - Plenum Publishing Corp.
+SN  - 1573-2770
+U1  - 73561847
+U2  - 1992-14730-001
+NT  - Accession Number: 1992-14730-001. PMID: 1755435 Partial author list: First Author & Affiliation: Vinokur, Amiram D.; U Michigan, Inst for Social Research, Ann Arbor, US. Other Publishers: Kluwer Academic/Plenum Publishers; Springer; Wiley-Blackwell Publishing Ltd. Release Date: 19920401. Correction Date: 20160125. Publication Type: Journal (0100), Peer Reviewed Journal (0110). Format Covered: Print. Document Type: Journal Article. Language: EnglishMajor Descriptor: Dropouts; Participation; Prevention; Reemployment; Unemployment. Minor Descriptor: Mental Health; Motivation; Occupational Guidance. Classification: Occupational Interests & Guidance (3610). Population: Human (10). Age Group: Adulthood (18 yrs & older) (300). Methodology: Empirical Study. Page Count: 20. Issue Publication Date: Aug, 1991.
+PY  - 1991
+DA  - 1991/08//
+Y1  - 1991/08//
+human_code  - 0
+included_final  - 0
+ID  - 17036
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Changes in qualified detoxification treatment of inpatients with multiple substance use: Impacts on key figures, a pre-post-study in an open door unit in Saxony, Germany
+JF  - 24th European Congress of Psychiatry, EPA 2016. Madrid Spain.
+AU  - Voigtlaender B S
+AU  - Schneider J
+AU  - Gros H
+AU  - Barth T
+KW  - eppi-reviewer
+KW  - *detoxification
+KW  - *human
+KW  - *hospital patient
+KW  - *substance use
+KW  - *Germany
+KW  - *European
+KW  - *psychiatry
+KW  - punishment
+KW  - hospital bed utilization
+KW  - patient satisfaction
+KW  - patient coding
+KW  - statistics
+KW  - patient
+KW  - behavior therapy
+KW  - therapy
+KW  - consumer
+KW  - addiction
+KW  - diseases
+KW  - psychosis
+KW  - stimulus
+KW  - adult
+KW  - methamphetamine
+AB  - Introduction Detoxification treatment of adults at younger ages suffering from polysubstance dependence on our department pursues an integrative therapeutic concept. In addition to addiction-specific, topic-centred group and talk therapy orientation also behavioural therapy elements are included: a penalty points system provides negative sign stimuli for undesirable behaviour. Objectives Since 2010, both rate of psychotic disorders and number of N-methylamphetamine consumers (P < 0.001) have been growing impressively while the proportion of repeated admissions amounted to > 55%. Dissatisfying trends were identified by longitudinal measurement, e.g. regarding ALOS, kind of discharge, bed occupancy. Aims Targeted changes in treatment were established in the 2nd half of 2014. In particular, the penalty point system was adapted towards less restrictive rules, combined with slightly reduced ther apeutic intensity in order to come better on the disorder-related needs of the patients. Staffing level and structure remained stable. Methods Key figures including quality criteria and performance data such as LOS, kind of admission and discharge, service intensity, and bed occupancy were evaluated by a pre-post study (pre: 1st half of 2014, N= 76/post: 1st half of 2015, N= 77) using descriptive and test statistics. Results Socio-demographic patient data remained stable. Regarding selected key figures there were significant changes (LOS > 21 days: P < 0.05; bed occupancy: P < 0.001; therapeutic contacts < 25 min: P < 0.001) and positive trends, e.g. decreased ratio of non-regular discharges. Conclusions Our data suggest that punishment-oriented interventions impede addressing specific needs of inpatients with multiple substance use whereas more need-oriented interventions may lead to improvements. Further evaluation including patient satisfaction is indispensable.
+DO  - http://dx.doi.org/10.1016/j.eurpsy.2016.01.1104
+VL  - 33
+IS  - SUPPL.
+SP  - S321
+EP  - S322
+UR  - http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=emed17&NEWS=N&AN=72291386
+PB  - Elsevier Masson SAS
+SN  - 1778-3585
+U1  - 73512644
+U2  - 72291386
+PY  - 2016
+DA  - 2016///
+Y1  - 2016///
+human_code  - 0
+included_final  - 0
+ID  - 17075
+reason  - duplicate
 ER  - 
 
 TY  - THES
@@ -10002,6 +11179,30 @@ human_code  - 0
 included_final  - 0
 ID  - 17267
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - Comparison of the characteristics of suicide attempters with major depressive disorder and those with no psychiatric diagnosis in emergency departments of general hospitals in China
+JF  - ANNALS OF GENERAL PSYCHIATRY
+AU  - Wei SN
+AU  - Li HY
+AU  - Hou JL
+AU  - Chen W
+AU  - Chen X
+AU  - Qin XX
+KW  - eppi-reviewer
+AB  - Background: Major depressive disorder (MDD) is a known major risk factor for suicide due to the high suicide mortality. However, studies comparing the characteristics of suicide attempters with major depressive disorder and those with no psychiatric diagnosis in China are very limited. This study examined and compared the sociodemographic and psychological characteristics of suicide attempters with MDD and those with no psychiatric diagnosis in emergency departments of general hospitals to better understand the risk factors for suicide attempts in China. Methods: All subjects were enrolled in the study between June 2007 and January 2008. A total of 127 suicide attempters-54 with MDD and 73 with no psychiatric diagnosis-were enrolled. The sociodemographic and clinical characteristics were compared between two groups using the statistical analysis performed using frequency distribution, Student's t test, Chi-square test, and Fisher's exact test and a logistic regression model. Results: Suicide attempters with MDD were more likely to be more depressive, older, divorced or separated, unemployed, and living alone, and more likely to write a suicide note, have suicide ideation, and be motivated by reducing pain and burden. Suicide attempters with no psychiatric diagnosis were more likely to be younger and more impulsive, have self-rescue, and be motivated by threatening or taking revenge on others. Multivariate logistic regression analysis identified the following independent predictors of suicide attempts in individuals with MDD: a lower score on the quality of life scale, more years of education, and suicide ideation. Conclusions: The present study found both similarities and differences in the sociodemographic and clinical characteristics of suicide attempters with MDD and those with no psychiatric diagnosis in the emergency departments of general hospitals in China. These findings will help us to recognize the characteristics of suicide attempters in both groups and develop specific interventions for the two types of suicide attempters to prevent future suicide in China. For example, the suicide attempters with MDD in the emergency departments must be advised to the psychological clinic.
+DO  - 10.1186/s12991-017-0167-x
+VL  - 16
+SN  - 1744-859X
+U1  - 73506065
+PY  - 2017
+DA  - 2017///
+Y1  - 2017///
+human_code  - 0
+included_final  - 0
+ID  - 17337
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -10291,6 +11492,32 @@ human_code  - 0
 included_final  - 0
 ID  - 17926
 reason  - no abstract
+ER  - 
+
+TY  - JOUR
+TI  - YOUTH COURTS RUN BY BEHAVIORAL HEALTH PROGRAMS MORE EFFECTIVE IN ADDRESSING UNDERLYING ISSUES
+JF  - Mental Health Weekly
+KW  - eppi-reviewer
+KW  - DRUG abuse counseling
+KW  - JUVENILE courts
+KW  - JUVENILE delinquents
+KW  - JUVENILE justice, Administration of
+KW  - MENTAL health services
+KW  - UNITED States
+AB  - ; Focuses on youth courts driven by addiction prevention and treatment or mental health groups. Position of youth courts to see and address all the behaviors a young person is manifesting; Advantages to vesting the court in a treatment rather than law-enforcement agency; Role of youth courts as an alternative to the mainstream justice system.
+VL  - 14
+IS  - 41
+SP  - 3
+EP  - 5
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=sih&AN=14836854&site=ehost-live
+PB  - Manisses Communications Group Inc.
+SN  - 10581103
+U1  - 73490792
+NT  - Accession Number: 14836854; Source Info: 10/25/2004, Vol. 14 Issue 41, p3; Note: Publisher Information: Manisses Communications Group Inc..; Subject Term: DRUG abuse counseling; Subject Term: JUVENILE courts; Subject Term: JUVENILE delinquents; Subject Term: JUVENILE justice, Administration of; Subject Term: MENTAL health services; Subject: UNITED States; Number of Pages: 3p; Document Type: Article
+human_code  - 0
+included_final  - 0
+ID  - 18037
+reason  - duplicate
 ER  - 
 
 TY  - JOUR
@@ -10594,6 +11821,55 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Psychiatric comorbidity and 12-step participation: a longitudinal investigation of treated young adults.
+JF  - Alcoholism, clinical and experimental research
+AU  - Bergman Brandon G
+AU  - Greene M Claire
+AU  - Hoeppner Bettina B
+AU  - Slaymaker Valerie
+AU  - Kelly John F
+KW  - eppi-reviewer
+KW  - Adolescent
+KW  - *Alcoholics Anonymous
+KW  - *Alcoholism/co [Complications]
+KW  - *Alcoholism/px [Psychology]
+KW  - Diagnosis, Dual (Psychiatry)
+KW  - Female
+KW  - Follow-Up Studies
+KW  - Humans
+KW  - Longitudinal Studies
+KW  - Male
+KW  - *Mental Disorders/co [Complications]
+KW  - *Mental Disorders/px [Psychology]
+KW  - Motivation
+KW  - Neuropsychological Tests
+KW  - Patient Compliance
+KW  - Psychiatric Status Rating Scales
+KW  - Self Efficacy
+KW  - Socioeconomic Factors
+KW  - Treatment Outcome
+KW  - Young Adult
+AB  - BACKGROUND: Evidence indicates that 12-step mutual-help organizations (MHOs), such as Alcoholics Anonymous (AA) and Narcotics Anonymous (NA), can play an important role in extending and potentiating the recovery benefits of professionally delivered addiction treatment among young adults with substance use disorders (SUD). However, concerns have lingered regarding the suitability of 12-step organizations for certain clinical subgroups, such as those with dual diagnosis (DD). This study examined the influence of diagnostic status (DD vs. SUD-only) on both attendance and active involvement (e.g., having a sponsor, verbal participation during meetings) in, and derived benefits from, 12-step MHOs following residential treatment., METHODS: Young adults (N = 296; 18 to 24 years old; 26% female; 95% Caucasian; 47% DD [based on structured diagnostic interview]), enrolled in a prospective naturalistic study of SUD treatment effectiveness, were assessed at intake and 3, 6, and 12 months posttreatment on 12-step attendance/active involvement and percent days abstinent (PDA). t-Tests and lagged, hierarchical linear models (HLM) examined the extent to which diagnostic status influenced 12-step participation and any derived benefits, respectively., RESULTS: For DD and SUD-only patients, posttreatment attendance and active involvement in 12-step organizations were similarly high. Overall, DD patients had significantly lower PDA relative to SUD-only patients. All patients appeared to benefit significantly from attendance and active involvement on a combined 8-item index. Regarding the primary effects of interest, significant differences did not emerge in derived benefit between DD and SUD-only patients for either attendance (p = 0.436) or active involvement (p = 0.062). Subsidiary analyses showed, however, that DD patients experienced significantly greater abstinence-related benefit from having a 12-step sponsor., CONCLUSIONS: Despite concerns regarding the clinical utility of 12-step MHOs for DD patients, findings indicate that DD young adults participate and benefit as much as SUD-only patients, and may benefit more from high levels of active involvement, particularly having a 12-step sponsor. Future work is needed to clarify how active 12-step involvement might offset the additional recovery burden of a comorbid mental illness on substance use outcomes. Copyright © 2013 by the Research Society on Alcoholism.
+DO  - https://dx.doi.org/10.1111/acer.12249
+VL  - 38
+IS  - 2
+SP  - 501
+EP  - 10
+AD  - England
+UR  - http://ovidsp.ovid.com/ovidweb.cgi?T=JS&PAGE=reference&D=med11&NEWS=N&AN=24033550
+SN  - 0145-6008
+U1  - 73508496
+U2  - 24033550
+PY  - 2014
+DA  - 2014///
+Y1  - 2014///
+human_code  - 1
+included_final  - 0
+ID  - 18323
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Seeking Safety treatment for male veterans with a substance use disorder and post-traumatic stress disorder symptomatology.
 JF  - Addiction
 AU  - Boden Matthew Tyler
@@ -10791,6 +12067,60 @@ reason  - no abstract
 ER  - 
 
 TY  - JOUR
+TI  - Integrated therapy for co-occurring bipolar/substance abuse.
+JF  - DATA: The Brown University Digest of Addiction Theory & Application
+AU  - Monti Peter M
+AU  - Barnett Nancy
+AU  - MacKinnon Selene Varney
+KW  - eppi-reviewer
+KW  - BIPOLAR disorder
+KW  - SUBSTANCE abuse
+KW  - GROUP psychotherapy
+KW  - COUNSELING
+KW  - ADDICTIONS
+KW  - PERSONALITY disorders
+AB  - The article reports on the results of a study suggesting that bipolar disorder and substance dependence frequently co-occur. "Integrated group therapy" was compared with group drug counseling over two weeks of treatment. It was found that patients in integrated group therapy has significantly fewer days of substance use during both treatment and three months of post-treatment follow-up.
+VL  - 26
+IS  - 4
+SP  - 1
+EP  - 1
+UR  - https://search.ebscohost.com/login.aspx?direct=true&db=aph&AN=24566570&site=ehost-live
+PB  - John Wiley & Sons, Inc.
+SN  - 10406328
+U1  - 73502998
+NT  - Accession Number: 24566570; Monti, Peter M. Barnett, Nancy MacKinnon, Selene Varney; Source Info: Apr2007, Vol. 26 Issue 4, Special section p1; Subject Term: BIPOLAR disorder; Subject Term: SUBSTANCE abuse; Subject Term: GROUP psychotherapy; Subject Term: COUNSELING; Subject Term: ADDICTIONS; Subject Term: PERSONALITY disorders; NAICS/Industry Codes: 624190 Other Individual and Family Services; Number of Pages: 1/3p; Document Type: Article
+PY  - 2007
+DA  - 2007/04//
+Y1  - 2007/04//
+human_code  - 1
+included_final  - 0
+ID  - 18649
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Meditation Interventions for Treatment of PTSD in Veterans
+JF  - https://clinicaltrials.gov/show/NCT01548742
+AU  - NCT01548742
+KW  - eppi-reviewer
+KW  - Stre
+KW  - Di
+KW  - order
+KW  - , Po
+KW  - t‐Traumatic
+AB  - Posttraumatic stress disorder (PTSD) is a debilitating psychiatric disorder associated with high rates of chronicity, poor quality of life, and severe impairments in interpersonal, occupational, and social functioning. While evidence‐based psychotherapies for treatment of PTSD have been developed and disseminated within the VA system, no treatment has shown universal effectiveness and there have been great concerns about attenuated treatment response and elevated treatment drop out in veteran populations. The evaluation of alternative treatment modalities for veterans with PTSD is therefore an important priority. The Minneapolis VA Health Care System (MVAHCS) has taught Mindfulness Based Stress Reduction (MBSR), a group‐based intervention focused on mindfulness meditation, to veteran clinical populations since 2001, and pilot data from veterans diagnosed with PTSD is promising. Despite support for the application of MBSR to other mental health and physical problems, MBSR has not been systematically evaluated as a treatment for PTSD. Moreover, the existing literature on MBSR is limited by methodological weaknesses. If shown to be efficacious through scientifically sound trials, MSBR may offer an effective, acceptable, and tolerable intervention for veterans suffering PTSD who are unable to engage in or complete traditional exposure‐based therapies. The primary goal of this proposal is to conduct a methodologically rigorous randomized controlled trial (RCT) of MBSR in treating PTSD among veterans, examining both symptom outcomes and subsequent health services utilization. Given our compelling pilot data, we propose initial steps to evaluate putative mechanisms of change (self‐report and electrophysiology markers, i.e., EEG) through which MBSR may relate to PTSD symptom improvements, and to examine the acceptability of MBSR to the veteran population. The MVAHCS and the assembled team combines expertise in PTSD treatment and research, clinical trials, and neuroscience, with clinical expertise in MBSR and compelling pilot data to support the feasibility and scope of the current project. The efficacy of MBSR will be examined relative to present‐centered group therapy (PCGT), a non‐specific therapeutic comparison group. Veterans diagnosed with PTSD will be randomized to MBSR or PCGT for 9 weeks. Each intervention will be delivered in group format following manualization by trained clinicians receiving expert supervision. Treatment integrity will be independently monitored. Assessment of clinical outcomes post‐treatment and 2 months follow‐up will be independently evaluated. Putative mechanisms of mindfulness meditation will be assessed using self‐report and electrophysiology markers. We have the following aims: Primary Aim 1: To evaluate the efficacy of MBSR as a treatment for PTSD in veterans compared to PCGT over 9‐weeks of treatment and 2‐month follow‐up. Secondary Aim 1: To identify potential treatment‐based predictors of PTSD outcomes. Secondary Aim 2: To identify differences in subsequent VA health services utilization among veterans across treatment conditions. Exploratory Aims: 1. To evaluate rates of drop‐out, compliance, and consumer satisfaction with MBSR. 2. To evaluate acceptability and outcomes of treatment with veterans with mild traumatic brain injuries.
+UR  - https://www.cochranelibrary.com/central/doi/10.1002/central/CN-02029961/full
+U1  - 73519417
+PY  - 2012
+DA  - 2012///
+Y1  - 2012///
+human_code  - 1
+included_final  - 0
+ID  - 18673
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
 TI  - Hein, D., Cohen, L. R., Litt, L. C., Miele, G. M., and Campbell, A. (2008), Trauma services for women in substance abuse treatment: an integrated approach. Washington DC: American Psychological Association. 304 pp., ISBN 14339804107
 JF  - Violence Against Women
 AU  - Parrish Margarete
@@ -10874,6 +12204,35 @@ Y1  - 2007/04//
 human_code  - 1
 included_final  - 0
 ID  - 18751
+reason  - duplicate
+ER  - 
+
+TY  - JOUR
+TI  - Antidepressant Monotherapy vs Sequential Pharmacotherapy and Mindfulness-Based Cognitive Therapy, or Placebo, for Relapse Prophylaxis in Recurrent Depression
+JF  - ARCHIVES OF GENERAL PSYCHIATRY
+AU  - Segal ZV
+AU  - Bieling P
+AU  - Young T
+AU  - MacQueen G
+AU  - Cooke R
+AU  - Martin L
+AU  - Bloch R
+AU  - Levitan RD
+KW  - eppi-reviewer
+AB  - Context: Mindfulness-based cognitive therapy (MBCT) is a group-based psychosocial intervention designed to enhance self-management of prodromal symptoms associated with depressive relapse. Objective: To compare rates of relapse in depressed patients in remission receiving MBCT against maintenance antidepressant pharmacotherapy, the current standard of care. Design: Patients who met remission criteria after 8 months of algorithm-informed antidepressant treatment were randomized to receive maintenance antidepressant medication, MBCT, or placebo and were followed up for 18 months. Setting: Outpatient clinics at the Centre for Addiction and Mental Health, Toronto, Ontario, Canada, and St Joseph's Healthcare, Hamilton, Ontario. Participants: One hundred sixty patients aged 18 to 65 years meeting DSM-IV criteria for major depressive disorder with a minimum of 2 past episodes. Of these, 84 achieved remission (52.5%) and were assigned to 1 of the 3 study conditions. Interventions: Patients in remission discontinued their antidepressants and attended 8 weekly group sessions of MBCT, continued taking their therapeutic dose of anti-depressant medication, or discontinued active medication and were switched to placebo. Main Outcome Measure: Relapse was defined as a return, for at least 2 weeks, of symptoms sufficient to meet the criteria for major depression on module A of the Structured Clinical Interview for DSM-IV. Results: Intention-to-treat analyses showed a significant interaction between the quality of acute-phase remission and subsequent prevention of relapse in randomized patients (P=.03). Among unstable remitters (1 or more Hamilton Rating Scale for Depression score >7 during remission), patients in both MBCT and maintenance treatment showed a 73% decrease in hazard compared with placebo (P=.03), whereas for stable remitters (all Hamilton Rating Scale for Depression scores >7 during remission) there were no group differences in survival. Conclusions: For depressed patients achieving stable or unstable clinical remission, MBCT offers protection against relapse/recurrence on a par with that of maintenance antidepressant pharmacotherapy. Our data also highlight the importance of maintaining at least 1 long-term active treatment in unstable remitters.
+DO  - 10.1001/archgenpsychiatry.2010.168
+VL  - 67
+IS  - 12
+SP  - 1256
+EP  - 1264
+SN  - 1538-3636
+U1  - 73505902
+PY  - 2010
+DA  - 2010///
+Y1  - 2010///
+human_code  - 1
+included_final  - 0
+ID  - 18770
 reason  - duplicate
 ER  - 
 

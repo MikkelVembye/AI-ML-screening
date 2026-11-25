@@ -70,6 +70,22 @@ unique_studies <- unique_studies |>
 unique_studies <- unique_studies |>
   filter(!title %in% "Assertive community treatment and reference groups: An")
 
+# Duplicates with the same title that CiteSource did not find (case, punctuation and html escapes are ignored)
+# One copy is kept, the one with the longest abstract. It gets the highest human_code and included_final of the copies
+# Titles without any letters or numbers (e.g. in cyrillic) are not compared
+unique_studies <- unique_studies |>
+  mutate(row = row_number(),
+         title_key = gsub("[^a-z0-9]", "", gsub("&apos;|&amp;|&quot;|&#39;", "", tolower(title))),
+         title_key = ifelse(nzchar(title_key), title_key, paste0("no_title_", duplicate_id)),
+         abstract_chars = nchar(coalesce(abstract, ""))) |>
+  group_by(title_key) |>
+  mutate(human_code = max(human_code), included_final = max(included_final)) |>
+  arrange(desc(abstract_chars), row, .by_group = TRUE) |>
+  slice(1) |>
+  ungroup() |>
+  arrange(row) |>
+  select(-row, -title_key, -abstract_chars)
+
 
 #--------------------------------------------------------------------------
 # Remove studies with no abstract
@@ -93,8 +109,11 @@ save_dataframe_to_ris(removed_studies, "group_based/data/removed_studies.ris")
 # Made by hand gathering titles and abstracts from the final included studies not found in the screening files
 added_studies <- read_ris_to_dataframe("group_based/data/added_final_included.ris") |>
   mutate(year = as.character(year), included_final = 1, human_code = 1)
-
 group_based_data <- bind_rows(group_based_data, added_studies)
+
+# The added studies have no eppi_id, so they get a fake one (added_1, added_2, ...)
+group_based_data <- group_based_data |>
+  mutate(eppi_id = ifelse(is.na(eppi_id), paste0("added_", cumsum(is.na(eppi_id))), eppi_id))
 
 
 #--------------------------------------------------------------------------
